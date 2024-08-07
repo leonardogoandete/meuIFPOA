@@ -29,6 +29,7 @@
         android:layout_marginTop="8dp"
         app:boxBackgroundMode="outline"
         app:boxStrokeWidth="2dp"
+        app:passwordToggleEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewTitulo">
@@ -37,7 +38,7 @@
             android:id="@+id/editTextSenhaSigaa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
+            android:inputType="textPassword"
             android:importantForAccessibility="yes"
             android:contentDescription="Campo para digitar o e-mail para recuperação de senha" />
     </com.google.android.material.textfield.TextInputLayout>
