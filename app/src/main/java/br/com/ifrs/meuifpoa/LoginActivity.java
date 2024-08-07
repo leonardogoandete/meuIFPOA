@@ -127,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
         } else {
-            Snackbar.make(binding.getRoot(), "Digite seu endereço de e-mail", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(binding.getRoot(), R.string.msg_email_recuperar_senha_erro, Snackbar.LENGTH_SHORT).show();
         }
     }
 }

@@ -1,41 +1,40 @@
 package br.com.ifrs.meuifpoa;
 
 import android.content.Context;
-import android.text.InputType;
-import android.widget.EditText;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 public class SyncPasswordDialog {
 
-    private final Context contexto;
+    private final Context context;
     private final OnPasswordEnteredListener listener;
 
-    public SyncPasswordDialog(Context contexto, OnPasswordEnteredListener listener) {
-        this.contexto = contexto;
+    public SyncPasswordDialog(Context context, OnPasswordEnteredListener listener) {
+        this.context = context;
         this.listener = listener;
     }
 
     public void show() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
-        builder.setTitle("Senha Necessária");
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.dialog_sync_sigaa, null);
+        TextInputLayout senhaSigaa = view.findViewById(R.id.textInputSenhaSyncSigaa);
 
-        final EditText input = new EditText(contexto);
-        input.setHint("Digite sua senha");
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        builder.setView(input);
-
-        builder.setPositiveButton("OK", (dialog, which) -> {
-            String senha = input.getText().toString();
-            if (!senha.isEmpty()) {
-                listener.onPasswordEntered(senha);
-            } else {
-                Toast.makeText(contexto, "Digite sua senha", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        builder.setNegativeButton("Cancelar", (dialog, which) -> dialog.cancel());
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setView(view)
+                .setPositiveButton("OK", (dialog, which) -> {
+                    String senha = senhaSigaa.getEditText().getText().toString().trim();
+                    if (!senha.isEmpty()) {
+                        listener.onPasswordEntered(senha);
+                    } else {
+                        Toast.makeText(context, "Digite sua senha", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Cancelar", (dialog, which) -> dialog.cancel());
 
         builder.show();
     }

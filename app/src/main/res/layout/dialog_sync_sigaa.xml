@@ -21,7 +21,7 @@
 
     <!-- Campo de e-mail para recuperação de senha -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputEmailRecuperacao"
+        android:id="@+id/textInputSenhaSyncSigaa"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

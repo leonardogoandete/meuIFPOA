@@ -44,5 +44,7 @@
     <string name="txtTituloRecuperacaoSenha">Recuperação de Senha</string>
     <string name="txtInputSenhaSigaa">Digite a senha do Sigaa</string>
     <string name="txtTituloSyncSigaa">Sincronizar com SIGAA</string>
+    <string name="msg_sync_sucesso">Sincronização realizada com sucesso</string>
+    <string name="msg_sync_erro">Erro ao sincronizar dados</string>
 
 </resources>
