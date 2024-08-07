@@ -5,14 +5,12 @@ public class Registro {
     private String nome;
     private String cpf;
     private String email;
-    private String senha;
 
-    public Registro(String uid, String nome, String cpf, String email, String senha) {
+    public Registro(String uid, String nome, String cpf, String email) {
         this.uid = uid;
         this.nome = nome;
         this.cpf = cpf;
         this.email = email;
-        this.senha = senha;
     }
 
     public Registro() {
@@ -35,10 +33,6 @@ public class Registro {
         this.email = email;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
     public String getUid() {
         return uid;
     }
@@ -55,7 +49,5 @@ public class Registro {
         return email;
     }
 
-    public String getSenha() {
-        return senha;
-    }
+
 }

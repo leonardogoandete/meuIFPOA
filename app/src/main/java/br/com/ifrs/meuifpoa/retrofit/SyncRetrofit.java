@@ -1,5 +1,7 @@
 package br.com.ifrs.meuifpoa.retrofit;
 
+import java.util.concurrent.TimeUnit;
+
 import br.com.ifrs.meuifpoa.retrofit.service.SyncService;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -18,6 +20,9 @@ public class SyncRetrofit {
 
         OkHttpClient httpClient = new OkHttpClient.Builder()
                 //.addInterceptor(interceptor)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()

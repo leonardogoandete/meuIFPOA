@@ -57,7 +57,9 @@ public class NotasFragment extends Fragment {
                 .build();
         db.setFirestoreSettings(settings);
 
-        SyncManager.verificarERequisitarSenha(getContext(), this::obterNotasDoFirestore);
+        // Usando SyncManager para verificar e requisitar a senha
+        SyncManager syncManager = new SyncManager();
+        syncManager.verificarERequisitarSenha(getContext(), this::obterNotasDoFirestore);
 
         obterNotasDoFirestore();
         recyclerViewListNotas.setHasFixedSize(true);

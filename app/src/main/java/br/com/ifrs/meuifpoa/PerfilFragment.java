@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -25,8 +24,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import br.com.ifrs.meuifpoa.databinding.FragmentPerfilBinding;
 import br.com.ifrs.meuifpoa.model.Perfil;
@@ -63,7 +60,8 @@ public class PerfilFragment extends Fragment {
         db.setFirestoreSettings(settings);
 
         // Usando SyncManager para verificar e requisitar a senha
-        SyncManager.verificarERequisitarSenha(getContext(), this::obterDadosPerfilDoFirestore);
+        SyncManager syncManager = new SyncManager();
+        syncManager.verificarERequisitarSenha(getContext(), this::obterDadosPerfilDoFirestore);
 
         binding.btnSairPerfil.setOnClickListener(v -> {
             mAuth.signOut();
@@ -73,12 +71,13 @@ public class PerfilFragment extends Fragment {
     }
 
     private void obterDadosPerfilDoFirestore() {
-        if (mAuth.getUid() == null) {
+        FirebaseUser usuarioAtual = mAuth.getCurrentUser();
+        if (usuarioAtual == null) {
             Snackbar.make(getView(), R.string.msg_titulo_deve_estar_logado, Snackbar.LENGTH_SHORT).show();
             return;
         }
 
-        db.collection("usuarios").document(mAuth.getUid()).get()
+        db.collection("usuarios").document(usuarioAtual.getUid()).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
@@ -110,13 +109,13 @@ public class PerfilFragment extends Fragment {
     }
 
     private void carregarFotoPerfil() {
-        String userId = mAuth.getUid();
-        if (userId == null) {
-            return; // User not logged in, handle this case appropriately
+        FirebaseUser usuarioAtual = mAuth.getCurrentUser();
+        if (usuarioAtual == null) {
+            return; // Usuário não está logado, trate isso adequadamente
         }
 
         // Crie uma referência ao arquivo no Firebase Storage
-        StorageReference fotoRef = FirebaseStorage.getInstance().getReference().child("perfil/" + userId + ".jpg");
+        StorageReference fotoRef = storage.getReference().child("perfil/" + usuarioAtual.getUid() + ".jpg");
 
         // Caminho local onde a imagem será salva
         File localFile = new File(getContext().getFilesDir(), LOCAL_IMAGE_PATH);

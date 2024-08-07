@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    android:padding="4dp"
+    android:padding="8dp"
     tools:context=".NoticiasFragment">
 
     <!-- Container horizontal para o SearchView e Spinner -->
@@ -14,20 +14,23 @@
         android:id="@+id/containerSearchViewSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="8dp">
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchViewNoticias"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/search_view_background"
             android:iconifiedByDefault="false"
-            android:layout_weight="0.60" />
+            android:queryHint="Pesquisar notícias" />
 
         <Spinner
             android:id="@+id/spinnerLimite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:background="@drawable/spinner_background"
             android:padding="8dp" />
 
@@ -37,8 +40,8 @@
         android:id="@+id/listViewNoticias"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="68dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
         android:clipToPadding="false"
         android:padding="4dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

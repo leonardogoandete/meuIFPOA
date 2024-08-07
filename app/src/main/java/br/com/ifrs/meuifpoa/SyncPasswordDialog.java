@@ -44,4 +44,3 @@ public class SyncPasswordDialog {
         void onPasswordEntered(String senha);
     }
 }
-

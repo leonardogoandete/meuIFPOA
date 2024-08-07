@@ -97,7 +97,7 @@ public class RegistroActivity extends AppCompatActivity {
                                 if (task1.isSuccessful()) {
                                     String uid = mAuth.getUid();
                                     // Registro bem-sucedido, adicione os dados ao Firestore
-                                    Registro registro = new Registro(uid, nome, cpf, email, senha);
+                                    Registro registro = new Registro(uid, nome, cpf, email);
                                     db.collection("usuarios").document(uid).set(registro)
                                             .addOnSuccessListener(aVoid -> {
                                                 Intent intent = new Intent(RegistroActivity.this, LoginActivity.class);

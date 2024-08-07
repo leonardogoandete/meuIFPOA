@@ -3,10 +3,7 @@ package br.com.ifrs.meuifpoa;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.EditText;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,59 +17,102 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SyncManager {
-    private static final String PREFS_NAME = "sync_prefs";
-    private static final String LAST_SYNC_DATE_KEY = "last_sync_date";
-    private static final long CINQUENTA_DIAS_MILLIS = 50 * 24 * 60 * 60 * 1000L; // Exemplo de 50 dias
 
-    public static void verificarERequisitarSenha(Context contexto, Runnable callback) {
-        SharedPreferences prefs = contexto.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        long dataUltimaSincronizacao = prefs.getLong(LAST_SYNC_DATE_KEY, 0);
-        long tempoAtual = System.currentTimeMillis();
+    private static final String TAG = "SyncManager";
+    private static final long QUINZE_DIAS_EM_MILLIS = 15 * 24 * 60 * 60 * 1000L;
 
-        // Ajuste o período conforme necessário
-        if (tempoAtual - dataUltimaSincronizacao >= CINQUENTA_DIAS_MILLIS) {
-            mostrarDialogoSenha(contexto, callback);
-        } else {
-            // Se não precisa solicitar a senha, apenas execute o callback
-            if (callback != null) {
-                callback.run();
+    public static void verificarERequisitarSenha(Context contexto, Runnable onSuccess) {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        FirebaseUser usuario = mAuth.getCurrentUser();
+        if (usuario != null) {
+            long dataUltimaSincronizacao = getLastSyncDate(contexto);
+            long tempoAtual = System.currentTimeMillis();
+
+            Log.d(TAG, "Tempo desde última sincronização: " + (tempoAtual - dataUltimaSincronizacao));
+            if (tempoAtual - dataUltimaSincronizacao >= QUINZE_DIAS_EM_MILLIS) {
+                Log.d(TAG, "Tempo desde última sincronização excede 15 dias, solicitando senha.");
+                new SyncPasswordDialog(contexto, senha -> sincronizarDados(contexto, senha, onSuccess)).show();
+            } else {
+                Log.d(TAG, "Sincronização recente, prosseguindo sem solicitar senha.");
+                if (onSuccess != null) {
+                    onSuccess.run();
+                }
             }
+        } else {
+            Toast.makeText(contexto, "Você precisa estar logado para sincronizar os dados.", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public static void salvarDataUltimaSincronizacao(Context contexto) {
-        SharedPreferences prefs = contexto.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putLong(LAST_SYNC_DATE_KEY, System.currentTimeMillis());
-        editor.apply();
+    private static void sincronizarDados(Context contexto, String senha, Runnable onSuccess) {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        if (mAuth.getUid() != null) {
+            db.collection("usuarios").document(mAuth.getUid()).get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document != null && document.exists()) {
+                                String cpf = document.getString("cpf");
+                                if (cpf != null) {
+                                    Log.d(TAG, "CPF encontrado: " + cpf);
+                                    sincronizarDadosSigaa(contexto, senha, onSuccess);
+                                } else {
+                                    Toast.makeText(contexto, "CPF não encontrado", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(contexto, "Documento não encontrado", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(contexto, "Erro ao obter perfil do servidor", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(contexto, "Falha na conexão: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        }
     }
 
-    private static void mostrarDialogoSenha(Context contexto, Runnable callback) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
-        builder.setTitle("Senha Necessária");
+    private static void sincronizarDadosSigaa(Context contexto, String senha, Runnable onSuccess) {
+        SharedPreferences preferencias = contexto.getSharedPreferences("loginSigaa", Context.MODE_PRIVATE);
+        String token = preferencias.getString("token", "");
+        SyncService syncService = new SyncRetrofit().getSyncService();
 
-        final EditText input = new EditText(contexto);
-        input.setHint("Digite sua senha");
-        builder.setView(input);
-
-        builder.setPositiveButton("OK", (dialog, which) -> {
-            String senha = input.getText().toString();
-            if (!senha.isEmpty()) {
-                // Senha fornecida, iniciar a sincronização com o servidor
-                if (callback != null) {
-                    callback.run();
+        Log.d(TAG, "Iniciando sincronização com token: " + token);
+        Call<Void> call = syncService.sincronizar(token, senha);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "Sincronização realizada com sucesso");
+                    saveLastSyncDate(contexto, System.currentTimeMillis());
+                    Toast.makeText(contexto, "Sincronização realizada com sucesso", Toast.LENGTH_SHORT).show();
+                    if (onSuccess != null) {
+                        onSuccess.run();
+                    }
+                } else {
+                    Toast.makeText(contexto, "Erro ao sincronizar dados", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Erro ao sincronizar dados: " + response.errorBody().toString());
                 }
-                // Salvar data da última sincronização
-                salvarDataUltimaSincronizacao(contexto);
-            } else {
-                // Senha não fornecida, mostrar mensagem de erro
-                Toast.makeText(contexto, "Digite sua senha", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(contexto, "Falha na conexão: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Falha na conexão: " + t.getMessage(), t);
             }
         });
+    }
 
-        builder.setNegativeButton("Cancelar", (dialog, which) -> dialog.cancel());
+    public static long getLastSyncDate(Context contexto) {
+        SharedPreferences prefs = contexto.getSharedPreferences("syncPrefs", Context.MODE_PRIVATE);
+        return prefs.getLong("lastSyncDate", 0);
+    }
 
-        builder.show();
+    public static void saveLastSyncDate(Context contexto, long timestamp) {
+        SharedPreferences prefs = contexto.getSharedPreferences("syncPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong("lastSyncDate", timestamp);
+        editor.apply();
     }
 }
-
