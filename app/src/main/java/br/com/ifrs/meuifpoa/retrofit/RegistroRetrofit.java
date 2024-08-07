@@ -10,7 +10,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegistroRetrofit {
     //private static final String BASE_URL = "http://192.168.0.15:8081/";
-    private static final String BASE_URL = "https://2d15-200-180-191-23.ngrok-free.app/";
+    //private static final String BASE_URL = "https://2d15-200-180-191-23.ngrok-free.app/";
+    private static final String BASE_URL = "https://app-ifrs-back-5ee5bb142a80.herokuapp.com/";
 
     private final RegistroService registroService;
 
