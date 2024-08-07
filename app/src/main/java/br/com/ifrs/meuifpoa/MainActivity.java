@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private NavController navController;
     private BottomNavigationView bottomNavigationView;
-    private boolean isAuthDialogShown = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
