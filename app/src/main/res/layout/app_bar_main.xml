@@ -31,13 +31,14 @@
             android:layout_width="match_parent"
             android:layout_height="68dp"
             android:id="@+id/bottomNav"
-            android:background="?android:attr/windowBackground"
+            android:background="?attr/colorPrimary"
+            app:itemTextColor="@color/selector_bottom_bar"
+            app:itemIconTint="@color/selector_bottom_bar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:itemActiveIndicatorStyle="@color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/menu"
-            android:layout_alignParentBottom="true"
-            />
+            app:menu="@menu/menu" />
     </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

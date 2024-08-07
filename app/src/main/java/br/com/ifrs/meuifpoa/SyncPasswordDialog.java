@@ -7,8 +7,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.google.android.material.snackbar.Snackbar;
-
 public class SyncPasswordDialog {
 
     private final Context contexto;

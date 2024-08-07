@@ -34,24 +34,26 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
 
     private RecyclerView recyclerView;
     private LinhaNoticiasAdapter noticiasAdapter;
-    private int limiteNoticias = 50;
     private SearchView searchView;
     private Spinner spinnerLimite;
-    private String currentQuery = "";
     private Handler searchHandler;
     private static final long SEARCH_DELAY_MS = 300;
+    private int limiteNoticias = 50;
+    private String currentQuery = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_noticias, container, false);
+        return inflater.inflate(R.layout.fragment_noticias, container, false);
+    }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initializeViews(view);
         setupRecyclerView();
         setupSearchView();
         setupSpinner();
         loadInitialNews();
-
-        return view;
     }
 
     private void initializeViews(View view) {
@@ -93,7 +95,7 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
         spinnerLimite.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                limiteNoticias = Integer.parseInt((String) parent.getItemAtPosition(position));
+                limiteNoticias = Integer.parseInt(parent.getItemAtPosition(position).toString());
                 fetchNews(currentQuery);
             }
 
@@ -128,7 +130,7 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
 
             @Override
             public void onFailure(Call<List<Noticia>> call, Throwable t) {
-                showSnackbar("Erro ao obter notícias");
+                showSnackbar("Erro ao obter notícias: " + t.getMessage());
             }
         });
     }
@@ -144,17 +146,20 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
     }
 
     private void showSnackbar(String message) {
-        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show();
+        View rootView = getView();
+        if (rootView != null) {
+            Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onClick(int position, Noticia noticia) {
         String url = noticia.getLink();
-        String baseUrl = "https://poa.ifrs.edu.br";
-
         if (url != null && !url.isEmpty()) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(baseUrl + url));
+            String baseUrl = "https://poa.ifrs.edu.br";
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(baseUrl + url));
             startActivity(intent);
         } else {
             showSnackbar("URL da notícia não disponível");
