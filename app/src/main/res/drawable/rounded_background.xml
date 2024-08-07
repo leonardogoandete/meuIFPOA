@@ -1,0 +1,4 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="8dp" /> <!-- Define o raio dos cantos para 8dp, você pode ajustar esse valor conforme necessário -->
+    <solid android:color="#9ED5A5" />
+</shape>

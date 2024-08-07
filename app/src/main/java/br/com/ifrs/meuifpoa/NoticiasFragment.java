@@ -1,0 +1,163 @@
+package br.com.ifrs.meuifpoa;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
+
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.List;
+
+import br.com.ifrs.meuifpoa.adapter.recycler.LinhaNoticiasAdapter;
+import br.com.ifrs.meuifpoa.model.Noticia;
+import br.com.ifrs.meuifpoa.retrofit.NoticiasRetrofit;
+import br.com.ifrs.meuifpoa.retrofit.service.NoticiasService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.OnClickListener {
+
+    private RecyclerView recyclerView;
+    private LinhaNoticiasAdapter noticiasAdapter;
+    private int limiteNoticias = 50;
+    private SearchView searchView;
+    private Spinner spinnerLimite;
+    private String currentQuery = "";
+    private Handler searchHandler;
+    private static final long SEARCH_DELAY_MS = 300;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_noticias, container, false);
+
+        initializeViews(view);
+        setupRecyclerView();
+        setupSearchView();
+        setupSpinner();
+        loadInitialNews();
+
+        return view;
+    }
+
+    private void initializeViews(View view) {
+        recyclerView = view.findViewById(R.id.listViewNoticias);
+        searchView = view.findViewById(R.id.searchViewNoticias);
+        spinnerLimite = view.findViewById(R.id.spinnerLimite);
+        searchHandler = new Handler(Looper.getMainLooper());
+    }
+
+    private void setupRecyclerView() {
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+    }
+
+    private void setupSearchView() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                currentQuery = query;
+                fetchNews(currentQuery);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                currentQuery = newText;
+                searchHandler.removeCallbacksAndMessages(null);
+                searchHandler.postDelayed(() -> fetchNews(currentQuery), SEARCH_DELAY_MS);
+                return true;
+            }
+        });
+    }
+
+    private void setupSpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
+                R.array.limites_noticias, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerLimite.setAdapter(adapter);
+        spinnerLimite.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                limiteNoticias = Integer.parseInt((String) parent.getItemAtPosition(position));
+                fetchNews(currentQuery);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // No action needed
+            }
+        });
+    }
+
+    private void loadInitialNews() {
+        fetchNews(null);
+    }
+
+    private void fetchNews(String filter) {
+        NoticiasService service = new NoticiasRetrofit().getNoticiasService();
+        Call<List<Noticia>> call = service.listarNoticias(filter, limiteNoticias);
+        call.enqueue(new Callback<List<Noticia>>() {
+            @Override
+            public void onResponse(Call<List<Noticia>> call, Response<List<Noticia>> response) {
+                if (response.isSuccessful()) {
+                    List<Noticia> noticias = response.body();
+                    if (noticias != null && !noticias.isEmpty()) {
+                        updateRecyclerView(noticias);
+                    } else {
+                        showSnackbar("Não há notícias disponíveis");
+                    }
+                } else {
+                    showSnackbar("Erro ao obter notícias!");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Noticia>> call, Throwable t) {
+                showSnackbar("Erro ao obter notícias");
+            }
+        });
+    }
+
+    private void updateRecyclerView(List<Noticia> noticias) {
+        if (noticiasAdapter == null) {
+            noticiasAdapter = new LinhaNoticiasAdapter(noticias);
+            noticiasAdapter.setOnClickListener(NoticiasFragment.this);
+            recyclerView.setAdapter(noticiasAdapter);
+        } else {
+            noticiasAdapter.updateNoticias(noticias);
+        }
+    }
+
+    private void showSnackbar(String message) {
+        Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onClick(int position, Noticia noticia) {
+        String url = noticia.getLink();
+        String baseUrl = "https://poa.ifrs.edu.br";
+
+        if (url != null && !url.isEmpty()) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(baseUrl + url));
+            startActivity(intent);
+        } else {
+            showSnackbar("URL da notícia não disponível");
+        }
+    }
+}

@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">meuIFPOA</string>
+    <string name="notas_bar">Notas</string>
+    <string name="noticias_bar">Notícias</string>
+    <string name="perfil_bar">Perfil</string>
+    <string name="sobre_bar">Sobre</string>
+    <string name="msg_login_error">Erro ao fazer login</string>
+    <string name="msg_titulo_esqueci_senha">Esqueci minha senha</string>
+    <string name="btnEnviarEmailRecuperarSenha">Enviar</string>
+    <string name="btnCancelarEmailRecuperarSenha">Cancelar</string>
+    <string name="msg_email_recuperar_senha_sucesso">Se o e-mail existir você receberá um link para redefinir a senha!</string>
+    <string name="msg_email_recuperar_senha_erro">Erro ao enviar e-mail de redefinição de senha. Verifique o endereço de e-mail!</string>
+    <string name="msg_deve_estar_logado">Você deve estar logado para acessar esta funcionalidade</string>
+    <string name="msg_titulo_deve_estar_logado">Autenticacao necessaria</string>
+    <string name="msg_titulo_sobre">Sobre</string>
+    <string name="msg_sobre">Nome: Leonardo Goandete\nDisciplina: Programação Web III\nObjetivo: O Aplicativo tem como objetivo melhorar a comunicação e o acesso de informações dos alunos do IFRS - Campus Porto Alegre.</string>
+    <string name="msg_url_noticia_vazia">Link da notícia indisponível</string>
+    <string name="txtViewTituloNome">Nome</string>
+    <string name="btnSairPerfilText">SAIR</string>
+    <string name="txtViewUnidade1">UNIDADE 1</string>
+    <string name="txtViewUnidade2">UNIDADE 2</string>
+    <string name="txtViewRecuperacao">RECUPERAÇÃO</string>
+    <string name="txtViewResultado">RESULTADO</string>
+    <string name="txtViewFaltas">FALTAS:</string>
+    <string name="txtViewSituacao">SITUAÇÃO:</string>
+    <string name="txtViewEmail">E-MAIL</string>
+    <string name="txtViewSenha">SENHA</string>
+    <string name="btnEntrarText">LOGIN</string>
+    <string name="btnCadastrarText">Não tem conta? Registrar</string>
+    <string name="txtViewNomeCadastro">Nome:</string>
+    <string name="txtViewCpfCadastro">CPF:</string>
+    <string name="txtViewEmailCadastro">E-mail:</string>
+    <string name="txtViewSenhaCadastro">Senha:</string>
+    <string name="btnRegistrarCadastro">Registrar</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="txtViewTituloMatricula">Matrícula</string>
+    <string name="txtViewTituloCurso">Curso</string>
+    <string name="txtViewTituloNivel">Nível</string>
+    <string name="txtViewTituloSituacao">Situação</string>
+    <string name="txtViewTituloIngresso">Ingresso</string>
+    <string name="titulo_cadastro">Cadastro</string>
+    <string name="txtInputEmail">Digite seu e-mail</string>
+    <string name="txtTituloRecuperacaoSenha">Recuperação de Senha</string>
+    <string name="txtInputSenhaSigaa">Digite a senha do Sigaa</string>
+    <string name="txtTituloSyncSigaa">Sincronizar com SIGAA</string>
+
+</resources>
