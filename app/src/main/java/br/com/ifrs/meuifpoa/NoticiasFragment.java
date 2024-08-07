@@ -13,10 +13,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SearchView;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -32,22 +34,23 @@ import retrofit2.Response;
 
 public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.OnClickListener {
 
+    private static final long SEARCH_DELAY_MS = 300;
     private RecyclerView recyclerView;
     private LinhaNoticiasAdapter noticiasAdapter;
     private SearchView searchView;
     private Spinner spinnerLimite;
     private Handler searchHandler;
-    private static final long SEARCH_DELAY_MS = 300;
     private int limiteNoticias = 50;
     private String currentQuery = "";
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_noticias, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initializeViews(view);
         setupRecyclerView();
