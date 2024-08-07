@@ -20,7 +20,6 @@ public class HomeFragment extends Fragment {
     private FirebaseFirestore db;
     private NavController navController;
     private BottomNavigationView bottomNavigationView;
-    private boolean isAuthDialogShown = false;
 
 
     @Override

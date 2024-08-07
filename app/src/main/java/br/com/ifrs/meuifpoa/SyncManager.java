@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -40,7 +39,8 @@ public class SyncManager {
                 }
             }
         } else {
-            Snackbar.make(null, "Você precisa estar logado para sincronizar os dados.", Snackbar.LENGTH_SHORT).show();
+            Log.d(TAG, "Usuário não autenticado, não é possível sincronizar dados.");
+            Toast.makeText(contexto, "Usuário não autenticado", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -85,12 +85,12 @@ public class SyncManager {
                 if (response.isSuccessful()) {
                     Log.d(TAG, "Sincronização realizada com sucesso");
                     saveLastSyncDate(contexto, System.currentTimeMillis());
-                    Snackbar.make(null, R.string.msg_sync_sucesso, Snackbar.LENGTH_SHORT).show();
+                    Toast.makeText(contexto, R.string.msg_sync_sucesso, Toast.LENGTH_SHORT).show();
                     if (onSuccess != null) {
                         onSuccess.run();
                     }
                 } else {
-                    Snackbar.make(null, R.string.msg_sync_erro, Snackbar.LENGTH_SHORT).show();
+                    Toast.makeText(contexto, R.string.msg_sync_erro + response.errorBody().toString(), Toast.LENGTH_SHORT).show();
                     Log.e(TAG, "Erro ao sincronizar dados: " + response.errorBody().toString());
                 }
             }

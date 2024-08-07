@@ -1,11 +1,7 @@
 package br.com.ifrs.meuifpoa;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import android.text.SpannableString;
-import android.text.style.ImageSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 
