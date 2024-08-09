@@ -112,22 +112,28 @@ public class PerfilFragment extends Fragment {
             return; // Usuário não está logado, trate isso adequadamente
         }
 
-        // Crie uma referência ao arquivo no Firebase Storage
-        StorageReference fotoRef = storage.getReference().child("perfil/" + usuarioAtual.getUid() + ".jpg");
-
         // Caminho local onde a imagem será salva
         File localFile = new File(getContext().getFilesDir(), LOCAL_IMAGE_PATH);
 
-        // Baixar o arquivo do Firebase Storage
-        fotoRef.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
-            // Download completo, exibe a imagem
-            Log.d(TAG, "Download concluído");
+        if (localFile.exists()) {
+            // Se a imagem já estiver em cache, exiba-a
+            Log.d(TAG, "Imagem carregada do cache local");
             exibirImagemLocal(localFile);
-        }).addOnFailureListener(exception -> {
-            Log.e(TAG, "Erro ao baixar a imagem", exception);
-            // Exibe uma imagem padrão ou um placeholder
-            binding.imgPerfil.setImageResource(R.drawable.ifrs_poa_logo); // Placeholder
-        });
+        } else {
+            // Crie uma referência ao arquivo no Firebase Storage
+            StorageReference fotoRef = storage.getReference().child("perfil/" + usuarioAtual.getUid() + ".jpg");
+
+            // Baixar o arquivo do Firebase Storage
+            fotoRef.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
+                // Download completo, exibe a imagem
+                Log.d(TAG, "Download concluído");
+                exibirImagemLocal(localFile);
+            }).addOnFailureListener(exception -> {
+                Log.e(TAG, "Erro ao baixar a imagem", exception);
+                // Exibe uma imagem padrão ou um placeholder
+                binding.imgPerfil.setImageResource(R.drawable.ifrs_poa_logo); // Placeholder
+            });
+        }
     }
 
     private void exibirImagemLocal(File file) {
