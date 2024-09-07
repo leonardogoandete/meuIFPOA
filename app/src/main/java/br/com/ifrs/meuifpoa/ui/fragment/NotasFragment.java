@@ -1,4 +1,4 @@
-package br.com.ifrs.meuifpoa;
+package br.com.ifrs.meuifpoa.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +17,8 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
 import java.util.List;
 
+import br.com.ifrs.meuifpoa.R;
+import br.com.ifrs.meuifpoa.SyncManager;
 import br.com.ifrs.meuifpoa.adapter.recycler.LinhaNotasAdapter;
 import br.com.ifrs.meuifpoa.model.Nota;
 

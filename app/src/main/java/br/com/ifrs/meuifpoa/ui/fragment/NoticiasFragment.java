@@ -1,4 +1,4 @@
-package br.com.ifrs.meuifpoa;
+package br.com.ifrs.meuifpoa.ui.fragment;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -24,6 +24,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
+import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.adapter.recycler.LinhaNoticiasAdapter;
 import br.com.ifrs.meuifpoa.model.Noticia;
 import br.com.ifrs.meuifpoa.retrofit.NoticiasRetrofit;

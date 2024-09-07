@@ -1,4 +1,4 @@
-package br.com.ifrs.meuifpoa;
+package br.com.ifrs.meuifpoa.ui.dialog;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.textfield.TextInputLayout;
+
+import br.com.ifrs.meuifpoa.R;
 
 public class SyncPasswordDialog {
 

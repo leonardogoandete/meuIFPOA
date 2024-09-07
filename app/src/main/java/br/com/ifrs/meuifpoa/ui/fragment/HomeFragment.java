@@ -1,4 +1,4 @@
-package br.com.ifrs.meuifpoa;
+package br.com.ifrs.meuifpoa.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +13,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+
+import br.com.ifrs.meuifpoa.R;
 
 public class HomeFragment extends Fragment {
     private AppBarConfiguration mAppBarConfiguration;

@@ -1,4 +1,4 @@
-package br.com.ifrs.meuifpoa;
+package br.com.ifrs.meuifpoa.ui.fragment;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,6 +23,8 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 
+import br.com.ifrs.meuifpoa.R;
+import br.com.ifrs.meuifpoa.SyncManager;
 import br.com.ifrs.meuifpoa.databinding.FragmentPerfilBinding;
 import br.com.ifrs.meuifpoa.model.Perfil;
 

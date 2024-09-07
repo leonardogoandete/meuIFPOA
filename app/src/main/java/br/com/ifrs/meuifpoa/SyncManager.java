@@ -12,6 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import br.com.ifrs.meuifpoa.retrofit.SyncRetrofit;
 import br.com.ifrs.meuifpoa.retrofit.service.SyncService;
+import br.com.ifrs.meuifpoa.ui.dialog.SyncPasswordDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -103,11 +104,13 @@ public class SyncManager {
         });
     }
 
+    // Obtem a data da ultima sincronização
     public static long getLastSyncDate(Context contexto) {
         SharedPreferences prefs = contexto.getSharedPreferences("syncPrefs", Context.MODE_PRIVATE);
         return prefs.getLong("lastSyncDate", 0);
     }
 
+    // Guarda a data da ultima sincronização
     public static void saveLastSyncDate(Context contexto, long timestamp) {
         SharedPreferences prefs = contexto.getSharedPreferences("syncPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();

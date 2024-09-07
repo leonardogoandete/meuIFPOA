@@ -7,26 +7,26 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="br.com.ifrs.meuifpoa.HomeFragment"
+        android:name="br.com.ifrs.meuifpoa.ui.fragment.HomeFragment"
         android:label="Inicio"
         android:icon="@drawable/ic_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/notasFragment"
-        android:name="br.com.ifrs.meuifpoa.NotasFragment"
+        android:name="br.com.ifrs.meuifpoa.ui.fragment.NotasFragment"
         android:label="@string/notas_bar"
         tools:layout="@layout/fragment_notas"/>
 
     <fragment
         android:id="@+id/noticiasFragment"
-        android:name="br.com.ifrs.meuifpoa.NoticiasFragment"
+        android:name="br.com.ifrs.meuifpoa.ui.fragment.NoticiasFragment"
         android:label="@string/noticias_bar"
         tools:layout="@layout/fragment_noticias"/>
 
     <fragment
         android:id="@+id/perfilFragment"
-        android:name="br.com.ifrs.meuifpoa.PerfilFragment"
+        android:name="br.com.ifrs.meuifpoa.ui.fragment.PerfilFragment"
         android:label="@string/perfil_bar"
         tools:layout="@layout/fragment_perfil" />
 
