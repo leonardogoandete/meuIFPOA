@@ -16,6 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import br.com.caelum.stella.validation.CPFValidator;
 import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.model.Registro;
 
@@ -28,6 +29,7 @@ public class RegistroActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
+    private CPFValidator cpfValidator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,7 @@ public class RegistroActivity extends AppCompatActivity {
             etCpf.requestFocus();
             return;
         }
+
         if(email.isEmpty()){
             etEmail.setError("Campo obrigatório");
             etEmail.requestFocus();
@@ -80,6 +83,8 @@ public class RegistroActivity extends AppCompatActivity {
 
         // Exibe a ProgressBar antes de iniciar o registro
         progressBar.setVisibility(View.VISIBLE);
+
+
 
         // Consulta ao Firestore para verificar se o CPF já existe
         Query query = db.collection("usuarios").whereEqualTo("cpf", cpf);
@@ -122,4 +127,6 @@ public class RegistroActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

@@ -53,5 +53,7 @@ dependencies {
     implementation("com.google.firebase:firebase-database")
     implementation("com.google.firebase:firebase-storage")
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
+    // https://mvnrepository.com/artifact/br.com.caelum.stella/caelum-stella-core
+    implementation("br.com.caelum.stella:caelum-stella-core:2.1.6")
 
 }
