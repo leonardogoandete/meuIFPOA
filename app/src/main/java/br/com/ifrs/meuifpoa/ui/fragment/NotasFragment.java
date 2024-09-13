@@ -67,7 +67,7 @@ public class NotasFragment extends Fragment {
         db.collection("notas")
                 .document(mAuth.getUid())
                 .collection("disciplinas")
-                .get(Source.CACHE)
+                .get(Source.DEFAULT)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         List<Nota> notasServidor = task.getResult().toObjects(Nota.class);

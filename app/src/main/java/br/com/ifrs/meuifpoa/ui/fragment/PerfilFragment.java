@@ -66,6 +66,9 @@ public class PerfilFragment extends Fragment {
 
         binding.btnSairPerfil.setOnClickListener(v -> {
             mAuth.signOut();
+            removerFotoPerfil();
+            SyncManager.limpar(getContext());
+
             // Navega para o fragmento de login
             Navigation.findNavController(view).navigate(R.id.noticiasFragment);
         });
@@ -78,7 +81,7 @@ public class PerfilFragment extends Fragment {
             return;
         }
 
-        db.collection("usuarios").document(usuarioAtual.getUid()).get(Source.CACHE)
+        db.collection("usuarios").document(usuarioAtual.getUid()).get(Source.DEFAULT)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
@@ -145,6 +148,18 @@ public class PerfilFragment extends Fragment {
             binding.imgPerfil.setImageBitmap(bitmap);
         } else {
             binding.imgPerfil.setImageResource(R.drawable.ifrs_poa_logo); // Placeholder
+        }
+    }
+
+    private void removerFotoPerfil() {
+        File localFile = new File(getContext().getFilesDir(), LOCAL_IMAGE_PATH);
+        if (localFile.exists()) {
+            boolean excluido = localFile.delete();
+            if (excluido) {
+                Log.d(TAG, "Foto de perfil removida com sucesso");
+            } else {
+                Log.e(TAG, "Falha ao remover a foto de perfil");
+            }
         }
     }
 }

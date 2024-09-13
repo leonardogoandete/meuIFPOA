@@ -117,4 +117,22 @@ public class SyncManager {
         editor.putLong("lastSyncDate", timestamp);
         editor.apply();
     }
+
+    public static void limpar(Context contexto) {
+        // Limpa as preferências relacionadas à sincronização
+        SharedPreferences syncPrefs = contexto.getSharedPreferences("syncPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor syncEditor = syncPrefs.edit();
+        syncEditor.clear();  // Limpa todas as entradas de sincronização
+        syncEditor.apply();
+
+        // Limpa as preferências relacionadas ao login Sigaa
+        SharedPreferences loginPrefs = contexto.getSharedPreferences("loginSigaa", Context.MODE_PRIVATE);
+        SharedPreferences.Editor loginEditor = loginPrefs.edit();
+        loginEditor.clear();  // Limpa todas as entradas de login Sigaa
+        loginEditor.apply();
+
+        // Se houver outras tarefas de limpeza específicas, adicione aqui
+        Log.d(TAG, "SyncManager limpo");
+    }
+
 }
