@@ -19,7 +19,7 @@ public class SyncRetrofit {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient httpClient = new OkHttpClient.Builder()
-                //.addInterceptor(interceptor)
+                .addInterceptor(interceptor)
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .writeTimeout(60, TimeUnit.SECONDS)
