@@ -1,6 +1,9 @@
 package br.com.ifrs.meuifpoa.ui.fragment;
 
+import static br.com.ifrs.meuifpoa.Constants.BASE_URL_NOTICIA;
+
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -76,6 +80,8 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
 
     // Configura a SearchView para capturar as pesquisas com um delay de 400ms
     private void setupSearchView() {
+        searchView.setIconified(false);
+        searchView.setQueryHint("Buscar noticias");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -99,17 +105,41 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
         searchHandler.postDelayed(() -> fetchNews(currentQuery), SEARCH_DELAY_MS);
     }
 
-    // Configura o Spinner para permitir seleção de limite de notícias
+    // Configura o Spinner para permitir seleção de limite de notícias com item de dica "Selecione o limite"
     private void setupSpinner() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
-                R.array.limites_noticias, android.R.layout.simple_spinner_item);
+        // Adiciona um item "Selecione o limite" como primeiro item
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireContext(),
+                android.R.layout.simple_spinner_item,
+                getResources().getStringArray(R.array.limites_noticias)) {
+
+            @Override
+            public boolean isEnabled(int position) {
+                // Desabilita o primeiro item ("Selecione o limite")
+                return position != 0;
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                if (position == 0) {
+                    // Customiza o primeiro item ("Selecione o limite")
+                    ((TextView) view).setTextColor(Color.GRAY);
+                } else {
+                    ((TextView) view).setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerLimite.setAdapter(adapter);
         spinnerLimite.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                limiteNoticias = Integer.parseInt(parent.getItemAtPosition(position).toString());
-                fetchNews(currentQuery);
+                // Somente atualiza o limite se o item selecionado não for o primeiro
+                if (position != 0) {
+                    limiteNoticias = Integer.parseInt(parent.getItemAtPosition(position).toString());
+                    fetchNews(currentQuery);
+                }
             }
 
             @Override
@@ -177,7 +207,7 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
     public void onClick(int position, Noticia noticia) {
         String url = noticia.getLink();
         if (url != null && !url.isEmpty()) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://poa.ifrs.edu.br" + url));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(BASE_URL_NOTICIA + url));
             startActivity(intent);
         } else {
             showMessage("URL da notícia não disponível");

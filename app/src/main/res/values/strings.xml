@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">meuIFPOA</string>
+    <string name="app_name" translatable="false">meuIFPOA</string>
     <string name="notas_bar">Notas</string>
     <string name="noticias_bar">Notícias</string>
     <string name="perfil_bar">Perfil</string>
@@ -46,5 +46,18 @@
     <string name="txtTituloSyncSigaa">Sincronizar com SIGAA</string>
     <string name="msg_sync_sucesso">Sincronização realizada com sucesso</string>
     <string name="msg_sync_erro">Erro ao sincronizar dados</string>
+    <string name="hint_pesq_noticias">Pesquisar notícias</string>
+
+    <string-array name="limites_noticias">
+        <item>Limite</item>
+        <item>0</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>50</item>
+        <item>100</item>
+        <item>500</item>
+    </string-array>
 
 </resources>
