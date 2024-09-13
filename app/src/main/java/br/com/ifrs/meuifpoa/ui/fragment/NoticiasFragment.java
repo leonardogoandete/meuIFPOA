@@ -176,7 +176,7 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
 
             @Override
             public void onFailure(Call<List<Noticia>> call, Throwable t) {
-                showMessage("Erro ao obter notícias: " + t.getMessage());
+                showMessage("Erro ao obter notícias!");
             }
         });
     }
