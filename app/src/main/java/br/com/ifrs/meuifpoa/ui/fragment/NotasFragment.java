@@ -14,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.Source;
 
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class NotasFragment extends Fragment {
         db.collection("notas")
                 .document(mAuth.getUid())
                 .collection("disciplinas")
-                .get()
+                .get(Source.CACHE)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         List<Nota> notasServidor = task.getResult().toObjects(Nota.class);

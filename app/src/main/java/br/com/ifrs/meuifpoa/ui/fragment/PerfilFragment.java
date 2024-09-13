@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.Source;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -77,7 +78,7 @@ public class PerfilFragment extends Fragment {
             return;
         }
 
-        db.collection("usuarios").document(usuarioAtual.getUid()).get()
+        db.collection("usuarios").document(usuarioAtual.getUid()).get(Source.CACHE)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
