@@ -1,5 +1,7 @@
 package br.com.ifrs.meuifpoa.retrofit;
 
+import static br.com.ifrs.meuifpoa.Constants.BASE_URL;
+
 import java.util.concurrent.TimeUnit;
 
 import br.com.ifrs.meuifpoa.retrofit.service.NotasService;
@@ -10,11 +12,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NotasRetrofit {
-    //private static final String BASE_URL = "http://192.168.0.15:8080/";
-    private static final String BASE_URL = "https://app-ifrs-back-5ee5bb142a80.herokuapp.com/";
-    //private static final String BASE_URL = "https://2d15-200-180-191-23.ngrok-free.app/";
 
     private final NotasService notasService;
+
     public NotasRetrofit() {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();

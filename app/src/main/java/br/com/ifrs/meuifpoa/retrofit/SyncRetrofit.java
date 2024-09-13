@@ -1,5 +1,7 @@
 package br.com.ifrs.meuifpoa.retrofit;
 
+import static br.com.ifrs.meuifpoa.Constants.BASE_URL;
+
 import java.util.concurrent.TimeUnit;
 
 import br.com.ifrs.meuifpoa.retrofit.service.SyncService;
@@ -9,9 +11,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SyncRetrofit {
-    private static final String BASE_URL = "http://192.168.0.15:8080/";
-    //private static final String BASE_URL = "https://2d15-200-180-191-23.ngrok-free.app/";
-    //private static final String BASE_URL = "https://app-ifrs-back-5ee5bb142a80.herokuapp.com/";
 
     private final SyncService syncService;
 
@@ -20,7 +19,7 @@ public class SyncRetrofit {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient httpClient = new OkHttpClient.Builder()
-                .addInterceptor(interceptor)
+                //.addInterceptor(interceptor)
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .writeTimeout(60, TimeUnit.SECONDS)
