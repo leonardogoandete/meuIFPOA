@@ -169,21 +169,34 @@ public class HomeFragment extends Fragment {
             // Obter o URI do arquivo
             Uri pdfUri = FileProvider.getUriForFile(requireContext(), requireContext().getPackageName() + ".fileprovider", pdfFile);
 
-            // Criar um intent para abrir o PDF usando o visualizador de PDF disponível
+            // Criar um intent para abrir o PDF
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(pdfUri, "application/pdf");
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
+            // Verificar se o Google PDF Viewer está disponível
+            Intent googlePDFViewerIntent = new Intent(Intent.ACTION_VIEW);
+            googlePDFViewerIntent.setDataAndType(pdfUri, "application/pdf");
+            googlePDFViewerIntent.setPackage("com.google.android.apps.pdfviewer"); // Google PDF Viewer package name
+
             // Verificar se existe um aplicativo de visualização de PDF
-            Intent chooser = Intent.createChooser(intent, "Abrir com");
-            if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
-                startActivity(chooser);
+            if (googlePDFViewerIntent.resolveActivity(requireContext().getPackageManager()) != null) {
+                startActivity(googlePDFViewerIntent);
             } else {
-                txtBemVindo.setText("Nenhum aplicativo de visualização de PDF encontrado.");
+                // Se o Google PDF Viewer não estiver disponível, use o intent padrão
+                Intent chooser = Intent.createChooser(intent, "Abrir com");
+                if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
+                    startActivity(chooser);
+                } else {
+                    txtBemVindo.setText("Nenhum aplicativo de visualização de PDF encontrado.");
+                }
             }
+        } else {
+            txtBemVindo.setText("Arquivo PDF não encontrado.");
         }
     }
+
 
     private void compartilharPDF(File pdfFile) {
         if (pdfFile.exists()) {
