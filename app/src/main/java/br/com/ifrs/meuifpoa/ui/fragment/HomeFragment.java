@@ -1,35 +1,44 @@
 package br.com.ifrs.meuifpoa.ui.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.ui.AppBarConfiguration;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Source;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import br.com.ifrs.meuifpoa.R;
+import br.com.ifrs.meuifpoa.model.DocumentoResponse;
 import br.com.ifrs.meuifpoa.model.Perfil;
+import br.com.ifrs.meuifpoa.retrofit.DocumentoRetrofit;
+import br.com.ifrs.meuifpoa.retrofit.service.DocumentoService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
-    private AppBarConfiguration mAppBarConfiguration;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
-    private NavController navController;
-    private BottomNavigationView bottomNavigationView;
-    private View containerIntegralizacoes;
     private TextView txtBemVindo;
     private ProgressBar probarChObrigatoria;
+    private View containerIntegralizacoes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,6 +82,34 @@ public class HomeFragment extends Fragment {
                                     containerIntegralizacoes.setVisibility(View.VISIBLE);
                                     probarChObrigatoria.setMax(2216);
                                     probarChObrigatoria.setProgress(2150);
+
+                                    // Fazer a chamada para obter o documento
+                                    DocumentoService service = new DocumentoRetrofit().getDocumentoService();
+                                    Call<DocumentoResponse> call = service.obterDocumento();
+                                    call.enqueue(new Callback<DocumentoResponse>() {
+                                        @Override
+                                        public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
+                                            if (response.isSuccessful()) {
+                                                Log.d("API Response", "Response Body: " + response.body());
+                                                DocumentoResponse documentoResponse = response.body();
+                                                if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
+                                                    String base64Documento = documentoResponse.getPdfbase64();
+                                                    salvarEPDFVisualizar(base64Documento);
+                                                } else {
+                                                    Log.e("API Error", "Documento está vazio.");
+                                                    txtBemVindo.setText("Erro: Resposta do documento está vazia.");
+                                                }
+                                            } else {
+                                                Log.e("API Error", "Falha ao obter o documento. Código de resposta: " + response.code());
+                                                txtBemVindo.setText("Falha ao obter o documento.");
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<DocumentoResponse> call, Throwable t) {
+                                            txtBemVindo.setText("Falha ao obter o documento.");
+                                        }
+                                    });
                                 }
                             } else {
                                 // Documento não existe, ocultar integralizações
@@ -103,5 +140,66 @@ public class HomeFragment extends Fragment {
             return primeiroNome;
         }
         return "";
+    }
+
+    private void salvarEPDFVisualizar(String base64Data) {
+        try {
+            // Converter a string base64 em bytes
+            byte[] pdfAsBytes = Base64.decode(base64Data, Base64.DEFAULT);
+
+            // Salvar o PDF em um arquivo temporário no armazenamento interno
+            File pdfFile = new File(requireContext().getCacheDir(), "documento.pdf");
+            try (FileOutputStream fos = new FileOutputStream(pdfFile)) {
+                fos.write(pdfAsBytes);
+            }
+
+            // Agora que o arquivo foi salvo, exiba-o e ofereça a opção de compartilhamento
+            visualizarPDF(pdfFile);
+            compartilharPDF(pdfFile);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            txtBemVindo.setText("Erro ao salvar o documento.");
+        }
+    }
+
+    private void visualizarPDF(File pdfFile) {
+        // Verificar se o arquivo existe
+        if (pdfFile.exists()) {
+            // Obter o URI do arquivo
+            Uri pdfUri = FileProvider.getUriForFile(requireContext(), requireContext().getPackageName() + ".fileprovider", pdfFile);
+
+            // Criar um intent para abrir o PDF usando o visualizador de PDF disponível
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(pdfUri, "application/pdf");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            // Verificar se existe um aplicativo de visualização de PDF
+            Intent chooser = Intent.createChooser(intent, "Abrir com");
+            if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
+                startActivity(chooser);
+            } else {
+                txtBemVindo.setText("Nenhum aplicativo de visualização de PDF encontrado.");
+            }
+        }
+    }
+
+    private void compartilharPDF(File pdfFile) {
+        if (pdfFile.exists()) {
+            Uri pdfUri = FileProvider.getUriForFile(requireContext(), requireContext().getPackageName() + ".fileprovider", pdfFile);
+
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("application/pdf");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, pdfUri);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            Intent chooser = Intent.createChooser(shareIntent, "Compartilhar PDF com");
+            if (shareIntent.resolveActivity(requireContext().getPackageManager()) != null) {
+                startActivity(chooser);
+            } else {
+                txtBemVindo.setText("Nenhum aplicativo disponível para compartilhar PDF.");
+            }
+        }
     }
 }
