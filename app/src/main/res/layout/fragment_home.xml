@@ -1,36 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".ui.fragment.HomeFragment">
 
+    <!-- Container com logo e mensagem de boas-vindas -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="8dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="348dp"
+            android:layout_width="317dp"
+            android:layout_height="249dp"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/ifrs_logo" />
+            android:src="@drawable/ifrs_logo"
+            android:layout_gravity="center_horizontal" />
 
         <TextView
+            android:id="@+id/txtBemVindo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@android:color/transparent"
-            android:padding="16dp"
+            android:layout_marginTop="8dp"
+            android:padding="8dp"
             android:shadowColor="@android:color/black"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="1"
-            android:text="Bem vindo(a) usuario!"
-            android:textColor="@android:color/white"
-            android:textSize="24sp" />
-    </LinearLayout>
+            android:text="Bem vindo(a) usuário!"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:layout_gravity="center_horizontal" />
 
-</FrameLayout>
+        <!-- Adiciona um ScrollView para permitir rolagem -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fillViewport="true">
+
+            <!-- Container das integralizações -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/containerIntegralizacoes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:visibility="gone">
+
+                <!-- Título da seção -->
+                <TextView
+                    android:id="@+id/txtTituloIntegralizacoes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Integralizações"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- CH Obrigatória Pendente -->
+                <TextView
+                    android:id="@+id/txtChObrigatoria"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="CH Obrigatória Pendente: 132"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtTituloIntegralizacoes" />
+
+                <ProgressBar
+                    android:id="@+id/progressChObrigatoria"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:progressTint="@color/colorPrimary"
+                    android:max="2216"
+                    android:progress="2084"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtChObrigatoria" />
+
+                <!-- CH Optativa Pendente -->
+                <TextView
+                    android:id="@+id/txtChOptativa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="CH Optativa Pendente: 66"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/progressChObrigatoria" />
+
+                <ProgressBar
+                    android:id="@+id/progressChOptativa"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:max="2216"
+                    android:progress="2150"
+                    android:progressTint="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtChOptativa" />
+
+                <!-- CH Total Currículo -->
+                <TextView
+                    android:id="@+id/txtChTotalCurriculo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="CH Total Currículo: 2216"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/progressChOptativa" />
+
+                <ProgressBar
+                    android:id="@+id/progressChTotalCurriculo"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:progressTint="@color/colorPrimary"
+                    android:max="2216"
+                    android:progress="2216"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtChTotalCurriculo" />
+
+                <!-- CH Complementar Pendente -->
+                <TextView
+                    android:id="@+id/txtChComplementar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="CH Complementar Pendente: 0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/progressChTotalCurriculo" />
+
+                <ProgressBar
+                    android:id="@+id/progressChComplementar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:progressTint="@color/colorPrimary"
+                    android:max="2216"
+                    android:progress="2216"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtChComplementar" />
+
+                <!-- Percentual integralizado -->
+                <TextView
+                    android:id="@+id/txtTotalIntegralizado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Percentual integralizado: 91%"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/progressChComplementar" />
+
+                <ProgressBar
+                    android:id="@+id/progressTotalIntegralizado"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:progressTint="@color/colorPrimary"
+                    android:max="100"
+                    android:progress="91"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtTotalIntegralizado" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

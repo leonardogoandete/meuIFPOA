@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -22,13 +23,16 @@ public class HomeFragment extends Fragment {
     private FirebaseFirestore db;
     private NavController navController;
     private BottomNavigationView bottomNavigationView;
-
+    private View containerIntegralizacoes;
+    private TextView txtBemVindo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        containerIntegralizacoes = view.findViewById(R.id.containerIntegralizacoes);
+        txtBemVindo = view.findViewById(R.id.txtBemVindo);
+        return view;
     }
 
     @Override
@@ -41,5 +45,19 @@ public class HomeFragment extends Fragment {
                 .setPersistenceEnabled(true)
                 .build();
         db.setFirestoreSettings(settings);
+
+        checkUserAuthentication();
+    }
+
+    private void checkUserAuthentication() {
+        if (mAuth.getCurrentUser() != null) {
+            // Usuário está logado, exibe a integralização
+            txtBemVindo.setText("Bem vindo(a) " + mAuth.getUid().toString());
+            containerIntegralizacoes.setVisibility(View.VISIBLE);
+
+        } else {
+            // Usuário não está logado, oculta a integralização
+            containerIntegralizacoes.setVisibility(View.GONE);
+        }
     }
 }
