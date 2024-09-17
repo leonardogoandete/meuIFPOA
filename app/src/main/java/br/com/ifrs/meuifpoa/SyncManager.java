@@ -2,6 +2,7 @@ package br.com.ifrs.meuifpoa;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SyncResult;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -10,6 +11,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import br.com.ifrs.meuifpoa.model.SyncResponse;
 import br.com.ifrs.meuifpoa.retrofit.SyncRetrofit;
 import br.com.ifrs.meuifpoa.retrofit.service.SyncService;
 import br.com.ifrs.meuifpoa.ui.dialog.SyncPasswordDialog;
@@ -79,10 +81,10 @@ public class SyncManager {
         SyncService syncService = new SyncRetrofit().getSyncService();
 
         Log.d(TAG, "Iniciando sincronização com token: " + token);
-        Call<Void> call = syncService.sincronizar(token, senha);
-        call.enqueue(new Callback<Void>() {
+        Call<SyncResponse> call = syncService.sincronizar(token, senha);
+        call.enqueue(new Callback<SyncResponse>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<SyncResponse> call, Response<SyncResponse> response) {
                 if (response.isSuccessful()) {
                     Log.d(TAG, "Sincronização realizada com sucesso");
                     saveLastSyncDate(contexto, System.currentTimeMillis());
@@ -91,13 +93,13 @@ public class SyncManager {
                         onSuccess.run();
                     }
                 } else {
-                    Toast.makeText(contexto, R.string.msg_sync_erro + response.errorBody().toString(), Toast.LENGTH_SHORT).show();
-                    Log.e(TAG, "Erro ao sincronizar dados: " + response.errorBody().toString());
+                    Toast.makeText(contexto, R.string.msg_sync_erro, Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Erro ao sincronizar dados: " + response.body());
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<SyncResponse> call, Throwable t) {
                 Toast.makeText(contexto, "Falha na conexão: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "Falha na conexão: " + t.getMessage(), t);
             }
