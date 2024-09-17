@@ -73,18 +73,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txtTituloIntegralizacoes" />
 
-                <ProgressBar
-                    android:id="@+id/progressChObrigatoria"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:progressTint="@color/colorPrimary"
-                    android:max="2216"
-                    android:progress="2084"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txtChObrigatoria" />
+
 
                 <!-- CH Optativa Pendente -->
                 <TextView
@@ -94,20 +83,9 @@
                     android:layout_marginTop="16dp"
                     android:text="CH Optativa Pendente: 66"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/progressChObrigatoria" />
+                    app:layout_constraintTop_toBottomOf="@id/txtChObrigatoria" />
 
-                <ProgressBar
-                    android:id="@+id/progressChOptativa"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:max="2216"
-                    android:progress="2150"
-                    android:progressTint="@color/colorPrimary"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txtChOptativa" />
+
 
                 <!-- CH Total Currículo -->
                 <TextView
@@ -117,20 +95,9 @@
                     android:layout_marginTop="16dp"
                     android:text="CH Total Currículo: 2216"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/progressChOptativa" />
+                    app:layout_constraintTop_toBottomOf="@id/txtChOptativa" />
 
-                <ProgressBar
-                    android:id="@+id/progressChTotalCurriculo"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:progressTint="@color/colorPrimary"
-                    android:max="2216"
-                    android:progress="2216"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txtChTotalCurriculo" />
+
 
                 <!-- CH Complementar Pendente -->
                 <TextView
@@ -140,20 +107,8 @@
                     android:layout_marginTop="16dp"
                     android:text="CH Complementar Pendente: 0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/progressChTotalCurriculo" />
+                    app:layout_constraintTop_toBottomOf="@id/txtChTotalCurriculo" />
 
-                <ProgressBar
-                    android:id="@+id/progressChComplementar"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:progressTint="@color/colorPrimary"
-                    android:max="2216"
-                    android:progress="2216"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txtChComplementar" />
 
                 <!-- Percentual integralizado -->
                 <TextView
@@ -163,7 +118,7 @@
                     android:layout_marginTop="16dp"
                     android:text="Percentual integralizado: 91%"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/progressChComplementar" />
+                    app:layout_constraintTop_toBottomOf="@id/txtChComplementar" />
 
                 <ProgressBar
                     android:id="@+id/progressTotalIntegralizado"

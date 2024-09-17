@@ -37,7 +37,12 @@ public class HomeFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private TextView txtBemVindo;
-    private ProgressBar probarChObrigatoria;
+    private ProgressBar progBarTotalIntegralizado;
+    private TextView txtChObrigatoria;
+    private TextView txtChOptativa;
+    private TextView txtChTotalCurriculo;
+    private TextView txtChComplementar;
+    private TextView txtTotalIntegralizado;
     private View containerIntegralizacoes;
 
     @Override
@@ -45,7 +50,13 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         containerIntegralizacoes = view.findViewById(R.id.containerIntegralizacoes);
-        probarChObrigatoria = view.findViewById(R.id.progressChObrigatoria);
+        txtChObrigatoria = view.findViewById(R.id.txtChObrigatoria);
+        txtChOptativa = view.findViewById(R.id.txtChOptativa);
+        txtChTotalCurriculo = view.findViewById(R.id.txtChTotalCurriculo);
+        txtChComplementar = view.findViewById(R.id.txtChComplementar);
+        txtTotalIntegralizado = view.findViewById(R.id.txtTotalIntegralizado);
+        progBarTotalIntegralizado = view.findViewById(R.id.progressTotalIntegralizado);
+
         txtBemVindo = view.findViewById(R.id.txtBemVindo);
         return view;
     }
@@ -80,8 +91,15 @@ public class HomeFragment extends Fragment {
                                     String mensagem = "Bem vindo(a) " + primeiroNome;
                                     txtBemVindo.setText(mensagem);
                                     containerIntegralizacoes.setVisibility(View.VISIBLE);
-                                    probarChObrigatoria.setMax(2216);
-                                    probarChObrigatoria.setProgress(2150);
+
+                                    txtChObrigatoria.setText("CH Obrigatória Pendente: "+ perfil.getChObrigatoriaPendente());
+                                    txtChOptativa.setText("CH Optativa Pendente: "+ perfil.getChOptativaPendente());
+                                    txtChTotalCurriculo.setText("CH Total do Currículo: "+ perfil.getChTotalCurriculo());
+                                    txtChComplementar.setText("CH Complementar Pendente: "+ perfil.getChComplementarPendente());
+                                    txtTotalIntegralizado.setText("Total Integralizado: "+ perfil.getIntegralizado()+"%");
+                                    progBarTotalIntegralizado.setProgress(Integer.parseInt(perfil.getIntegralizado()));
+
+
 
                                     // Fazer a chamada para obter o documento
                                     DocumentoService service = new DocumentoRetrofit().getDocumentoService();
