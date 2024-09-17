@@ -49,7 +49,7 @@
     <string name="hint_pesq_noticias">Pesquisar notícias</string>
 
     <string-array name="limites_noticias">
-        <item>Limite</item>
+        <item>Nº noticias</item>
         <item>0</item>
         <item>5</item>
         <item>10</item>

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
@@ -115,17 +116,20 @@ public class HomeFragment extends Fragment {
                                                     salvarEPDFVisualizar(base64Documento);
                                                 } else {
                                                     Log.e("API Error", "Documento está vazio.");
-                                                    txtBemVindo.setText("Erro: Resposta do documento está vazia.");
+                                                    //txtBemVindo.setText("Erro: Resposta do documento está vazia.");
+                                                    Toast.makeText(getContext(),"Erro: Resposta do documento está vazia.", Toast.LENGTH_SHORT).show();
                                                 }
                                             } else {
                                                 Log.e("API Error", "Falha ao obter o documento. Código de resposta: " + response.code());
-                                                txtBemVindo.setText("Falha ao obter o documento.");
+                                                //txtBemVindo.setText("Falha ao obter o documento.");
+                                                Toast.makeText(getContext(),"Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
                                             }
                                         }
 
                                         @Override
                                         public void onFailure(Call<DocumentoResponse> call, Throwable t) {
-                                            txtBemVindo.setText("Falha ao obter o documento.");
+                                            //txtBemVindo.setText("Falha ao obter o documento.");
+                                            Toast.makeText(getContext(),"Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }
@@ -177,7 +181,8 @@ public class HomeFragment extends Fragment {
 
         } catch (IOException e) {
             e.printStackTrace();
-            txtBemVindo.setText("Erro ao salvar o documento.");
+            //txtBemVindo.setText("Erro ao salvar o documento.");
+            Toast.makeText(getContext(),"Erro ao salvar o documento.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -207,11 +212,14 @@ public class HomeFragment extends Fragment {
                 if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
                     startActivity(chooser);
                 } else {
-                    txtBemVindo.setText("Nenhum aplicativo de visualização de PDF encontrado.");
+                    //txtBemVindo.setText("Nenhum aplicativo de visualização de PDF encontrado.");
+                    Toast.makeText(getContext(),"Nenhum aplicativo de visualização de PDF encontrado.", Toast.LENGTH_SHORT).show();
+
                 }
             }
         } else {
-            txtBemVindo.setText("Arquivo PDF não encontrado.");
+            //txtBemVindo.setText("Arquivo PDF não encontrado.");
+            Toast.makeText(getContext(),"Arquivo PDF não encontrado.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -229,7 +237,8 @@ public class HomeFragment extends Fragment {
             if (shareIntent.resolveActivity(requireContext().getPackageManager()) != null) {
                 startActivity(chooser);
             } else {
-                txtBemVindo.setText("Nenhum aplicativo disponível para compartilhar PDF.");
+                //txtBemVindo.setText("Nenhum aplicativo disponível para compartilhar PDF.");
+                Toast.makeText(getContext(),"Nenhum aplicativo disponível para compartilhar PDF.", Toast.LENGTH_SHORT).show();
             }
         }
     }

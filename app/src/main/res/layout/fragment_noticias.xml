@@ -14,9 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="8dp">
 
-        <!-- Barra de busca com fundo e bordas personalizadas -->
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchViewNoticias"
             android:layout_width="0dp"
@@ -26,8 +25,10 @@
             android:background="@drawable/search_view_background"
             android:iconifiedByDefault="false"
             android:queryHint="@string/hint_pesq_noticias"
-            android:layout_marginEnd="8dp"/>
-        <!-- Spinner para seleção do limite de notícias -->
+            android:layout_marginEnd="4dp"
+            android:imeOptions="actionSearch"
+            android:inputType="text" />
+
         <Spinner
             android:id="@+id/spinnerLimite"
             android:layout_width="0dp"
@@ -35,9 +36,11 @@
             android:layout_weight="0.3"
             android:layout_gravity="center_vertical"
             android:backgroundTint="@color/colorPrimary"
-            android:spinnerMode="dropdown"/>
+            android:spinnerMode="dropdown"
+            android:popupBackground="@color/white" />
 
     </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listViewNoticias"
         android:layout_width="match_parent"
