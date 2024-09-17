@@ -1,4 +1,4 @@
-package br.com.ifrs.meuifpoa;
+package br.com.ifrs.meuifpoa.utils;
 
 public class Constants {
     //private static final String BASE_URL = "http://192.168.0.23:8080/";

@@ -1,6 +1,6 @@
 package br.com.ifrs.meuifpoa.ui.fragment;
 
-import static br.com.ifrs.meuifpoa.Constants.BASE_URL_NOTICIA;
+import static br.com.ifrs.meuifpoa.utils.Constants.BASE_URL_NOTICIA;
 
 import android.content.Intent;
 import android.graphics.Color;

@@ -1,6 +1,6 @@
 package br.com.ifrs.meuifpoa.retrofit;
 
-import static br.com.ifrs.meuifpoa.Constants.BASE_URL;
+import static br.com.ifrs.meuifpoa.utils.Constants.BASE_URL;
 
 import java.util.concurrent.TimeUnit;
 

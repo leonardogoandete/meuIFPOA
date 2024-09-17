@@ -19,7 +19,7 @@ import com.google.firebase.firestore.Source;
 import java.util.List;
 
 import br.com.ifrs.meuifpoa.R;
-import br.com.ifrs.meuifpoa.GerenciadorSinc;
+import br.com.ifrs.meuifpoa.utils.GerenciadorSinc;
 import br.com.ifrs.meuifpoa.adapter.recycler.LinhaNotasAdapter;
 import br.com.ifrs.meuifpoa.model.Nota;
 
