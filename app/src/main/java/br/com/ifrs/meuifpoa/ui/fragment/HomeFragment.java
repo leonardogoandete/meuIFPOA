@@ -1,6 +1,8 @@
 package br.com.ifrs.meuifpoa.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
@@ -100,11 +102,12 @@ public class HomeFragment extends Fragment {
                                     txtTotalIntegralizado.setText("Total Integralizado: "+ perfil.getIntegralizado()+"%");
                                     progBarTotalIntegralizado.setProgress(Integer.parseInt(perfil.getIntegralizado()));
 
-
-
+                                    SharedPreferences preferencias = getContext().getSharedPreferences("loginSigaa", Context.MODE_PRIVATE);
+                                    String token = preferencias.getString("token", "");
+                                    String senha = "";
                                     // Fazer a chamada para obter o documento
                                     DocumentoService service = new DocumentoRetrofit().getDocumentoService();
-                                    Call<DocumentoResponse> call = service.obterDocumento();
+                                    Call<DocumentoResponse> call = service.obterDocumento(token, senha);
                                     call.enqueue(new Callback<DocumentoResponse>() {
                                         @Override
                                         public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
@@ -116,19 +119,16 @@ public class HomeFragment extends Fragment {
                                                     salvarEPDFVisualizar(base64Documento);
                                                 } else {
                                                     Log.e("API Error", "Documento está vazio.");
-                                                    //txtBemVindo.setText("Erro: Resposta do documento está vazia.");
                                                     Toast.makeText(getContext(),"Erro: Resposta do documento está vazia.", Toast.LENGTH_SHORT).show();
                                                 }
                                             } else {
                                                 Log.e("API Error", "Falha ao obter o documento. Código de resposta: " + response.code());
-                                                //txtBemVindo.setText("Falha ao obter o documento.");
                                                 Toast.makeText(getContext(),"Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
                                             }
                                         }
 
                                         @Override
                                         public void onFailure(Call<DocumentoResponse> call, Throwable t) {
-                                            //txtBemVindo.setText("Falha ao obter o documento.");
                                             Toast.makeText(getContext(),"Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
                                         }
                                     });
@@ -212,13 +212,11 @@ public class HomeFragment extends Fragment {
                 if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
                     startActivity(chooser);
                 } else {
-                    //txtBemVindo.setText("Nenhum aplicativo de visualização de PDF encontrado.");
                     Toast.makeText(getContext(),"Nenhum aplicativo de visualização de PDF encontrado.", Toast.LENGTH_SHORT).show();
 
                 }
             }
         } else {
-            //txtBemVindo.setText("Arquivo PDF não encontrado.");
             Toast.makeText(getContext(),"Arquivo PDF não encontrado.", Toast.LENGTH_SHORT).show();
         }
     }
@@ -237,7 +235,6 @@ public class HomeFragment extends Fragment {
             if (shareIntent.resolveActivity(requireContext().getPackageManager()) != null) {
                 startActivity(chooser);
             } else {
-                //txtBemVindo.setText("Nenhum aplicativo disponível para compartilhar PDF.");
                 Toast.makeText(getContext(),"Nenhum aplicativo disponível para compartilhar PDF.", Toast.LENGTH_SHORT).show();
             }
         }
