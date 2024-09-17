@@ -42,6 +42,7 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
     private static final long SEARCH_DELAY_MS = 400;
     private RecyclerView recyclerView;
     private LinhaNoticiasAdapter noticiasAdapter;
+    private TextView txtNaoTemNoticias;
     private SearchView searchView;
     private Spinner spinnerLimite;
     private Handler searchHandler;
@@ -69,6 +70,7 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
         recyclerView = view.findViewById(R.id.listViewNoticias);
         searchView = view.findViewById(R.id.searchViewNoticias);
         spinnerLimite = view.findViewById(R.id.spinnerLimite);
+        txtNaoTemNoticias = view.findViewById(R.id.txtNaoTemNoticias);
         searchHandler = new Handler(Looper.getMainLooper());
     }
 
@@ -92,12 +94,21 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                // Atualiza a variável currentQuery com o novo texto
                 currentQuery = newText;
-                debounceSearch();
+
+                if (newText.isEmpty()) {
+                    // Quando o texto é vazio (X foi clicado), recarregar as notícias completas
+                    fetchNews(null);
+                } else {
+                    // Caso contrário, faz a busca com debounce
+                    debounceSearch();
+                }
                 return true;
             }
         });
     }
+
 
     // Método para lidar com debounce da pesquisa
     private void debounceSearch() {
@@ -166,8 +177,12 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
                     List<Noticia> noticias = response.body();
                     if (!noticias.isEmpty()) {
                         updateRecyclerView(noticias);
+                        txtNaoTemNoticias.setVisibility(View.GONE); // Esconde a mensagem de "sem notícias"
+                        recyclerView.setVisibility(View.VISIBLE); // Mostra o RecyclerView
                     } else {
                         showMessage("Não há notícias disponíveis");
+                        txtNaoTemNoticias.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE); // Esconde o RecyclerView quando não há notícias
                     }
                 } else {
                     showMessage("Erro ao obter notícias!");
@@ -190,6 +205,7 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
         } else {
             noticiasAdapter.updateNoticias(noticias);
         }
+        recyclerView.setVisibility(View.VISIBLE); // Garante que o RecyclerView seja visível quando houver notícias
     }
 
     // Exibe uma mensagem usando Snackbar ou Toast
