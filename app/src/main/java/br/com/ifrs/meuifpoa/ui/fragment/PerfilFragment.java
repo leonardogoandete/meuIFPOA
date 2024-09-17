@@ -24,7 +24,7 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 
 import br.com.ifrs.meuifpoa.R;
-import br.com.ifrs.meuifpoa.SyncManager;
+import br.com.ifrs.meuifpoa.GerenciadorSinc;
 import br.com.ifrs.meuifpoa.databinding.FragmentPerfilBinding;
 import br.com.ifrs.meuifpoa.model.Perfil;
 
@@ -53,14 +53,14 @@ public class PerfilFragment extends Fragment {
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.txtCarregando.setVisibility(View.VISIBLE);
 
-        // Usando SyncManager para verificar e requisitar a senha
-        SyncManager syncManager = new SyncManager();
-        syncManager.verificarERequisitarSenha(getContext(), this::obterDadosPerfilDoFirestore);
+        // Usando GerenciadorSinc para verificar e requisitar a senha
+        GerenciadorSinc GerenciadorSinc = new GerenciadorSinc();
+        GerenciadorSinc.verificarERequisitarSenha(getContext(), this::obterDadosPerfilDoFirestore);
 
         binding.btnSairPerfil.setOnClickListener(v -> {
             mAuth.signOut();
             removerFotoPerfil();
-            SyncManager.limpar(getContext());
+            GerenciadorSinc.limpar(getContext());
 
             // Navega para o fragmento de login
             Navigation.findNavController(view).navigate(R.id.noticiasFragment);

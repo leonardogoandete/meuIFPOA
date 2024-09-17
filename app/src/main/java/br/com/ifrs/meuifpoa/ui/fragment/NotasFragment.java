@@ -19,7 +19,7 @@ import com.google.firebase.firestore.Source;
 import java.util.List;
 
 import br.com.ifrs.meuifpoa.R;
-import br.com.ifrs.meuifpoa.SyncManager;
+import br.com.ifrs.meuifpoa.GerenciadorSinc;
 import br.com.ifrs.meuifpoa.adapter.recycler.LinhaNotasAdapter;
 import br.com.ifrs.meuifpoa.model.Nota;
 
@@ -48,9 +48,9 @@ public class NotasFragment extends Fragment {
                 .build();
         db.setFirestoreSettings(settings);
 
-        // Usando SyncManager para verificar e requisitar a senha
-        SyncManager syncManager = new SyncManager();
-        syncManager.verificarERequisitarSenha(getContext(), this::obterNotasDoFirestore);
+        // Usando GerenciadorSinc para verificar e requisitar a senha
+        GerenciadorSinc GerenciadorSinc = new GerenciadorSinc();
+        GerenciadorSinc.verificarERequisitarSenha(getContext(), this::obterNotasDoFirestore);
 
         obterNotasDoFirestore();
         recyclerViewListNotas.setHasFixedSize(true);
