@@ -1,7 +1,5 @@
 package br.com.ifrs.meuifpoa.ui.fragment;
 
-import static java.security.AccessController.getContext;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -33,7 +31,7 @@ import br.com.ifrs.meuifpoa.model.Perfil;
 public class PerfilFragment extends Fragment {
 
     private static final String TAG = "PerfilFragment";
-    private static final String LOCAL_IMAGE_PATH = "perfil.jpg";
+    private static final String CAMINHO_IMAGEM_LOCAL = "perfil.jpg";
     private FragmentPerfilBinding binding;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -49,20 +47,11 @@ public class PerfilFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         esconderElementosPerfil();
-        mAuth = FirebaseAuth.getInstance();
-        storage = FirebaseStorage.getInstance();
-
-        // Configura o Firestore com persistência offline
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setPersistenceEnabled(true)
-                .build();
-        db = FirebaseFirestore.getInstance();
-        db.setFirestoreSettings(settings);
+        inicializarComponentes();
 
         // Mostra a progress bar e esconde os elementos do perfil enquanto carrega os dados
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.txtCarregando.setVisibility(View.VISIBLE);
-
 
         // Usando SyncManager para verificar e requisitar a senha
         SyncManager syncManager = new SyncManager();
@@ -78,6 +67,18 @@ public class PerfilFragment extends Fragment {
         });
     }
 
+    private void inicializarComponentes() {
+        mAuth = FirebaseAuth.getInstance();
+        storage = FirebaseStorage.getInstance();
+
+        // Configura o Firestore com persistência offline
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .build();
+        db = FirebaseFirestore.getInstance();
+        db.setFirestoreSettings(settings);
+    }
+
     private void obterDadosPerfilDoFirestore() {
         FirebaseUser usuarioAtual = mAuth.getCurrentUser();
         if (usuarioAtual == null) {
@@ -88,13 +89,13 @@ public class PerfilFragment extends Fragment {
         db.collection("usuarios").document(usuarioAtual.getUid()).get(Source.DEFAULT)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            Perfil perfil = document.toObject(Perfil.class);
+                        DocumentSnapshot documento = task.getResult();
+                        if (documento.exists()) {
+                            Perfil perfil = documento.toObject(Perfil.class);
                             if (perfil != null) {
                                 binding.progressBar.setVisibility(View.GONE); // Esconde a progress bar
                                 binding.txtCarregando.setVisibility(View.GONE);
-                                configuraPerfil(perfil);
+                                configurarPerfil(perfil);
                                 carregarFotoPerfil();
                                 exibirElementosPerfil(); // Exibe os elementos após o carregamento dos dados
                             } else {
@@ -113,13 +114,7 @@ public class PerfilFragment extends Fragment {
                 });
     }
 
-    private void configuraPerfil(Perfil perfil) {
-        Log.d(TAG, "Nome: " + perfil.getNomeDocente());
-        Log.d(TAG, "Matrícula: " + perfil.getMatricula());
-        Log.d(TAG, "Curso: " + perfil.getCurso());
-        Log.d(TAG, "Nível: " + perfil.getNivel());
-        Log.d(TAG, "Status: " + perfil.getStatus());
-        Log.d(TAG, "Ano de ingresso: " + perfil.getAnoIngresso());
+    private void configurarPerfil(Perfil perfil) {
         binding.txtViewValorNome.setText(perfil.getNomeDocente() != null ? perfil.getNomeDocente() : "Nome não disponível");
         binding.txtViewValorMatricula.setText(perfil.getMatricula() != null ? perfil.getMatricula() : "Matrícula não disponível");
         binding.txtViewValorCurso.setText(perfil.getCurso() != null ? perfil.getCurso() : "Curso não disponível");
@@ -139,17 +134,17 @@ public class PerfilFragment extends Fragment {
             return; // Usuário não está logado
         }
 
-        File localFile = new File(getContext().getFilesDir(), LOCAL_IMAGE_PATH);
+        File arquivoLocal = new File(getContext().getFilesDir(), CAMINHO_IMAGEM_LOCAL);
 
-        if (localFile.exists()) {
+        if (arquivoLocal.exists()) {
             Log.d(TAG, "Imagem carregada do cache local");
-            exibirImagemLocal(localFile);
+            exibirImagemLocal(arquivoLocal);
         } else {
             StorageReference fotoRef = storage.getReference().child("perfil/" + usuarioAtual.getUid() + ".jpg");
 
-            fotoRef.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
+            fotoRef.getFile(arquivoLocal).addOnSuccessListener(taskSnapshot -> {
                 Log.d(TAG, "Download concluído");
-                exibirImagemLocal(localFile);
+                exibirImagemLocal(arquivoLocal);
             }).addOnFailureListener(exception -> {
                 Log.e(TAG, "Erro ao baixar a imagem", exception);
                 binding.imgPerfil.setImageResource(R.drawable.ifrs_poa_logo);
@@ -157,9 +152,9 @@ public class PerfilFragment extends Fragment {
         }
     }
 
-    private void exibirImagemLocal(File file) {
-        if (file.exists()) {
-            Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+    private void exibirImagemLocal(File arquivo) {
+        if (arquivo.exists()) {
+            Bitmap bitmap = BitmapFactory.decodeFile(arquivo.getAbsolutePath());
             binding.imgPerfil.setImageBitmap(bitmap);
         } else {
             binding.imgPerfil.setImageResource(R.drawable.ifrs_poa_logo); // Placeholder
@@ -167,9 +162,9 @@ public class PerfilFragment extends Fragment {
     }
 
     private void removerFotoPerfil() {
-        File localFile = new File(getContext().getFilesDir(), LOCAL_IMAGE_PATH);
-        if (localFile.exists()) {
-            boolean excluido = localFile.delete();
+        File arquivoLocal = new File(getContext().getFilesDir(), CAMINHO_IMAGEM_LOCAL);
+        if (arquivoLocal.exists()) {
+            boolean excluido = arquivoLocal.delete();
             if (excluido) {
                 Log.d(TAG, "Foto de perfil removida com sucesso");
             } else {
@@ -179,7 +174,7 @@ public class PerfilFragment extends Fragment {
     }
 
     private void esconderElementosPerfil() {
-        // Esconder todos os elementos, exceto a progress bar
+        // Esconde todos os elementos, exceto a progress bar
         binding.imgPerfil.setVisibility(View.GONE);
         binding.linearLayoutNome.setVisibility(View.GONE);
         binding.linearLayoutMatricula.setVisibility(View.GONE);
