@@ -48,7 +48,7 @@ public class PerfilFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        esconderElementosPerfil();
         mAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
 
@@ -62,7 +62,7 @@ public class PerfilFragment extends Fragment {
         // Mostra a progress bar e esconde os elementos do perfil enquanto carrega os dados
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.txtCarregando.setVisibility(View.VISIBLE);
-        esconderElementosPerfil();
+
 
         // Usando SyncManager para verificar e requisitar a senha
         SyncManager syncManager = new SyncManager();
@@ -87,13 +87,13 @@ public class PerfilFragment extends Fragment {
 
         db.collection("usuarios").document(usuarioAtual.getUid()).get(Source.DEFAULT)
                 .addOnCompleteListener(task -> {
-                    binding.progressBar.setVisibility(View.GONE); // Esconde a progress bar
-                    binding.txtCarregando.setVisibility(View.GONE);
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             Perfil perfil = document.toObject(Perfil.class);
                             if (perfil != null) {
+                                binding.progressBar.setVisibility(View.GONE); // Esconde a progress bar
+                                binding.txtCarregando.setVisibility(View.GONE);
                                 configuraPerfil(perfil);
                                 carregarFotoPerfil();
                                 exibirElementosPerfil(); // Exibe os elementos após o carregamento dos dados
@@ -114,6 +114,12 @@ public class PerfilFragment extends Fragment {
     }
 
     private void configuraPerfil(Perfil perfil) {
+        Log.d(TAG, "Nome: " + perfil.getNomeDocente());
+        Log.d(TAG, "Matrícula: " + perfil.getMatricula());
+        Log.d(TAG, "Curso: " + perfil.getCurso());
+        Log.d(TAG, "Nível: " + perfil.getNivel());
+        Log.d(TAG, "Status: " + perfil.getStatus());
+        Log.d(TAG, "Ano de ingresso: " + perfil.getAnoIngresso());
         binding.txtViewValorNome.setText(perfil.getNomeDocente() != null ? perfil.getNomeDocente() : "Nome não disponível");
         binding.txtViewValorMatricula.setText(perfil.getMatricula() != null ? perfil.getMatricula() : "Matrícula não disponível");
         binding.txtViewValorCurso.setText(perfil.getCurso() != null ? perfil.getCurso() : "Curso não disponível");
@@ -125,7 +131,6 @@ public class PerfilFragment extends Fragment {
     private void mostrarErro(String mensagem) {
         binding.txtErro.setVisibility(View.VISIBLE);
         binding.txtErro.setText(mensagem);
-        exibirElementosPerfil(); // Exibe os elementos mesmo em caso de erro, para que o usuário possa interagir
     }
 
     private void carregarFotoPerfil() {
@@ -176,12 +181,12 @@ public class PerfilFragment extends Fragment {
     private void esconderElementosPerfil() {
         // Esconder todos os elementos, exceto a progress bar
         binding.imgPerfil.setVisibility(View.GONE);
-        binding.txtViewValorNome.setVisibility(View.GONE);
-        binding.txtViewValorMatricula.setVisibility(View.GONE);
-        binding.txtViewValorCurso.setVisibility(View.GONE);
-        binding.txtViewValorNivel.setVisibility(View.GONE);
-        binding.txtViewValorSituacao.setVisibility(View.GONE);
-        binding.txtViewValorIngresso.setVisibility(View.GONE);
+        binding.linearLayoutNome.setVisibility(View.GONE);
+        binding.linearLayoutMatricula.setVisibility(View.GONE);
+        binding.linearLayoutCurso.setVisibility(View.GONE);
+        binding.linearLayoutNivel.setVisibility(View.GONE);
+        binding.linearLayoutSituacao.setVisibility(View.GONE);
+        binding.linearLayoutIngresso.setVisibility(View.GONE);
         binding.btnSairPerfil.setVisibility(View.GONE);
     }
 
