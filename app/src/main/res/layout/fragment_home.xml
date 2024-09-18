@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <!-- Título da seção -->
                 <TextView
@@ -124,38 +124,56 @@
                     app:layout_constraintTop_toBottomOf="@id/txtTotalIntegralizado" />
 
                 <!-- Botões -->
-                <Button
+
+
+                <include
+                    layout="@layout/activity_progress_button"
                     android:id="@+id/btnEmitirHistorico"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/msgBtnEmitirHistorico"
                     app:layout_constraintTop_toBottomOf="@id/progressTotalIntegralizado"
-                    android:layout_marginTop="18dp" />
+                    android:layout_marginTop="8dp" />
 
-                <Button
+                <include
+                    layout="@layout/activity_progress_button"
                     android:id="@+id/btnEmitirHistoricoEmentas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/msgBtnEmitirHistoricoEmentas"
                     app:layout_constraintTop_toBottomOf="@id/btnEmitirHistorico"
                     android:layout_marginTop="8dp" />
 
-                <Button
+                <include
+                    layout="@layout/activity_progress_button"
                     android:id="@+id/btnEmitirDeclaracaoVinculo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/msgBtnEmitirDeclaracaoVinculo"
                     app:layout_constraintTop_toBottomOf="@id/btnEmitirHistoricoEmentas"
                     android:layout_marginTop="8dp" />
 
-                <Button
+                <include
+                    layout="@layout/activity_progress_button"
                     android:id="@+id/btnEmitirAtestadoMatricula"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
-                    android:text="@string/msgBtnEmitirAtestadoMatricula"
                     app:layout_constraintTop_toBottomOf="@id/btnEmitirDeclaracaoVinculo"
                     android:layout_marginTop="8dp" />
+<!--                <Button-->
+<!--                    android:id="@+id/btnEmitirDeclaracaoVinculo"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@string/msgBtnEmitirDeclaracaoVinculo"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/btnEmitirHistoricoEmentas"-->
+<!--                    android:layout_marginTop="8dp" />-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/btnEmitirAtestadoMatricula"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:enabled="false"-->
+<!--                    android:text="@string/msgBtnEmitirAtestadoMatricula"-->
+<!--                    app:layout_constraintTop_toBottomOf="@id/btnEmitirDeclaracaoVinculo"-->
+<!--                    android:layout_marginTop="8dp" />-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

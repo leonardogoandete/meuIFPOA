@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.databinding.FragmentHomeBinding;
 import br.com.ifrs.meuifpoa.model.Documento.DocumentoRequest;
 import br.com.ifrs.meuifpoa.model.Documento.DocumentoResponse;
@@ -70,8 +71,11 @@ public class HomeFragment extends Fragment {
         SharedPreferences preferencias = getContext().getSharedPreferences("loginSigaa", Context.MODE_PRIVATE);
         String token = preferencias.getString("token", "");
 
-        binding.btnEmitirHistorico.setOnClickListener(v -> {
+        binding.btnEmitirHistorico.txtBtnProgress.setText(R.string.msgBtnEmitirHistorico);
+        binding.btnEmitirHistorico.progressButtonLayout.setOnClickListener(v -> {
             solicitarSenha(() -> {
+                binding.btnEmitirHistorico.progressBarButton.setVisibility(View.VISIBLE);
+                binding.btnEmitirHistorico.txtBtnProgress.setText(R.string.msgCarregando);
                 DocumentoRequest documentoRequest = new DocumentoRequest(DOC_HISTORICO, minhaSenha);
                 Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
                 call.enqueue(new Callback<DocumentoResponse>() {
@@ -82,6 +86,8 @@ public class HomeFragment extends Fragment {
                             if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
                                 String base64Documento = documentoResponse.getPdfbase64();
                                 salvarEPDFVisualizar(DOC_HISTORICO, base64Documento);
+                                binding.btnEmitirHistorico.progressBarButton.setVisibility(View.GONE);
+                                binding.btnEmitirHistorico.txtBtnProgress.setText(R.string.msgBtnEmitirHistorico);
                             } else {
                                 Log.e("API Error", "Documento está vazio.");
                                 Toast.makeText(getContext(), "Erro: Resposta do documento está vazia.", Toast.LENGTH_SHORT).show();
@@ -101,8 +107,11 @@ public class HomeFragment extends Fragment {
             });
         });
 
-        binding.btnEmitirHistoricoEmentas.setOnClickListener(v -> {
+        binding.btnEmitirHistoricoEmentas.txtBtnProgress.setText(R.string.msgBtnEmitirHistoricoEmentas);
+        binding.btnEmitirHistoricoEmentas.progressButtonLayout.setOnClickListener(v -> {
             solicitarSenha(() -> {
+                binding.btnEmitirHistoricoEmentas.progressBarButton.setVisibility(View.VISIBLE);
+                binding.btnEmitirHistoricoEmentas.txtBtnProgress.setText(R.string.msgCarregando);
                 DocumentoRequest documentoRequest = new DocumentoRequest(DOC_HISTORICO_EMENTAS, minhaSenha);
                 Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
                 call.enqueue(new Callback<DocumentoResponse>() {
@@ -113,6 +122,8 @@ public class HomeFragment extends Fragment {
                             if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
                                 String base64Documento = documentoResponse.getPdfbase64();
                                 salvarEPDFVisualizar(DOC_HISTORICO_EMENTAS,base64Documento);
+                                binding.btnEmitirHistoricoEmentas.progressBarButton.setVisibility(View.GONE);
+                                binding.btnEmitirHistoricoEmentas.txtBtnProgress.setText(R.string.msgBtnEmitirHistoricoEmentas);
                             } else {
                                 Log.e("API Error", "Documento está vazio.");
                                 Toast.makeText(getContext(),"Erro: Resposta do documento está vazia.", Toast.LENGTH_SHORT).show();
@@ -132,8 +143,11 @@ public class HomeFragment extends Fragment {
             });
         });
 
-        binding.btnEmitirDeclaracaoVinculo.setOnClickListener(v -> {
+        binding.btnEmitirDeclaracaoVinculo.txtBtnProgress.setText(R.string.msgBtnEmitirDeclaracaoVinculo);
+        binding.btnEmitirDeclaracaoVinculo.progressButtonLayout.setOnClickListener(v -> {
             solicitarSenha(() -> {
+                binding.btnEmitirDeclaracaoVinculo.progressBarButton.setVisibility(View.VISIBLE);
+                binding.btnEmitirDeclaracaoVinculo.txtBtnProgress.setText(R.string.msgCarregando);
                 DocumentoRequest documentoRequest = new DocumentoRequest(DOC_DECLARACAO_VINCULO, minhaSenha);
                 Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
                 call.enqueue(new Callback<DocumentoResponse>() {
@@ -144,6 +158,8 @@ public class HomeFragment extends Fragment {
                             if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
                                 String base64Documento = documentoResponse.getPdfbase64();
                                 salvarEPDFVisualizar(DOC_DECLARACAO_VINCULO,base64Documento);
+                                binding.btnEmitirDeclaracaoVinculo.progressBarButton.setVisibility(View.GONE);
+                                binding.btnEmitirDeclaracaoVinculo.txtBtnProgress.setText(R.string.msgBtnEmitirDeclaracaoVinculo);
                             } else {
                                 Log.e("API Error", "Documento está vazio.");
                                 Toast.makeText(getContext(),"Erro: Resposta do documento está vazia.", Toast.LENGTH_SHORT).show();
@@ -163,8 +179,11 @@ public class HomeFragment extends Fragment {
             });
         });
 
-        binding.btnEmitirAtestadoMatricula.setOnClickListener(v -> {
+        binding.btnEmitirAtestadoMatricula.txtBtnProgress.setText(R.string.msgBtnEmitirAtestadoMatricula);
+        binding.btnEmitirAtestadoMatricula.progressButtonLayout.setOnClickListener(v -> {
             solicitarSenha(() -> {
+                binding.btnEmitirAtestadoMatricula.progressBarButton.setVisibility(View.VISIBLE);
+                binding.btnEmitirAtestadoMatricula.txtBtnProgress.setText(R.string.msgCarregando);
                 DocumentoRequest documentoRequest = new DocumentoRequest(DOC_ATESTADO_MATRICULA, minhaSenha);
                 Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
                 call.enqueue(new Callback<DocumentoResponse>() {
@@ -175,6 +194,8 @@ public class HomeFragment extends Fragment {
                             if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
                                 String base64Documento = documentoResponse.getPdfbase64();
                                 salvarEPDFVisualizar(DOC_ATESTADO_MATRICULA,base64Documento);
+                                binding.btnEmitirAtestadoMatricula.progressBarButton.setVisibility(View.GONE);
+                                binding.btnEmitirAtestadoMatricula.txtBtnProgress.setText(R.string.msgBtnEmitirAtestadoMatricula);
                             } else {
                                 Log.e("API Error", "Documento está vazio.");
                                 Toast.makeText(getContext(),"Erro: Resposta do documento está vazia.", Toast.LENGTH_SHORT).show();

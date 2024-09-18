@@ -19,18 +19,21 @@
         android:theme="@style/Theme.MeuIFPOA"
         tools:targetApi="31">
         <activity
+            android:name=".ui.custom.ProgressButton"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.activity.MainActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".ui.activity.RegistroActivity"
             android:exported="true" />
