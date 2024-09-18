@@ -32,7 +32,6 @@ import com.google.firebase.firestore.Source;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Map;
 
 import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.model.Documento.DocumentoRequest;
@@ -40,6 +39,7 @@ import br.com.ifrs.meuifpoa.model.Documento.DocumentoResponse;
 import br.com.ifrs.meuifpoa.model.Perfil;
 import br.com.ifrs.meuifpoa.retrofit.DocumentoRetrofit;
 import br.com.ifrs.meuifpoa.retrofit.service.DocumentoService;
+import br.com.ifrs.meuifpoa.ui.dialog.SyncPasswordDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,6 +60,7 @@ public class HomeFragment extends Fragment {
     private Button btnEmitirHistoricoEmentas;
     private Button btnEmitirDeclaracaoVinculo;
     private Button btnEmitirAtestadoMatricula;
+    private String minhaSenha;
 
 
     @Override
@@ -94,13 +95,12 @@ public class HomeFragment extends Fragment {
         db.setFirestoreSettings(settings);
 
         checkUserAuthentication();
-        String senha = "";
         SharedPreferences preferencias = getContext().getSharedPreferences("loginSigaa", Context.MODE_PRIVATE);
         String token = preferencias.getString("token", "");
 
         btnEmitirHistorico.setOnClickListener(v -> {
-            DocumentoRequest documentoRequest = new DocumentoRequest(DOC_HISTORICO, senha);
-                //Fazer a chamada para obter o documento
+            solicitarSenha(() -> {
+                DocumentoRequest documentoRequest = new DocumentoRequest(DOC_HISTORICO, minhaSenha);
                 Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
                 call.enqueue(new Callback<DocumentoResponse>() {
                     @Override
@@ -109,7 +109,37 @@ public class HomeFragment extends Fragment {
                             DocumentoResponse documentoResponse = response.body();
                             if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
                                 String base64Documento = documentoResponse.getPdfbase64();
-                                salvarEPDFVisualizar(DOC_HISTORICO,base64Documento);
+                                salvarEPDFVisualizar(DOC_HISTORICO, base64Documento);
+                            } else {
+                                Log.e("API Error", "Documento está vazio.");
+                                Toast.makeText(getContext(), "Erro: Resposta do documento está vazia.", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Log.e("API Error", "Falha ao obter o documento. Código de resposta: " + response.code());
+                            Toast.makeText(getContext(), "Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<DocumentoResponse> call, Throwable t) {
+                        Log.e("API Error", "Falha ao obter o documento.", t);
+                        Toast.makeText(getContext(), "Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            });
+        });
+
+        btnEmitirHistoricoEmentas.setOnClickListener(v -> {
+            solicitarSenha(() -> {
+                DocumentoRequest documentoRequest = new DocumentoRequest(DOC_HISTORICO_EMENTAS, minhaSenha);
+                Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
+                call.enqueue(new Callback<DocumentoResponse>() {
+                    @Override
+                    public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
+                        if (response.isSuccessful()) {
+                            DocumentoResponse documentoResponse = response.body();
+                            if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
+                                String base64Documento = documentoResponse.getPdfbase64();
+                                salvarEPDFVisualizar(DOC_HISTORICO_EMENTAS,base64Documento);
                             } else {
                                 Log.e("API Error", "Documento está vazio.");
                                 Toast.makeText(getContext(),"Erro: Resposta do documento está vazia.", Toast.LENGTH_SHORT).show();
@@ -127,91 +157,67 @@ public class HomeFragment extends Fragment {
                     }
                 });
             });
-
-        btnEmitirHistoricoEmentas.setOnClickListener(v -> {
-            DocumentoRequest documentoRequest = new DocumentoRequest(DOC_HISTORICO_EMENTAS, senha);
-            Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
-            call.enqueue(new Callback<DocumentoResponse>() {
-                @Override
-                public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
-                    if (response.isSuccessful()) {
-                        DocumentoResponse documentoResponse = response.body();
-                        if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
-                            String base64Documento = documentoResponse.getPdfbase64();
-                            salvarEPDFVisualizar(DOC_HISTORICO_EMENTAS,base64Documento);
-                        } else {
-                            Log.e("API Error", "Documento está vazio.");
-                            Toast.makeText(getContext(),"Erro: Resposta do documento está vazia.", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Log.e("API Error", "Falha ao obter o documento. Código de resposta: " + response.code());
-                        Toast.makeText(getContext(),"Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<DocumentoResponse> call, Throwable t) {
-                    Log.e("API Error", "Falha ao obter o documento.", t);
-                    Toast.makeText(getContext(),"Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
-                }
-            });
         });
 
         btnEmitirDeclaracaoVinculo.setOnClickListener(v -> {
-            DocumentoRequest documentoRequest = new DocumentoRequest(DOC_DECLARACAO_VINCULO, senha);
-            Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
-            call.enqueue(new Callback<DocumentoResponse>() {
-                @Override
-                public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
-                    if (response.isSuccessful()) {
-                        DocumentoResponse documentoResponse = response.body();
-                        if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
-                            String base64Documento = documentoResponse.getPdfbase64();
-                            salvarEPDFVisualizar(DOC_DECLARACAO_VINCULO,base64Documento);
+            solicitarSenha(() -> {
+                DocumentoRequest documentoRequest = new DocumentoRequest(DOC_DECLARACAO_VINCULO, minhaSenha);
+                Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
+                call.enqueue(new Callback<DocumentoResponse>() {
+                    @Override
+                    public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
+                        if (response.isSuccessful()) {
+                            DocumentoResponse documentoResponse = response.body();
+                            if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
+                                String base64Documento = documentoResponse.getPdfbase64();
+                                salvarEPDFVisualizar(DOC_DECLARACAO_VINCULO,base64Documento);
+                            } else {
+                                Log.e("API Error", "Documento está vazio.");
+                                Toast.makeText(getContext(),"Erro: Resposta do documento está vazia.", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
-                            Log.e("API Error", "Documento está vazio.");
-                            Toast.makeText(getContext(),"Erro: Resposta do documento está vazia.", Toast.LENGTH_SHORT).show();
+                            Log.e("API Error", "Falha ao obter o documento. Código de resposta: " + response.code());
+                            Toast.makeText(getContext(),"Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        Log.e("API Error", "Falha ao obter o documento. Código de resposta: " + response.code());
+                    }
+
+                    @Override
+                    public void onFailure(Call<DocumentoResponse> call, Throwable t) {
+                        Log.e("API Error", "Falha ao obter o documento.", t);
                         Toast.makeText(getContext(),"Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
                     }
-                }
-
-                @Override
-                public void onFailure(Call<DocumentoResponse> call, Throwable t) {
-                    Log.e("API Error", "Falha ao obter o documento.", t);
-                    Toast.makeText(getContext(),"Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
-                }
+                });
             });
         });
 
         btnEmitirAtestadoMatricula.setOnClickListener(v -> {
-            DocumentoRequest documentoRequest = new DocumentoRequest(DOC_ATESTADO_MATRICULA, senha);
-            Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
-            call.enqueue(new Callback<DocumentoResponse>() {
-                @Override
-                public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
-                    if (response.isSuccessful()) {
-                        DocumentoResponse documentoResponse = response.body();
-                        if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
-                            String base64Documento = documentoResponse.getPdfbase64();
-                            salvarEPDFVisualizar(DOC_ATESTADO_MATRICULA,base64Documento);
+            solicitarSenha(() -> {
+                DocumentoRequest documentoRequest = new DocumentoRequest(DOC_ATESTADO_MATRICULA, minhaSenha);
+                Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
+                call.enqueue(new Callback<DocumentoResponse>() {
+                    @Override
+                    public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
+                        if (response.isSuccessful()) {
+                            DocumentoResponse documentoResponse = response.body();
+                            if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
+                                String base64Documento = documentoResponse.getPdfbase64();
+                                salvarEPDFVisualizar(DOC_ATESTADO_MATRICULA,base64Documento);
+                            } else {
+                                Log.e("API Error", "Documento está vazio.");
+                                Toast.makeText(getContext(),"Erro: Resposta do documento está vazia.", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
-                            Log.e("API Error", "Documento está vazio.");
-                            Toast.makeText(getContext(),"Erro: Resposta do documento está vazia.", Toast.LENGTH_SHORT).show();
+                            Log.e("API Error", "Falha ao obter o documento. Código de resposta: " + response.code());
+                            Toast.makeText(getContext(),"Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
-                        Log.e("API Error", "Falha ao obter o documento. Código de resposta: " + response.code());
+                    }
+
+                    @Override
+                    public void onFailure(Call<DocumentoResponse> call, Throwable t) {
+                        Log.e("API Error", "Falha ao obter o documento.", t);
                         Toast.makeText(getContext(),"Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
                     }
-                }
-
-                @Override
-                public void onFailure(Call<DocumentoResponse> call, Throwable t) {
-                    Log.e("API Error", "Falha ao obter o documento.", t);
-                    Toast.makeText(getContext(),"Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
-                }
+                });
             });
         });
     }
@@ -346,5 +352,13 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getContext(),"Nenhum aplicativo disponível para compartilhar PDF.", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void solicitarSenha(Runnable acaoComSenha) {
+        SyncPasswordDialog dialog = new SyncPasswordDialog(requireContext(), senha -> {
+            minhaSenha = senha;
+            acaoComSenha.run();
+        });
+        dialog.show();
     }
 }
