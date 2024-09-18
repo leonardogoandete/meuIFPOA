@@ -1,4 +1,4 @@
-package br.com.ifrs.meuifpoa.model;
+package br.com.ifrs.meuifpoa.model.Documento;
 
 public class DocumentoResponse {
     private String pdfbase64;

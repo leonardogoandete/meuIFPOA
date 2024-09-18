@@ -6,4 +6,8 @@ public class Constants {
     //private static final String BASE_URL = "https://2d15-200-180-191-23.ngrok-free.app/";
     public static final String BASE_URL = "http://leogoandete.tplinkdns.com:8080/";
     public static final String BASE_URL_NOTICIA = "https://poa.ifrs.edu.br";
+    public static final String DOC_HISTORICO = "historico";
+    public static final String DOC_HISTORICO_EMENTAS = "historicoEmentas";
+    public static final String DOC_DECLARACAO_VINCULO = "declaracaoVinculo";
+    public static final String DOC_ATESTADO_MATRICULA = "atestadoMatricula";
 }
