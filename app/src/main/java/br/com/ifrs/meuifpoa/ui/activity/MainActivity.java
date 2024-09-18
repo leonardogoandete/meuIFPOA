@@ -38,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
         configFirebaseAuth();
         configNavegacao();
         configBottomNavigationView();
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            int selectedItemId = intent.getIntExtra("selectedItemId", R.id.homeFragment);
+            bottomNavigationView.setSelectedItemId(selectedItemId);
+        }
     }
 
     private void setupToolbar() {

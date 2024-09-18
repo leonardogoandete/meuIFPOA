@@ -92,6 +92,10 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = preferencias.edit();
                     editor.putString("token", tarefaToken.getResult().getToken());
                     editor.apply();
+
+                    Intent intent = new Intent(this, MainActivity.class);
+                    intent.putExtra("selectedItemId", R.id.homeFragment); // ou qualquer outro ID
+                    startActivity(intent);
                     finish();
                 } else {
                     Snackbar.make(binding.getRoot(), R.string.msg_login_error, Snackbar.LENGTH_SHORT).show();
