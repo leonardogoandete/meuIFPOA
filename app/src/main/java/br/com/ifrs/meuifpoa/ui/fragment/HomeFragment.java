@@ -15,9 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
@@ -33,7 +30,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import br.com.ifrs.meuifpoa.R;
+import br.com.ifrs.meuifpoa.databinding.FragmentHomeBinding;
 import br.com.ifrs.meuifpoa.model.Documento.DocumentoRequest;
 import br.com.ifrs.meuifpoa.model.Documento.DocumentoResponse;
 import br.com.ifrs.meuifpoa.model.Perfil;
@@ -48,39 +45,14 @@ public class HomeFragment extends Fragment {
     private final DocumentoService documentoService = new DocumentoRetrofit().getDocumentoService();
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
-    private TextView txtBemVindo;
-    private ProgressBar progBarTotalIntegralizado;
-    private TextView txtChObrigatoria;
-    private TextView txtChOptativa;
-    private TextView txtChTotalCurriculo;
-    private TextView txtChComplementar;
-    private TextView txtTotalIntegralizado;
-    private View containerIntegralizacoes;
-    private Button btnEmitirHistorico;
-    private Button btnEmitirHistoricoEmentas;
-    private Button btnEmitirDeclaracaoVinculo;
-    private Button btnEmitirAtestadoMatricula;
+    private FragmentHomeBinding binding;
     private String minhaSenha;
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
-        containerIntegralizacoes = view.findViewById(R.id.containerIntegralizacoes);
-        txtChObrigatoria = view.findViewById(R.id.txtChObrigatoria);
-        txtChOptativa = view.findViewById(R.id.txtChOptativa);
-        txtChTotalCurriculo = view.findViewById(R.id.txtChTotalCurriculo);
-        txtChComplementar = view.findViewById(R.id.txtChComplementar);
-        txtTotalIntegralizado = view.findViewById(R.id.txtTotalIntegralizado);
-        progBarTotalIntegralizado = view.findViewById(R.id.progressTotalIntegralizado);
-        btnEmitirHistorico = view.findViewById(R.id.btnEmitirHistorico);
-        btnEmitirHistoricoEmentas = view.findViewById(R.id.btnEmitirHistoricoEmentas);
-        btnEmitirDeclaracaoVinculo = view.findViewById(R.id.btnEmitirDeclaracaoVinculo);
-        btnEmitirAtestadoMatricula = view.findViewById(R.id.btnEmitirAtestadoMatricula);
-
-        txtBemVindo = view.findViewById(R.id.txtBemVindo);
-        return view;
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inicializar o View Binding
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
@@ -98,7 +70,7 @@ public class HomeFragment extends Fragment {
         SharedPreferences preferencias = getContext().getSharedPreferences("loginSigaa", Context.MODE_PRIVATE);
         String token = preferencias.getString("token", "");
 
-        btnEmitirHistorico.setOnClickListener(v -> {
+        binding.btnEmitirHistorico.setOnClickListener(v -> {
             solicitarSenha(() -> {
                 DocumentoRequest documentoRequest = new DocumentoRequest(DOC_HISTORICO, minhaSenha);
                 Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
@@ -119,6 +91,7 @@ public class HomeFragment extends Fragment {
                             Toast.makeText(getContext(), "Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
                         }
                     }
+
                     @Override
                     public void onFailure(Call<DocumentoResponse> call, Throwable t) {
                         Log.e("API Error", "Falha ao obter o documento.", t);
@@ -128,7 +101,7 @@ public class HomeFragment extends Fragment {
             });
         });
 
-        btnEmitirHistoricoEmentas.setOnClickListener(v -> {
+        binding.btnEmitirHistoricoEmentas.setOnClickListener(v -> {
             solicitarSenha(() -> {
                 DocumentoRequest documentoRequest = new DocumentoRequest(DOC_HISTORICO_EMENTAS, minhaSenha);
                 Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
@@ -159,7 +132,7 @@ public class HomeFragment extends Fragment {
             });
         });
 
-        btnEmitirDeclaracaoVinculo.setOnClickListener(v -> {
+        binding.btnEmitirDeclaracaoVinculo.setOnClickListener(v -> {
             solicitarSenha(() -> {
                 DocumentoRequest documentoRequest = new DocumentoRequest(DOC_DECLARACAO_VINCULO, minhaSenha);
                 Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
@@ -190,7 +163,7 @@ public class HomeFragment extends Fragment {
             });
         });
 
-        btnEmitirAtestadoMatricula.setOnClickListener(v -> {
+        binding.btnEmitirAtestadoMatricula.setOnClickListener(v -> {
             solicitarSenha(() -> {
                 DocumentoRequest documentoRequest = new DocumentoRequest(DOC_ATESTADO_MATRICULA, minhaSenha);
                 Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
@@ -224,7 +197,11 @@ public class HomeFragment extends Fragment {
 
     private void checkUserAuthentication() {
         if (mAuth.getCurrentUser() != null) {
-            // Usuário está logado, exibe a integralização
+            // Verifique se o binding ainda está ativo
+            if (binding == null) {
+                return;  // Saia do método se o binding for nulo
+            }
+
             String userId = mAuth.getCurrentUser().getUid();
             db.collection("usuarios").document(userId).get(Source.DEFAULT)
                     .addOnCompleteListener(task -> {
@@ -236,43 +213,46 @@ public class HomeFragment extends Fragment {
                                     String nomeCompleto = perfil.getNomeDocente();
                                     String primeiroNome = obterPrimeiroNome(nomeCompleto);
                                     String mensagem = "Bem vindo(a) " + primeiroNome;
-                                    txtBemVindo.setText(mensagem);
-                                    // Exibir as informações de integralização e botões para emitir documentos
-                                    // caso o usuário esteja logado
-                                    containerIntegralizacoes.setVisibility(View.VISIBLE);
 
-                                    txtChObrigatoria.setText("CH Obrigatória Pendente: "+ perfil.getChObrigatoriaPendente());
-                                    txtChOptativa.setText("CH Optativa Pendente: "+ perfil.getChOptativaPendente());
-                                    txtChTotalCurriculo.setText("CH Total do Currículo: "+ perfil.getChTotalCurriculo());
-                                    txtChComplementar.setText("CH Complementar Pendente: "+ perfil.getChComplementarPendente());
-                                    txtTotalIntegralizado.setText("Total Integralizado: "+ perfil.getIntegralizado()+"%");
-                                    progBarTotalIntegralizado.setProgress(Integer.parseInt(perfil.getIntegralizado()));
+                                    // Verifique novamente se o binding é nulo antes de acessá-lo
+                                    if (binding != null) {
+                                        binding.txtBemVindo.setText(mensagem);
+                                        binding.containerIntegralizacoes.setVisibility(View.VISIBLE);
+
+                                        binding.txtChObrigatoria.setText("CH Obrigatória Pendente: " + perfil.getChObrigatoriaPendente());
+                                        binding.txtChOptativa.setText("CH Optativa Pendente: " + perfil.getChOptativaPendente());
+                                        binding.txtChTotalCurriculo.setText("CH Total do Currículo: " + perfil.getChTotalCurriculo());
+                                        binding.txtChComplementar.setText("CH Complementar Pendente: " + perfil.getChComplementarPendente());
+                                        binding.txtTotalIntegralizado.setText("Total Integralizado: " + perfil.getIntegralizado() + "%");
+                                        binding.progressTotalIntegralizado.setProgress(Integer.parseInt(perfil.getIntegralizado()));
+                                    }
                                 }
                             } else {
-                                // Documento não existe, ocultar integralizações
-                                containerIntegralizacoes.setVisibility(View.GONE);
+                                if (binding != null) {
+                                    binding.containerIntegralizacoes.setVisibility(View.GONE);
+                                }
                             }
                         } else {
-                            // Falha ao buscar o documento
-                            containerIntegralizacoes.setVisibility(View.GONE);
+                            if (binding != null) {
+                                binding.containerIntegralizacoes.setVisibility(View.GONE);
+                            }
                         }
                     });
         } else {
-            // Usuário não está logado, oculta a integralização
-            containerIntegralizacoes.setVisibility(View.GONE);
+            if (binding != null) {
+                binding.containerIntegralizacoes.setVisibility(View.GONE);
+            }
         }
     }
+
 
     private String obterPrimeiroNome(String nomeCompleto) {
         if (nomeCompleto == null || nomeCompleto.isEmpty()) {
             return "";
         }
-        // Divide o nome completo em partes usando espaços
         String[] partes = nomeCompleto.split(" ");
         if (partes.length > 0) {
-            // Obtém o primeiro nome
             String primeiroNome = partes[0];
-            // Converte a primeira letra para maiúscula e o restante para minúscula
             primeiroNome = primeiroNome.substring(0, 1).toUpperCase() + primeiroNome.substring(1).toLowerCase();
             return primeiroNome;
         }
@@ -281,58 +261,47 @@ public class HomeFragment extends Fragment {
 
     private void salvarEPDFVisualizar(String nome, String base64Data) {
         try {
-            // Converter a string base64 em bytes
             byte[] pdfAsBytes = Base64.decode(base64Data, Base64.DEFAULT);
 
-            // Salvar o PDF em um arquivo temporário no armazenamento interno
-            File pdfFile = new File(requireContext().getCacheDir(), nome+".pdf");
+            File pdfFile = new File(requireContext().getCacheDir(), nome + ".pdf");
             try (FileOutputStream fos = new FileOutputStream(pdfFile)) {
                 fos.write(pdfAsBytes);
             }
 
-            // Agora que o arquivo foi salvo, exiba-o e ofereça a opção de compartilhamento
             visualizarPDF(pdfFile);
             compartilharPDF(pdfFile);
 
         } catch (IOException e) {
             e.printStackTrace();
-            //txtBemVindo.setText("Erro ao salvar o documento.");
-            Toast.makeText(getContext(),"Erro ao salvar o documento.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Erro ao salvar o documento.", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void visualizarPDF(File pdfFile) {
-        // Verificar se o arquivo existe
         if (pdfFile.exists()) {
-            // Obter o URI do arquivo
             Uri pdfUri = FileProvider.getUriForFile(requireContext(), requireContext().getPackageName() + ".fileprovider", pdfFile);
 
-            // Criar um intent para abrir o PDF
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(pdfUri, "application/pdf");
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-            // Verificar se o Google PDF Viewer está disponível
             Intent googlePDFViewerIntent = new Intent(Intent.ACTION_VIEW);
             googlePDFViewerIntent.setDataAndType(pdfUri, "application/pdf");
-            googlePDFViewerIntent.setPackage("com.google.android.apps.pdfviewer"); // Google PDF Viewer package name
+            googlePDFViewerIntent.setPackage("com.google.android.apps.pdfviewer");
 
-            // Verificar se existe um aplicativo de visualização de PDF
             if (googlePDFViewerIntent.resolveActivity(requireContext().getPackageManager()) != null) {
                 startActivity(googlePDFViewerIntent);
             } else {
-                // Se o Google PDF Viewer não estiver disponível, use o intent padrão
                 Intent chooser = Intent.createChooser(intent, "Abrir com");
                 if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
                     startActivity(chooser);
                 } else {
-                    Toast.makeText(getContext(),"Nenhum aplicativo de visualização de PDF encontrado.", Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(getContext(), "Nenhum aplicativo de visualização de PDF encontrado.", Toast.LENGTH_SHORT).show();
                 }
             }
         } else {
-            Toast.makeText(getContext(),"Arquivo PDF não encontrado.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Arquivo PDF não encontrado.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -349,16 +318,22 @@ public class HomeFragment extends Fragment {
             if (shareIntent.resolveActivity(requireContext().getPackageManager()) != null) {
                 startActivity(chooser);
             } else {
-                Toast.makeText(getContext(),"Nenhum aplicativo disponível para compartilhar PDF.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Nenhum aplicativo de compartilhamento encontrado.", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private void solicitarSenha(Runnable acaoComSenha) {
-        PasswordDialog dialog = new PasswordDialog(requireContext(), senha -> {
+    private void solicitarSenha(Runnable onSuccess) {
+        PasswordDialog passwordDialog = new PasswordDialog(requireContext(), senha -> {
             minhaSenha = senha;
-            acaoComSenha.run();
+            onSuccess.run();
         });
-        dialog.show();
+        passwordDialog.show();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null; // Evitar vazamento de memória
     }
 }
