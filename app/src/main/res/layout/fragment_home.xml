@@ -37,7 +37,7 @@
                 android:shadowDx="1"
                 android:shadowDy="1"
                 android:shadowRadius="1"
-                android:text="Bem vindo(a) usuário!"
+                android:text="@string/msgBemVindoUsuario"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
                 android:layout_gravity="center_horizontal" />
@@ -128,7 +128,7 @@
                     android:id="@+id/btnEmitirHistorico"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Emitir histórico"
+                    android:text="@string/msgBtnEmitirHistorico"
                     app:layout_constraintTop_toBottomOf="@id/progressTotalIntegralizado"
                     android:layout_marginTop="18dp" />
 
@@ -136,7 +136,7 @@
                     android:id="@+id/btnEmitirHistoricoEmentas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Emitir histórico com ementas"
+                    android:text="@string/msgBtnEmitirHistoricoEmentas"
                     app:layout_constraintTop_toBottomOf="@id/btnEmitirHistorico"
                     android:layout_marginTop="8dp" />
 
@@ -144,7 +144,7 @@
                     android:id="@+id/btnEmitirDeclaracaoVinculo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Emitir Declaração de vínculo"
+                    android:text="@string/msgBtnEmitirDeclaracaoVinculo"
                     app:layout_constraintTop_toBottomOf="@id/btnEmitirHistoricoEmentas"
                     android:layout_marginTop="8dp" />
 
@@ -153,7 +153,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
-                    android:text="Emitir Atestado de matrícula"
+                    android:text="@string/msgBtnEmitirAtestadoMatricula"
                     app:layout_constraintTop_toBottomOf="@id/btnEmitirDeclaracaoVinculo"
                     android:layout_marginTop="8dp" />
 

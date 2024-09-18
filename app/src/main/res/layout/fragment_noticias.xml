@@ -9,16 +9,35 @@
     tools:context=".ui.fragment.NoticiasFragment">
 
     <!-- ProgressBar de carregamento -->
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:indeterminateTint="@color/colorPrimary"
+    <LinearLayout
+        android:id="@+id/containerProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/colorPrimary"
+            android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/txtCarregando"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/msgCarregando"
+            android:textSize="18sp"
+            android:visibility="visible"
+            android:gravity="center"/>
+    </LinearLayout>
+
 
     <!-- Container horizontal para o SearchView e Spinner -->
     <LinearLayout
@@ -38,7 +57,7 @@
             android:layout_marginEnd="4dp"
             android:layout_weight="0.7"
             android:background="@drawable/search_view_background"
-            android:hint="Buscar notícias"
+            android:hint="@string/msgBuscarNoticias"
             android:iconifiedByDefault="false"
             android:imeOptions="actionSearch"
             android:inputType="text"
@@ -74,7 +93,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Não há notícias disponíveis"
+        android:text="@string/msgNaoTemNoticias"
         android:textSize="18sp"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="@id/containerSearchView"

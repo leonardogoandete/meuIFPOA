@@ -89,7 +89,7 @@ public class GerenciadorSinc {
                 if (resposta.isSuccessful()) {
                     Log.d(TAG, "Sincronização realizada com sucesso");
                     salvarDataUltimaSincronizacao(contexto, System.currentTimeMillis());
-                    Toast.makeText(contexto, R.string.msg_sync_sucesso, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(contexto, R.string.msg_sync_sucesso, Toast.LENGTH_SHORT).show();
                     if (aoSucesso != null) {
                         aoSucesso.run();
                     }

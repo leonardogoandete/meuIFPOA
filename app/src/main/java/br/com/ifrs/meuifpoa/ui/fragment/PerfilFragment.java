@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -46,12 +47,7 @@ public class PerfilFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        esconderElementosPerfil();
-        inicializarComponentes();
-
-        // Mostra a progress bar e esconde os elementos do perfil enquanto carrega os dados
-        binding.progressBar.setVisibility(View.VISIBLE);
-        binding.txtCarregando.setVisibility(View.VISIBLE);
+        inicializarFirebase();
 
         // Usando GerenciadorSinc para verificar e requisitar a senha
         GerenciadorSinc GerenciadorSinc = new GerenciadorSinc();
@@ -67,7 +63,7 @@ public class PerfilFragment extends Fragment {
         });
     }
 
-    private void inicializarComponentes() {
+    private void inicializarFirebase() {
         mAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
 
@@ -86,18 +82,18 @@ public class PerfilFragment extends Fragment {
             return;
         }
 
-        db.collection("usuarios").document(usuarioAtual.getUid()).get(Source.DEFAULT)
+        db.collection("usuarios")
+                .document(usuarioAtual.getUid())
+                .get(Source.DEFAULT)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot documento = task.getResult();
                         if (documento.exists()) {
                             Perfil perfil = documento.toObject(Perfil.class);
                             if (perfil != null) {
-                                binding.progressBar.setVisibility(View.GONE); // Esconde a progress bar
-                                binding.txtCarregando.setVisibility(View.GONE);
                                 configurarPerfil(perfil);
                                 carregarFotoPerfil();
-                                exibirElementosPerfil(); // Exibe os elementos após o carregamento dos dados
+                                exibirElementosPerfil();
                             } else {
                                 mostrarErro("Perfil não encontrado");
                             }
@@ -109,7 +105,6 @@ public class PerfilFragment extends Fragment {
                     }
                 })
                 .addOnFailureListener(e -> {
-                    binding.progressBar.setVisibility(View.GONE); // Esconde a progress bar
                     mostrarErro("Falha na conexão: " + e.getMessage());
                 });
     }
@@ -124,14 +119,13 @@ public class PerfilFragment extends Fragment {
     }
 
     private void mostrarErro(String mensagem) {
-        binding.txtErro.setVisibility(View.VISIBLE);
-        binding.txtErro.setText(mensagem);
+        Toast.makeText(getContext(), mensagem, Toast.LENGTH_SHORT).show();
     }
 
     private void carregarFotoPerfil() {
         FirebaseUser usuarioAtual = mAuth.getCurrentUser();
         if (usuarioAtual == null) {
-            return; // Usuário não está logado
+            return;
         }
 
         File arquivoLocal = new File(getContext().getFilesDir(), CAMINHO_IMAGEM_LOCAL);
@@ -157,7 +151,7 @@ public class PerfilFragment extends Fragment {
             Bitmap bitmap = BitmapFactory.decodeFile(arquivo.getAbsolutePath());
             binding.imgPerfil.setImageBitmap(bitmap);
         } else {
-            binding.imgPerfil.setImageResource(R.drawable.ifrs_poa_logo); // Placeholder
+            binding.imgPerfil.setImageResource(R.drawable.ifrs_poa_logo);
         }
     }
 
@@ -171,18 +165,6 @@ public class PerfilFragment extends Fragment {
                 Log.e(TAG, "Falha ao remover a foto de perfil");
             }
         }
-    }
-
-    private void esconderElementosPerfil() {
-        // Esconde todos os elementos, exceto a progress bar
-        binding.imgPerfil.setVisibility(View.GONE);
-        binding.linearLayoutNome.setVisibility(View.GONE);
-        binding.linearLayoutMatricula.setVisibility(View.GONE);
-        binding.linearLayoutCurso.setVisibility(View.GONE);
-        binding.linearLayoutNivel.setVisibility(View.GONE);
-        binding.linearLayoutSituacao.setVisibility(View.GONE);
-        binding.linearLayoutIngresso.setVisibility(View.GONE);
-        binding.btnSairPerfil.setVisibility(View.GONE);
     }
 
     private void exibirElementosPerfil() {

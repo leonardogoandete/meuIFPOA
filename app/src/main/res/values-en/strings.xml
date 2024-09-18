@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">meuIFPOA</string>
+    <string name="msgCarregando">Carregando...</string>
+    <string name="msgBuscarNoticias">Buscar notícias</string>
+    <string name="msgNaoTemNoticias">Não há notícias disponíveis</string>
+    <string name="msgBtnEmitirHistorico">Emitir histórico</string>
+    <string name="msgBtnEmitirHistoricoEmentas">Emitir Historico com Ementas</string>
+    <string name="msgBtnEmitirDeclaracaoVinculo">Emitir Declaração de vínculo</string>
+    <string name="msgBtnEmitirAtestadoMatricula">Emitir Atestado de matrícula</string>
+    <string name="msgBemVindoUsuario">Bem vindo(a) usuário!</string>
 </resources>

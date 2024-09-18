@@ -47,6 +47,14 @@
     <string name="msg_sync_sucesso">Sincronização realizada com sucesso</string>
     <string name="msg_sync_erro">Erro ao sincronizar dados</string>
     <string name="hint_pesq_noticias">Pesquisar notícias</string>
+    <string name="msgCarregando">Carregando...</string>
+    <string name="msgBuscarNoticias">Buscar notícias</string>
+    <string name="msgNaoTemNoticias">Não há notícias disponíveis</string>
+    <string name="msgBtnEmitirHistorico">Emitir histórico</string>
+    <string name="msgBtnEmitirHistoricoEmentas">Emitir Historico com Ementas</string>
+    <string name="msgBtnEmitirDeclaracaoVinculo">Emitir Declaração de vínculo</string>
+    <string name="msgBtnEmitirAtestadoMatricula">Emitir Atestado de matrícula</string>
+    <string name="msgBemVindoUsuario">Bem vindo(a) usuário!</string>
 
     <string-array name="limites_noticias">
         <item>Nº noticias</item>
