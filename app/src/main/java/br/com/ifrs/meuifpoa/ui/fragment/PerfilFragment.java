@@ -52,6 +52,7 @@ public class PerfilFragment extends Fragment {
         // Usando GerenciadorSinc para verificar e requisitar a senha
         GerenciadorSinc GerenciadorSinc = new GerenciadorSinc();
         GerenciadorSinc.verificarERequisitarSenha(getContext(), this::obterDadosPerfilDoFirestore);
+        binding.alertSinconizando.setVisibility(View.VISIBLE);
 
         binding.btnSairPerfil.setOnClickListener(v -> {
             mAuth.signOut();
@@ -94,6 +95,7 @@ public class PerfilFragment extends Fragment {
                                 configurarPerfil(perfil);
                                 carregarFotoPerfil();
                                 exibirElementosPerfil();
+                                binding.alertSinconizando.setVisibility(View.GONE);
                             } else {
                                 mostrarErro("Perfil não encontrado");
                             }
