@@ -269,7 +269,7 @@ public class HomeFragment extends Fragment {
             }
 
             visualizarPDF(pdfFile);
-            compartilharPDF(pdfFile);
+            //compartilharPDF(pdfFile);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -297,6 +297,7 @@ public class HomeFragment extends Fragment {
                 if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
                     startActivity(chooser);
                 } else {
+                    compartilharPDF(pdfFile);
                     Toast.makeText(getContext(), "Nenhum aplicativo de visualização de PDF encontrado.", Toast.LENGTH_SHORT).show();
                 }
             }
