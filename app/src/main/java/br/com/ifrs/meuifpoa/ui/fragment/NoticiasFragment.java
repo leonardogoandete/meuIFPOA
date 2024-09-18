@@ -140,6 +140,10 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
                 if (position == 0) {
                     // Customiza o primeiro item ("Selecione o limite")
                     ((TextView) view).setTextColor(Color.GRAY);
+                }
+                else if (position == 1) {
+                    // Customiza o segundo item ("Todos")
+                    ((TextView) view).setText("Todos");
                 } else {
                     ((TextView) view).setTextColor(Color.BLACK);
                 }
@@ -184,7 +188,6 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
         call.enqueue(new Callback<List<Noticia>>() {
             @Override
             public void onResponse(Call<List<Noticia>> call, Response<List<Noticia>> response) {
-                //progressBar.setVisibility(View.GONE); // Esconde o ProgressBar ao finalizar a requisição
                 containerProgressBar.setVisibility(View.GONE);
                 if (response.isSuccessful() && response.body() != null) {
                     List<Noticia> noticias = response.body();
@@ -193,7 +196,6 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
                         txtNaoTemNoticias.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.VISIBLE);
                     } else {
-                        //showMessage("Não há notícias disponíveis");
                         txtNaoTemNoticias.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.GONE);
                     }
@@ -204,7 +206,6 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
 
             @Override
             public void onFailure(Call<List<Noticia>> call, Throwable t) {
-                //progressBar.setVisibility(View.GONE); // Esconde o ProgressBar ao finalizar a requisição
                 containerProgressBar.setVisibility(View.GONE);
                 showMessage("Erro ao obter notícias!");
             }
