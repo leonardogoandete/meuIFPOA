@@ -39,7 +39,7 @@ import br.com.ifrs.meuifpoa.model.Documento.DocumentoResponse;
 import br.com.ifrs.meuifpoa.model.Perfil;
 import br.com.ifrs.meuifpoa.retrofit.DocumentoRetrofit;
 import br.com.ifrs.meuifpoa.retrofit.service.DocumentoService;
-import br.com.ifrs.meuifpoa.ui.dialog.SyncPasswordDialog;
+import br.com.ifrs.meuifpoa.ui.dialog.PasswordDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -355,7 +355,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void solicitarSenha(Runnable acaoComSenha) {
-        SyncPasswordDialog dialog = new SyncPasswordDialog(requireContext(), senha -> {
+        PasswordDialog dialog = new PasswordDialog(requireContext(), senha -> {
             minhaSenha = senha;
             acaoComSenha.run();
         });

@@ -14,7 +14,7 @@ import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.model.SyncResponse;
 import br.com.ifrs.meuifpoa.retrofit.SyncRetrofit;
 import br.com.ifrs.meuifpoa.retrofit.service.SyncService;
-import br.com.ifrs.meuifpoa.ui.dialog.SyncPasswordDialog;
+import br.com.ifrs.meuifpoa.ui.dialog.PasswordDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,7 +34,7 @@ public class GerenciadorSinc {
             Log.d(TAG, "Tempo desde última sincronização: " + (tempoAtual - dataUltimaSincronizacao));
             if (tempoAtual - dataUltimaSincronizacao >= QUINZE_DIAS_EM_MILLIS) {
                 Log.d(TAG, "Tempo desde última sincronização excede 15 dias, solicitando senha.");
-                new SyncPasswordDialog(contexto, senha -> sincronizarDados(contexto, senha, aoSucesso)).show();
+                new PasswordDialog(contexto, senha -> sincronizarDados(contexto, senha, aoSucesso)).show();
             } else {
                 Log.d(TAG, "Sincronização recente, prosseguindo sem solicitar senha.");
                 if (aoSucesso != null) {
