@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,11 @@ public class HomeFragment extends Fragment {
     private TextView txtChComplementar;
     private TextView txtTotalIntegralizado;
     private View containerIntegralizacoes;
+    private Button btnEmitirHistorico;
+    private Button btnEmitirHistoricoEmentas;
+    private Button btnEmitirDeclaracaoVinculo;
+    private Button btnEmitirAtestadoMatricula;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,6 +65,10 @@ public class HomeFragment extends Fragment {
         txtChComplementar = view.findViewById(R.id.txtChComplementar);
         txtTotalIntegralizado = view.findViewById(R.id.txtTotalIntegralizado);
         progBarTotalIntegralizado = view.findViewById(R.id.progressTotalIntegralizado);
+        btnEmitirHistorico = view.findViewById(R.id.btnEmitirHistorico);
+        btnEmitirHistoricoEmentas = view.findViewById(R.id.btnEmitirHistoricoEmentas);
+        btnEmitirDeclaracaoVinculo = view.findViewById(R.id.btnEmitirDeclaracaoVinculo);
+        btnEmitirAtestadoMatricula = view.findViewById(R.id.btnEmitirAtestadoMatricula);
 
         txtBemVindo = view.findViewById(R.id.txtBemVindo);
         return view;

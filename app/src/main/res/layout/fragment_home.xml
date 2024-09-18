@@ -11,7 +11,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="12dp"
         android:fillViewport="true">
 
         <!-- Container com logo e mensagem de boas-vindas -->
@@ -25,7 +24,6 @@
             <ImageView
                 android:layout_width="297dp"
                 android:layout_height="215dp"
-                android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/ifrs_logo" />
 
@@ -73,8 +71,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txtTituloIntegralizacoes" />
 
-
-
                 <!-- CH Optativa Pendente -->
                 <TextView
                     android:id="@+id/txtChOptativa"
@@ -84,8 +80,6 @@
                     android:text="CH Optativa Pendente: 66"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txtChObrigatoria" />
-
-
 
                 <!-- CH Total Currículo -->
                 <TextView
@@ -97,8 +91,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txtChOptativa" />
 
-
-
                 <!-- CH Complementar Pendente -->
                 <TextView
                     android:id="@+id/txtChComplementar"
@@ -108,7 +100,6 @@
                     android:text="CH Complementar Pendente: 0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txtChTotalCurriculo" />
-
 
                 <!-- Percentual integralizado -->
                 <TextView
@@ -128,11 +119,46 @@
                     android:layout_marginTop="8dp"
                     android:progressTint="@color/colorPrimary"
                     android:max="100"
-                    android:progress="91"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txtTotalIntegralizado" />
+
+                <!-- Botões -->
+                <Button
+                    android:id="@+id/btnEmitirHistorico"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Emitir histórico"
+                    app:layout_constraintTop_toBottomOf="@id/progressTotalIntegralizado"
+                    android:layout_marginTop="18dp" />
+
+                <Button
+                    android:id="@+id/btnEmitirHistoricoEmentas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Emitir histórico com ementas"
+                    app:layout_constraintTop_toBottomOf="@id/btnEmitirHistorico"
+                    android:layout_marginTop="8dp" />
+
+                <Button
+                    android:id="@+id/btnEmitirDeclaracaoVinculo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Emitir Declaração de vínculo"
+                    app:layout_constraintTop_toBottomOf="@id/btnEmitirHistoricoEmentas"
+                    android:layout_marginTop="8dp" />
+
+                <Button
+                    android:id="@+id/btnEmitirAtestadoMatricula"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Emitir Atestado de matrícula"
+                    app:layout_constraintTop_toBottomOf="@id/btnEmitirDeclaracaoVinculo"
+                    android:layout_marginTop="8dp" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
+
     </ScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
