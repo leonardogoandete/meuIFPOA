@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +47,7 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
     private SearchView searchView;
     private Spinner spinnerLimite;
     private Handler searchHandler;
+    private ProgressBar progressBar;
     private int limiteNoticias = 50;
     private String currentQuery = "";
 
@@ -71,6 +73,7 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
         searchView = view.findViewById(R.id.searchViewNoticias);
         spinnerLimite = view.findViewById(R.id.spinnerLimite);
         txtNaoTemNoticias = view.findViewById(R.id.txtNaoTemNoticias);
+        progressBar = view.findViewById(R.id.progressBar);
         searchHandler = new Handler(Looper.getMainLooper());
     }
 
@@ -167,22 +170,28 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
 
     // Realiza a chamada à API para buscar notícias com o filtro e limite especificados
     private void fetchNews(String filter) {
+        // Exibe o ProgressBar e oculta o RecyclerView enquanto os dados são carregados
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+        txtNaoTemNoticias.setVisibility(View.GONE);
+
         NoticiasService service = new NoticiasRetrofit().getNoticiasService();
         Call<List<Noticia>> call = service.listarNoticias(filter, limiteNoticias);
 
         call.enqueue(new Callback<List<Noticia>>() {
             @Override
             public void onResponse(Call<List<Noticia>> call, Response<List<Noticia>> response) {
+                progressBar.setVisibility(View.GONE); // Esconde o ProgressBar ao finalizar a requisição
                 if (response.isSuccessful() && response.body() != null) {
                     List<Noticia> noticias = response.body();
                     if (!noticias.isEmpty()) {
                         updateRecyclerView(noticias);
-                        txtNaoTemNoticias.setVisibility(View.GONE); // Esconde a mensagem de "sem notícias"
-                        recyclerView.setVisibility(View.VISIBLE); // Mostra o RecyclerView
+                        txtNaoTemNoticias.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     } else {
-                        showMessage("Não há notícias disponíveis");
+                        //showMessage("Não há notícias disponíveis");
                         txtNaoTemNoticias.setVisibility(View.VISIBLE);
-                        recyclerView.setVisibility(View.GONE); // Esconde o RecyclerView quando não há notícias
+                        recyclerView.setVisibility(View.GONE);
                     }
                 } else {
                     showMessage("Erro ao obter notícias!");
@@ -191,6 +200,7 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
 
             @Override
             public void onFailure(Call<List<Noticia>> call, Throwable t) {
+                progressBar.setVisibility(View.GONE); // Esconde o ProgressBar ao finalizar a requisição
                 showMessage("Erro ao obter notícias!");
             }
         });

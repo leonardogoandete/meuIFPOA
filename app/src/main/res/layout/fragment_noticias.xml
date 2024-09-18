@@ -8,6 +8,18 @@
     android:padding="8dp"
     tools:context=".ui.fragment.NoticiasFragment">
 
+    <!-- ProgressBar de carregamento -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:indeterminateTint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <!-- Container horizontal para o SearchView e Spinner -->
     <LinearLayout
         android:id="@+id/containerSearchView"
@@ -65,7 +77,7 @@
         android:text="Não há notícias disponíveis"
         android:textSize="18sp"
         android:visibility="gone"
-        app:layout_constraintTop_toTopOf="@id/listViewNoticias"
+        app:layout_constraintTop_toTopOf="@id/containerSearchView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

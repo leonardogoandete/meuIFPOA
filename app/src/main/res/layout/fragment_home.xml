@@ -152,6 +152,7 @@
                     android:id="@+id/btnEmitirAtestadoMatricula"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
                     android:text="Emitir Atestado de matrícula"
                     app:layout_constraintTop_toBottomOf="@id/btnEmitirDeclaracaoVinculo"
                     android:layout_marginTop="8dp" />

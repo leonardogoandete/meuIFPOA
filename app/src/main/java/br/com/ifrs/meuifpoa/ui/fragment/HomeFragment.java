@@ -1,5 +1,6 @@
 package br.com.ifrs.meuifpoa.ui.fragment;
 
+import static br.com.ifrs.meuifpoa.utils.Constants.DOC_ATESTADO_MATRICULA;
 import static br.com.ifrs.meuifpoa.utils.Constants.DOC_DECLARACAO_VINCULO;
 import static br.com.ifrs.meuifpoa.utils.Constants.DOC_HISTORICO;
 import static br.com.ifrs.meuifpoa.utils.Constants.DOC_HISTORICO_EMENTAS;
@@ -167,6 +168,35 @@ public class HomeFragment extends Fragment {
                         if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
                             String base64Documento = documentoResponse.getPdfbase64();
                             salvarEPDFVisualizar(DOC_DECLARACAO_VINCULO,base64Documento);
+                        } else {
+                            Log.e("API Error", "Documento está vazio.");
+                            Toast.makeText(getContext(),"Erro: Resposta do documento está vazia.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Log.e("API Error", "Falha ao obter o documento. Código de resposta: " + response.code());
+                        Toast.makeText(getContext(),"Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<DocumentoResponse> call, Throwable t) {
+                    Log.e("API Error", "Falha ao obter o documento.", t);
+                    Toast.makeText(getContext(),"Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+
+        btnEmitirAtestadoMatricula.setOnClickListener(v -> {
+            DocumentoRequest documentoRequest = new DocumentoRequest(DOC_ATESTADO_MATRICULA, senha);
+            Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
+            call.enqueue(new Callback<DocumentoResponse>() {
+                @Override
+                public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
+                    if (response.isSuccessful()) {
+                        DocumentoResponse documentoResponse = response.body();
+                        if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
+                            String base64Documento = documentoResponse.getPdfbase64();
+                            salvarEPDFVisualizar(DOC_ATESTADO_MATRICULA,base64Documento);
                         } else {
                             Log.e("API Error", "Documento está vazio.");
                             Toast.makeText(getContext(),"Erro: Resposta do documento está vazia.", Toast.LENGTH_SHORT).show();
