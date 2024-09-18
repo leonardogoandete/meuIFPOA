@@ -11,12 +11,12 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import br.com.ifrs.meuifpoa.R;
 
-public class SyncPasswordDialog {
+public class PasswordDialog {
 
     private final Context context;
     private final OnPasswordEnteredListener listener;
 
-    public SyncPasswordDialog(Context context, OnPasswordEnteredListener listener) {
+    public PasswordDialog(Context context, OnPasswordEnteredListener listener) {
         this.context = context;
         this.listener = listener;
     }
