@@ -7,32 +7,35 @@ import android.view.MenuItem;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import br.com.ifrs.meuifpoa.R;
+import br.com.ifrs.meuifpoa.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private FirebaseAuth mAuth;
     private NavController navController;
-    private BottomNavigationView bottomNavigationView;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Inicializar o ViewBinding
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         FirebaseApp.initializeApp(this);
-        setContentView(R.layout.activity_main);
 
         setupToolbar();
         configFirebaseAuth();
@@ -42,14 +45,12 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             int selectedItemId = intent.getIntExtra("selectedItemId", R.id.homeFragment);
-            bottomNavigationView.setSelectedItemId(selectedItemId);
+            binding.bottomNav.setSelectedItemId(selectedItemId);
         }
     }
 
     private void setupToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+        setSupportActionBar(binding.toolbar);
     }
 
     private void configFirebaseAuth() {
@@ -68,11 +69,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void configBottomNavigationView() {
-        bottomNavigationView = findViewById(R.id.bottomNav);
-        bottomNavigationView.getMenu().removeItem(R.id.Sobre);
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+        binding.bottomNav.getMenu().removeItem(R.id.Sobre);
+        NavigationUI.setupWithNavController(binding.bottomNav, navController);
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+        binding.bottomNav.setOnNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.notasFragment) {
                 if (isUsuarioAutenticado()) {
@@ -147,10 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isUsuarioAutenticado() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser == null) {
-            return false;
-        }
-        return true;
+        return currentUser != null;
     }
 
     private void startIntentLoginActivity() {
