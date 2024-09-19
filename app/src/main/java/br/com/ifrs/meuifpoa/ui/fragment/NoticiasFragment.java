@@ -13,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +21,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -31,6 +28,7 @@ import java.util.List;
 
 import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.adapter.recycler.LinhaNoticiasAdapter;
+import br.com.ifrs.meuifpoa.databinding.FragmentNoticiasBinding;
 import br.com.ifrs.meuifpoa.model.Noticia;
 import br.com.ifrs.meuifpoa.retrofit.NoticiasRetrofit;
 import br.com.ifrs.meuifpoa.retrofit.service.NoticiasService;
@@ -41,55 +39,43 @@ import retrofit2.Response;
 public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.OnClickListener {
 
     private static final long SEARCH_DELAY_MS = 400;
-    private RecyclerView recyclerView;
     private LinhaNoticiasAdapter noticiasAdapter;
-    private TextView txtNaoTemNoticias;
-    private SearchView searchView;
-    private Spinner spinnerLimite;
     private Handler searchHandler;
-    private ProgressBar progressBar;
-    private View containerProgressBar;
     private int limiteNoticias = 50;
     private String currentQuery = "";
+    private FragmentNoticiasBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_noticias, container, false);
+        // Inicializa o ViewBinding
+        binding = FragmentNoticiasBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initializeViews(view);
+
+        searchHandler = new Handler(Looper.getMainLooper());
+
         setupRecyclerView();
         setupSearchView();
         setupSpinner();
         loadInitialNews();
     }
 
-    // Inicializa todas as views e objetos que serão utilizados
-    private void initializeViews(View view) {
-        recyclerView = view.findViewById(R.id.listViewNoticias);
-        searchView = view.findViewById(R.id.searchViewNoticias);
-        spinnerLimite = view.findViewById(R.id.spinnerLimite);
-        txtNaoTemNoticias = view.findViewById(R.id.txtNaoTemNoticias);
-        progressBar = view.findViewById(R.id.progressBar);
-        containerProgressBar = view.findViewById(R.id.containerProgressBar);
-        searchHandler = new Handler(Looper.getMainLooper());
-    }
-
     // Configura o RecyclerView para exibir as notícias
     private void setupRecyclerView() {
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.listViewNoticias.setHasFixedSize(true);
+        binding.listViewNoticias.setLayoutManager(new LinearLayoutManager(requireContext()));
     }
 
     // Configura a SearchView para capturar as pesquisas com um delay de 400ms
     private void setupSearchView() {
-        searchView.setIconified(false);
-        searchView.setQueryHint("Buscar noticias");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        binding.searchViewNoticias.setIconified(false);
+        binding.searchViewNoticias.setQueryHint("Buscar noticias");
+        binding.searchViewNoticias.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 currentQuery = query;
@@ -99,21 +85,16 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // Atualiza a variável currentQuery com o novo texto
                 currentQuery = newText;
-
                 if (newText.isEmpty()) {
-                    // Quando o texto é vazio (X foi clicado), recarregar as notícias completas
                     fetchNews(null);
                 } else {
-                    // Caso contrário, faz a busca com debounce
                     debounceSearch();
                 }
                 return true;
             }
         });
     }
-
 
     // Método para lidar com debounce da pesquisa
     private void debounceSearch() {
@@ -123,39 +104,34 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
 
     // Configura o Spinner para permitir seleção de limite de notícias com item de dica "Selecione o limite"
     private void setupSpinner() {
-        // Adiciona um item "Selecione o limite" como primeiro item
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireContext(),
                 android.R.layout.simple_spinner_item,
                 getResources().getStringArray(R.array.limites_noticias)) {
 
             @Override
             public boolean isEnabled(int position) {
-                // Desabilita o primeiro item ("Selecione o limite")
                 return position != 0;
             }
 
             @Override
             public View getDropDownView(int position, View convertView, ViewGroup parent) {
                 View view = super.getDropDownView(position, convertView, parent);
+                TextView textView = (TextView) view;
                 if (position == 0) {
-                    // Customiza o primeiro item ("Selecione o limite")
-                    ((TextView) view).setTextColor(Color.GRAY);
-                }
-                else if (position == 1) {
-                    // Customiza o segundo item ("Todos")
-                    ((TextView) view).setText("Todos");
+                    textView.setTextColor(Color.GRAY);
+                } else if (position == 1) {
+                    textView.setText("Todos");
                 } else {
-                    ((TextView) view).setTextColor(Color.BLACK);
+                    textView.setTextColor(Color.BLACK);
                 }
                 return view;
             }
         };
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerLimite.setAdapter(adapter);
-        spinnerLimite.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.spinnerLimite.setAdapter(adapter);
+        binding.spinnerLimite.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Somente atualiza o limite se o item selecionado não for o primeiro
                 if (position != 0) {
                     limiteNoticias = Integer.parseInt(parent.getItemAtPosition(position).toString());
                     fetchNews(currentQuery);
@@ -176,11 +152,9 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
 
     // Realiza a chamada à API para buscar notícias com o filtro e limite especificados
     private void fetchNews(String filter) {
-        // Exibe o ProgressBar e oculta o RecyclerView enquanto os dados são carregados
-        //progressBar.setVisibility(View.VISIBLE);
-        containerProgressBar.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.GONE);
-        txtNaoTemNoticias.setVisibility(View.GONE);
+        binding.containerProgressBar.setVisibility(View.VISIBLE);
+        binding.listViewNoticias.setVisibility(View.GONE);
+        binding.txtNaoTemNoticias.setVisibility(View.GONE);
 
         NoticiasService service = new NoticiasRetrofit().getNoticiasService();
         Call<List<Noticia>> call = service.listarNoticias(filter, limiteNoticias);
@@ -188,26 +162,27 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
         call.enqueue(new Callback<List<Noticia>>() {
             @Override
             public void onResponse(Call<List<Noticia>> call, Response<List<Noticia>> response) {
-                containerProgressBar.setVisibility(View.GONE);
+                binding.containerProgressBar.setVisibility(View.GONE);
                 if (response.isSuccessful() && response.body() != null) {
                     List<Noticia> noticias = response.body();
                     if (!noticias.isEmpty()) {
                         updateRecyclerView(noticias);
-                        txtNaoTemNoticias.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.VISIBLE);
+                        binding.txtNaoTemNoticias.setVisibility(View.GONE);
+                        binding.listViewNoticias.setVisibility(View.VISIBLE);
                     } else {
-                        txtNaoTemNoticias.setVisibility(View.VISIBLE);
-                        recyclerView.setVisibility(View.GONE);
+                        binding.txtNaoTemNoticias.setVisibility(View.VISIBLE);
+                        binding.listViewNoticias.setVisibility(View.GONE);
                     }
                 } else {
-                    showMessage("Erro ao obter notícias!");
+                    binding.txtNaoTemNoticias.setText("Erro ao obter notícias!");
                 }
             }
 
             @Override
             public void onFailure(Call<List<Noticia>> call, Throwable t) {
-                containerProgressBar.setVisibility(View.GONE);
-                showMessage("Erro ao obter notícias!");
+                binding.containerProgressBar.setVisibility(View.GONE);
+                binding.txtNaoTemNoticias.setVisibility(View.VISIBLE);
+                binding.txtNaoTemNoticias.setText("Erro ao obter notícias!");
             }
         });
     }
@@ -217,11 +192,11 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
         if (noticiasAdapter == null) {
             noticiasAdapter = new LinhaNoticiasAdapter(noticias);
             noticiasAdapter.setOnClickListener(NoticiasFragment.this);
-            recyclerView.setAdapter(noticiasAdapter);
+            binding.listViewNoticias.setAdapter(noticiasAdapter);
         } else {
             noticiasAdapter.updateNoticias(noticias);
         }
-        recyclerView.setVisibility(View.VISIBLE); // Garante que o RecyclerView seja visível quando houver notícias
+        binding.listViewNoticias.setVisibility(View.VISIBLE);
     }
 
     // Exibe uma mensagem usando Snackbar ou Toast
@@ -244,5 +219,11 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
         } else {
             showMessage("URL da notícia não disponível");
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null; // Evita vazamento de memória
     }
 }

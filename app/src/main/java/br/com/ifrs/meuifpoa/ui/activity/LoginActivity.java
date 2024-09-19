@@ -33,6 +33,12 @@ public class LoginActivity extends AppCompatActivity {
         configurarListeners();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
+    }
+
     private void configurarListeners() {
         binding.btnLogin.setOnClickListener(v -> {
             String email = binding.etCpf.getText().toString().trim();

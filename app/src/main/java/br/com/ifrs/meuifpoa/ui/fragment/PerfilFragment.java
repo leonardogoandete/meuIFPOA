@@ -17,7 +17,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Source;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -25,9 +24,9 @@ import com.google.firebase.storage.StorageReference;
 import java.io.File;
 
 import br.com.ifrs.meuifpoa.R;
-import br.com.ifrs.meuifpoa.utils.GerenciadorSinc;
 import br.com.ifrs.meuifpoa.databinding.FragmentPerfilBinding;
 import br.com.ifrs.meuifpoa.model.Perfil;
+import br.com.ifrs.meuifpoa.utils.GerenciadorSinc;
 
 public class PerfilFragment extends Fragment {
 
@@ -64,16 +63,17 @@ public class PerfilFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Limpar o binding para evitar vazamento de memória
+        binding = null;
+    }
+
     private void inicializarFirebase() {
         mAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
-
-        // Configura o Firestore com persistência offline
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setPersistenceEnabled(true)
-                .build();
         db = FirebaseFirestore.getInstance();
-        db.setFirestoreSettings(settings);
     }
 
     private void obterDadosPerfilDoFirestore() {
