@@ -17,8 +17,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:gravity="center_horizontal"
+            android:orientation="vertical"
             android:padding="16dp">
 
             <ImageView
@@ -31,6 +31,7 @@
                 android:id="@+id/txtBemVindo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 android:padding="8dp"
                 android:shadowColor="@android:color/black"
@@ -39,15 +40,23 @@
                 android:shadowRadius="1"
                 android:text="@string/msgBemVindoUsuario"
                 android:textColor="@android:color/black"
-                android:textSize="20sp"
-                android:layout_gravity="center_horizontal" />
+                android:textSize="20sp" />
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/semiCircularChart"
+                app:layout_constraintTop_toBottomOf="@id/txtBemVindo"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center" />
 
             <!-- Container das integralizações -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/containerIntegralizacoes"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                android:padding="8dp"
                 android:visibility="visible">
 
                 <!-- Título da seção -->
@@ -101,63 +110,57 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txtChTotalCurriculo" />
 
-                <!-- Percentual integralizado -->
-                <TextView
-                    android:id="@+id/txtTotalIntegralizado"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Percentual integralizado: 91%"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txtChComplementar" />
+                <!-- Botões -->
+            <GridLayout
+                android:id="@+id/containerBotoes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="2"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:alignmentMode="alignMargins"
+                android:rowOrderPreserved="false"
+                android:useDefaultMargins="true"
+                app:layout_constraintTop_toBottomOf="@id/txtChComplementar">
 
-                <ProgressBar
-                    android:id="@+id/progressTotalIntegralizado"
-                    style="?android:attr/progressBarStyleHorizontal"
+                <include
+                    android:id="@+id/btnEmitirHistorico"
+                    layout="@layout/activity_progress_button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:progressTint="@color/colorPrimary"
-                    android:max="100"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txtTotalIntegralizado" />
-
-                <!-- Botões -->
-
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="4dp" />
 
                 <include
-                    layout="@layout/activity_progress_button"
-                    android:id="@+id/btnEmitirHistorico"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/progressTotalIntegralizado"
-                    android:layout_marginTop="8dp" />
-
-                <include
-                    layout="@layout/activity_progress_button"
                     android:id="@+id/btnEmitirHistoricoEmentas"
-                    android:layout_width="match_parent"
+                    layout="@layout/activity_progress_button"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/btnEmitirHistorico"
-                    android:layout_marginTop="8dp" />
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="4dp" />
 
                 <include
-                    layout="@layout/activity_progress_button"
                     android:id="@+id/btnEmitirDeclaracaoVinculo"
-                    android:layout_width="match_parent"
+                    layout="@layout/activity_progress_button"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/btnEmitirHistoricoEmentas"
-                    android:layout_marginTop="8dp" />
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="4dp" />
 
                 <include
-                    layout="@layout/activity_progress_button"
                     android:id="@+id/btnEmitirAtestadoMatricula"
-                    android:layout_width="match_parent"
+                    layout="@layout/activity_progress_button"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
-                    app:layout_constraintTop_toBottomOf="@id/btnEmitirDeclaracaoVinculo"
-                    android:layout_marginTop="8dp" />
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    android:layout_margin="4dp"
+                    android:enabled="false" />
+            </GridLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

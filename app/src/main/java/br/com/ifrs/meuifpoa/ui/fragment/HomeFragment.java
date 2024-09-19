@@ -8,6 +8,11 @@ import static br.com.ifrs.meuifpoa.utils.Constants.DOC_HISTORICO_EMENTAS;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
@@ -20,6 +25,12 @@ import android.widget.Toast;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,6 +40,8 @@ import com.google.firebase.firestore.Source;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.databinding.FragmentHomeBinding;
@@ -48,6 +61,7 @@ public class HomeFragment extends Fragment {
     private FirebaseFirestore db;
     private FragmentHomeBinding binding;
     private String minhaSenha;
+    private String percentualIntegralizado;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,7 +84,7 @@ public class HomeFragment extends Fragment {
         checkUserAuthentication();
         SharedPreferences preferencias = getContext().getSharedPreferences("loginSigaa", Context.MODE_PRIVATE);
         String token = preferencias.getString("token", "");
-
+        setupSemiCircularChart();
         binding.btnEmitirHistorico.txtBtnProgress.setText(R.string.msgBtnEmitirHistorico);
         binding.btnEmitirHistorico.progressButtonLayout.setOnClickListener(v -> {
             solicitarSenha(() -> {
@@ -244,8 +258,7 @@ public class HomeFragment extends Fragment {
                                         binding.txtChOptativa.setText("CH Optativa Pendente: " + perfil.getChOptativaPendente());
                                         binding.txtChTotalCurriculo.setText("CH Total do Currículo: " + perfil.getChTotalCurriculo());
                                         binding.txtChComplementar.setText("CH Complementar Pendente: " + perfil.getChComplementarPendente());
-                                        binding.txtTotalIntegralizado.setText("Total Integralizado: " + perfil.getIntegralizado() + "%");
-                                        binding.progressTotalIntegralizado.setProgress(Integer.parseInt(perfil.getIntegralizado()));
+                                        percentualIntegralizado = perfil.getIntegralizado();
                                     }
                                 }
                             } else {
@@ -358,4 +371,67 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         binding = null; // Evitar vazamento de memória
     }
+
+    private void setupSemiCircularChart() {
+        // Cria os dados para o gráfico
+        List<PieEntry> pieEntries = new ArrayList<>();
+        int realizado = 68;
+        int percentualRestante = 100-realizado;
+
+        pieEntries.add(new PieEntry(realizado, "")); // 91% preenchido
+        pieEntries.add(new PieEntry(percentualRestante, ""));  // 9% restante
+
+        // Configura o DataSet e os dados do gráfico
+        PieDataSet dataSet = new PieDataSet(pieEntries, "");
+
+        // Define as cores: 91% verde e 9% vermelho
+        List<Integer> colors = new ArrayList<>();
+        colors.add(rgb("#2F9E41")); // Verde para 91%
+        colors.add(rgb("#FF0000")); // Vermelho para 9%
+
+        dataSet.setColors(colors); // Aplica as cores
+        dataSet.setDrawValues(false); // Isso remove os percentuais exibidos nas fatias
+
+        PieData data = new PieData(dataSet);
+
+        binding.semiCircularChart.setData(data);
+
+        // Configura a aparência do gráfico
+        binding.semiCircularChart.setRotationAngle(135f); // Define o ângulo inicial
+        binding.semiCircularChart.setMaxAngle(270f); // Define o ângulo total como 270 graus (semi-círculo)
+
+        // Configura o furo central para cobrir quase toda a área interna
+        binding.semiCircularChart.setHoleRadius(80f); // Deixa apenas 10% da área visível como borda externa
+
+        // Desabilita o clique no gráfico
+        binding.semiCircularChart.setTouchEnabled(false);
+
+        // Remove a legenda do gráfico
+        binding.semiCircularChart.getLegend().setEnabled(false);
+
+        // Remove a descrição do gráfico
+        binding.semiCircularChart.getDescription().setEnabled(false);
+
+        // Remove os rótulos das entradas
+        binding.semiCircularChart.setDrawEntryLabels(false);
+
+        // Exibe o texto central como "%"
+        binding.semiCircularChart.setCenterText("Integralizado\n"+realizado+"%"); // Exibe o texto central com o valor desejado
+        binding.semiCircularChart.setCenterTextSize(20f); // Define o tamanho do texto central
+
+        // Atualiza o gráfico
+        binding.semiCircularChart.invalidate();
+    }
+
+    // Configura a cor
+    public static int rgb(String hex) {
+        int color = (int) Long.parseLong(hex.replace("#", ""), 16);
+        int r = (color >> 16) & 0xFF;
+        int g = (color >> 8) & 0xFF;
+        int b = (color >> 0) & 0xFF;
+        return Color.rgb(r, g, b);
+    }
+
+
+
 }

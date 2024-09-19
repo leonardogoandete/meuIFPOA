@@ -55,5 +55,6 @@ dependencies {
     annotationProcessor("com.github.bumptech.glide:compiler:4.15.1")
     // https://mvnrepository.com/artifact/br.com.caelum.stella/caelum-stella-core
     implementation("br.com.caelum.stella:caelum-stella-core:2.1.6")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
 }

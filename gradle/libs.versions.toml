@@ -17,6 +17,7 @@ firebaseAuth = "23.0.0"
 firebaseFirestore = "25.0.0"
 firebaseStorage = "21.0.0"
 glide = "4.15.1"
+mpandroidchart = "v3.1.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -35,6 +36,7 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+mpandroidchart = { group = "PhilJay", name = "MPAndroidChart", version.ref = "mpandroidchart" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
