@@ -401,7 +401,7 @@ public class HomeFragment extends Fragment {
         // Define as cores: 91% verde e 9% vermelho
         List<Integer> colors = new ArrayList<>();
         colors.add(rgb("#2F9E41")); // Verde para 91%
-        colors.add(rgb("#FF0000")); // Vermelho para 9%
+        colors.add(rgb("#CF212D")); // Vermelho para 9%
 
         dataSet.setColors(colors); // Aplica as cores
         dataSet.setDrawValues(false); // Isso remove os percentuais exibidos nas fatias
