@@ -96,7 +96,10 @@ public class LoginActivity extends AppCompatActivity {
                 if (tarefaToken.isSuccessful()) {
                     SharedPreferences preferencias = getSharedPreferences("loginSigaa", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferencias.edit();
-                    editor.putString("token", tarefaToken.getResult().getToken());
+
+                    StringBuffer token = new StringBuffer("Bearer ");
+                    token.append(tarefaToken.getResult().getToken());
+                    editor.putString("token", token.toString());
                     editor.apply();
 
                     Intent intent = new Intent(this, MainActivity.class);
