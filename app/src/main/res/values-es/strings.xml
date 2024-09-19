@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notas_bar">Notas</string>
+    <string name="noticias_bar">Noticias</string>
+    <string name="perfil_bar">Perfil</string>
+    <string name="sobre_bar">Acerca de</string>
+    <string name="msg_login_error">Error al iniciar sesión</string>
+    <string name="msg_titulo_esqueci_senha">Olvidé mi contraseña</string>
+    <string name="btnEnviarEmailRecuperarSenha">Enviar</string>
+    <string name="btnCancelarEmailRecuperarSenha">Cancelar</string>
+    <string name="msg_email_recuperar_senha_sucesso">¡Si el correo electrónico existe, recibirás un enlace para restablecer tu contraseña!</string>
+    <string name="msg_email_recuperar_senha_erro">Error al enviar el correo de restablecimiento de contraseña. ¡Verifique la dirección de correo electrónico!</string>
+    <string name="msg_deve_estar_logado">Debe iniciar sesión para acceder a esta funcionalidad</string>
+    <string name="msg_titulo_deve_estar_logado">Autenticación requerida</string>
+    <string name="msg_titulo_sobre">Acerca de</string>
+    <string name="msg_sobre">Nombre: Leonardo Goandete\nAsignatura: Programación Web III\nObjetivo: La aplicación tiene como objetivo mejorar la comunicación y el acceso a la información de los estudiantes del IFRS - Campus Porto Alegre.</string>
+    <string name="msg_url_noticia_vazia">Enlace de noticias no disponible</string>
+    <string name="txtViewTituloNome">Nombre</string>
+    <string name="btnSairPerfilText">SALIR</string>
+    <string name="txtViewUnidade1">UNIDAD 1</string>
+    <string name="txtViewUnidade2">UNIDAD 2</string>
+    <string name="txtViewRecuperacao">RECUPERACIÓN</string>
+    <string name="txtViewResultado">RESULTADO</string>
+    <string name="txtViewFaltas">AUSENCIAS:</string>
+    <string name="txtViewSituacao">ESTADO:</string>
+    <string name="txtViewEmail">CORREO ELECTRÓNICO</string>
+    <string name="txtViewSenha">CONTRASEÑA</string>
+    <string name="btnEntrarText">INICIAR SESIÓN</string>
+    <string name="btnCadastrarText">¿No tienes una cuenta? Regístrate</string>
+    <string name="txtViewNomeCadastro">Nombre:</string>
+    <string name="txtViewCpfCadastro">CPF:</string>
+    <string name="txtViewEmailCadastro">Correo electrónico:</string>
+    <string name="txtViewSenhaCadastro">Contraseña:</string>
+    <string name="btnRegistrarCadastro">Registrarse</string>
+    <string name="hello_blank_fragment">Hola fragmento en blanco</string>
+    <string name="txtViewTituloMatricula">Matrícula</string>
+    <string name="txtViewTituloCurso">Curso</string>
+    <string name="txtViewTituloNivel">Nivel</string>
+    <string name="txtViewTituloSituacao">Estado</string>
+    <string name="txtViewTituloIngresso">Ingreso</string>
+    <string name="titulo_cadastro">Registro</string>
+    <string name="txtInputEmail">Ingresa tu correo electrónico</string>
+    <string name="txtTituloRecuperacaoSenha">Recuperación de Contraseña</string>
+    <string name="txtInputSenhaSigaa">Ingrese la contraseña de Sigaa</string>
+    <string name="txtTituloSyncSigaa">Sincronizar con SIGAA</string>
+    <string name="msg_sync_sucesso">Sincronización realizada con éxito</string>
+    <string name="msg_sync_erro">Error al sincronizar los datos</string>
+    <string name="hint_pesq_noticias">Buscar noticias</string>
+    <string name="msgCarregando">Cargando…</string>
+    <string name="msgBuscarNoticias">Buscar noticias</string>
+    <string name="msgNaoTemNoticias">No hay noticias disponibles</string>
+    <string name="msgBtnEmitirHistorico">Emitir historial</string>
+    <string name="msgBtnEmitirHistoricoEmentas">Emitir Historial con Descripciones de Cursos</string>
+    <string name="msgBtnEmitirDeclaracaoVinculo">Emitir Declaración de Afiliación</string>
+    <string name="msgBtnEmitirAtestadoMatricula">Emitir Certificado de Matrícula</string>
+    <string name="msgBemVindoUsuario">¡Bienvenido usuario!</string>
+    <string name="txtViewTituloIntegralizacoes">Progreso</string>
+
+    <string-array name="limites_noticias">
+        <item>Cantidad de noticias</item>
+        <item>0</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>50</item>
+        <item>100</item>
+        <item>500</item>
+    </string-array>
+</resources>

@@ -1,13 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">meuIFPOA</string>
-    <string name="msgCarregando">Carregando...</string>
-    <string name="msgBuscarNoticias">Buscar notícias</string>
-    <string name="msgNaoTemNoticias">Não há notícias disponíveis</string>
-    <string name="msgBtnEmitirHistorico">Emitir histórico</string>
-    <string name="msgBtnEmitirHistoricoEmentas">Emitir Historico com Ementas</string>
-    <string name="msgBtnEmitirDeclaracaoVinculo">Emitir Declaração de vínculo</string>
-    <string name="msgBtnEmitirAtestadoMatricula">Emitir Atestado de matrícula</string>
-    <string name="msgBemVindoUsuario">Bem vindo(a) usuário!</string>
-    <string name="txtViewTituloIntegralizacoes">Progresso</string>
+    <string name="notas_bar">Grades</string>
+    <string name="noticias_bar">News</string>
+    <string name="perfil_bar">Profile</string>
+    <string name="sobre_bar">About</string>
+    <string name="msg_login_error">Login error</string>
+    <string name="msg_titulo_esqueci_senha">Forgot my password</string>
+    <string name="btnEnviarEmailRecuperarSenha">Send</string>
+    <string name="btnCancelarEmailRecuperarSenha">Cancel</string>
+    <string name="msg_email_recuperar_senha_sucesso">If the email exists, you will receive a link to reset your password!</string>
+    <string name="msg_email_recuperar_senha_erro">Error sending password reset email. Check the email address!</string>
+    <string name="msg_deve_estar_logado">You must be logged in to access this feature</string>
+    <string name="msg_titulo_deve_estar_logado">Authentication required</string>
+    <string name="msg_titulo_sobre">About</string>
+    <string name="msg_sobre">Name: Leonardo Goandete\nSubject: Web Programming III\nObjective: The application aims to improve communication and access to information for students of IFRS - Porto Alegre Campus.</string>
+    <string name="msg_url_noticia_vazia">News link unavailable</string>
+    <string name="txtViewTituloNome">Name</string>
+    <string name="btnSairPerfilText">LOGOUT</string>
+    <string name="txtViewUnidade1">UNIT 1</string>
+    <string name="txtViewUnidade2">UNIT 2</string>
+    <string name="txtViewRecuperacao">RECOVERY</string>
+    <string name="txtViewResultado">RESULT</string>
+    <string name="txtViewFaltas">ABSENCES:</string>
+    <string name="txtViewSituacao">STATUS:</string>
+    <string name="txtViewEmail">EMAIL</string>
+    <string name="txtViewSenha">PASSWORD</string>
+    <string name="btnEntrarText">LOGIN</string>
+    <string name="btnCadastrarText">Don\'t have an account? Sign up</string>
+    <string name="txtViewNomeCadastro">Name:</string>
+    <string name="txtViewCpfCadastro">CPF:</string>
+    <string name="txtViewEmailCadastro">Email:</string>
+    <string name="txtViewSenhaCadastro">Password:</string>
+    <string name="btnRegistrarCadastro">Sign up</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="txtViewTituloMatricula">Registration</string>
+    <string name="txtViewTituloCurso">Course</string>
+    <string name="txtViewTituloNivel">Level</string>
+    <string name="txtViewTituloSituacao">Status</string>
+    <string name="txtViewTituloIngresso">Entry</string>
+    <string name="titulo_cadastro">Sign Up</string>
+    <string name="txtInputEmail">Enter your email</string>
+    <string name="txtTituloRecuperacaoSenha">Password Recovery</string>
+    <string name="txtInputSenhaSigaa">Enter your Sigaa password</string>
+    <string name="txtTituloSyncSigaa">Sync with SIGAA</string>
+    <string name="msg_sync_sucesso">Sync completed successfully</string>
+    <string name="msg_sync_erro">Error syncing data</string>
+    <string name="hint_pesq_noticias">Search news</string>
+    <string name="msgCarregando">Loading…</string>
+    <string name="msgBuscarNoticias">Search news</string>
+    <string name="msgNaoTemNoticias">No news available</string>
+    <string name="msgBtnEmitirHistorico">Issue transcript</string>
+    <string name="msgBtnEmitirHistoricoEmentas">Issue Transcript with Course Descriptions</string>
+    <string name="msgBtnEmitirDeclaracaoVinculo">Issue Affiliation Statement</string>
+    <string name="msgBtnEmitirAtestadoMatricula">Issue Enrollment Certificate</string>
+    <string name="msgBemVindoUsuario">Welcome user!</string>
+    <string name="txtViewTituloIntegralizacoes">Progress</string>
+
+    <string-array name="limites_noticias">
+        <item>News count</item>
+        <item>0</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>50</item>
+        <item>100</item>
+        <item>500</item>
+    </string-array>
 </resources>

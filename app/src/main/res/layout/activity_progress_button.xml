@@ -11,29 +11,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/progressButtonLayout"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         android:background="@drawable/button_backgroud_doc"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="onProgressButtonClick"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:padding="16dp"> <!-- Adiciona padding para espaçamento interno -->
 
-        <!-- Texto centralizado -->
-        <TextView
-            android:id="@+id/txtBtnProgress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progressBarButton"
-            tools:text="Clique" />
 
         <!-- ProgressBar centralizado acima do texto -->
         <ProgressBar
@@ -48,6 +33,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/txtBtnProgress" />
+
+        <!-- Texto centralizado -->
+        <TextView
+            android:id="@+id/txtBtnProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/progressBarButton"
+            tools:text="Clique" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

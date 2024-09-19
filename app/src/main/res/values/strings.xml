@@ -47,7 +47,7 @@
     <string name="msg_sync_sucesso">Sincronização realizada com sucesso</string>
     <string name="msg_sync_erro">Erro ao sincronizar dados</string>
     <string name="hint_pesq_noticias">Pesquisar notícias</string>
-    <string name="msgCarregando">Carregando...</string>
+    <string name="msgCarregando">Carregando…</string>
     <string name="msgBuscarNoticias">Buscar notícias</string>
     <string name="msgNaoTemNoticias">Não há notícias disponíveis</string>
     <string name="msgBtnEmitirHistorico">Emitir histórico</string>
