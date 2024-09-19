@@ -8,11 +8,7 @@ import static br.com.ifrs.meuifpoa.utils.Constants.DOC_HISTORICO_EMENTAS;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
@@ -25,12 +21,9 @@ import android.widget.Toast;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -87,35 +80,48 @@ public class HomeFragment extends Fragment {
         setupSemiCircularChart(0);
         binding.btnEmitirHistorico.txtBtnProgress.setText(R.string.msgBtnEmitirHistorico);
         binding.btnEmitirHistorico.progressButtonLayout.setOnClickListener(v -> {
+            // Desabilita todos os botoes para evitar múltiplos cliques durante o carregamento
+            configuraHabilitaDesabilitaBotao(false);
             solicitarSenha(() -> {
+                // Exibe o ProgressBar e altera o texto para "Carregando"
                 binding.btnEmitirHistorico.progressBarButton.setVisibility(View.VISIBLE);
                 binding.btnEmitirHistorico.txtBtnProgress.setText(R.string.msgCarregando);
+
                 DocumentoRequest documentoRequest = new DocumentoRequest(DOC_HISTORICO, minhaSenha);
                 Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
+
                 call.enqueue(new Callback<DocumentoResponse>() {
                     @Override
                     public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
+                        // Oculta o ProgressBar após a resposta
+                        binding.btnEmitirHistorico.progressBarButton.setVisibility(View.GONE);
+                        configuraHabilitaDesabilitaBotao(true);
+                        binding.btnEmitirHistorico.txtBtnProgress.setText(R.string.msgBtnEmitirHistorico);
+
                         if (response.isSuccessful()) {
                             DocumentoResponse documentoResponse = response.body();
                             if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
                                 String base64Documento = documentoResponse.getPdfbase64();
                                 salvarEPDFVisualizar(DOC_HISTORICO, base64Documento);
-                                binding.btnEmitirHistorico.progressBarButton.setVisibility(View.GONE);
-                                binding.btnEmitirHistorico.txtBtnProgress.setText(R.string.msgBtnEmitirHistorico);
                             } else {
                                 Log.e("API Error", "Documento está vazio.");
-                                Toast.makeText(getContext(), "Erro: Resposta do documento está vazia.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Erro: Documento está vazio.", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Log.e("API Error", "Falha ao obter o documento. Código de resposta: " + response.code());
-                            Toast.makeText(getContext(), "Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Erro ao obter documento. Código: " + response.code(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<DocumentoResponse> call, Throwable t) {
+                        // Oculta o ProgressBar após a falha
+                        binding.btnEmitirHistorico.progressBarButton.setVisibility(View.GONE);
+                        binding.btnEmitirHistorico.txtBtnProgress.setText(R.string.msgBtnEmitirHistorico);
+                        configuraHabilitaDesabilitaBotao(true);
+
                         Log.e("API Error", "Falha ao obter o documento.", t);
-                        Toast.makeText(getContext(), "Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Erro na solicitação: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             });
@@ -123,112 +129,168 @@ public class HomeFragment extends Fragment {
 
         binding.btnEmitirHistoricoEmentas.txtBtnProgress.setText(R.string.msgBtnEmitirHistoricoEmentas);
         binding.btnEmitirHistoricoEmentas.progressButtonLayout.setOnClickListener(v -> {
+            // Desabilita o botão para evitar múltiplos cliques durante o carregamento
+            configuraHabilitaDesabilitaBotao(false);
+
             solicitarSenha(() -> {
+                // Exibe o ProgressBar e altera o texto para "Carregando"
                 binding.btnEmitirHistoricoEmentas.progressBarButton.setVisibility(View.VISIBLE);
                 binding.btnEmitirHistoricoEmentas.txtBtnProgress.setText(R.string.msgCarregando);
+
                 DocumentoRequest documentoRequest = new DocumentoRequest(DOC_HISTORICO_EMENTAS, minhaSenha);
                 Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
+
                 call.enqueue(new Callback<DocumentoResponse>() {
                     @Override
                     public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
+                        // Oculta o ProgressBar após a resposta
+                        binding.btnEmitirHistoricoEmentas.progressBarButton.setVisibility(View.GONE);
+                        configuraHabilitaDesabilitaBotao(true);
+                        binding.btnEmitirHistoricoEmentas.txtBtnProgress.setText(R.string.msgBtnEmitirHistoricoEmentas);
                         if (response.isSuccessful()) {
                             DocumentoResponse documentoResponse = response.body();
                             if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
                                 String base64Documento = documentoResponse.getPdfbase64();
-                                salvarEPDFVisualizar(DOC_HISTORICO_EMENTAS,base64Documento);
-                                binding.btnEmitirHistoricoEmentas.progressBarButton.setVisibility(View.GONE);
+                                salvarEPDFVisualizar(DOC_HISTORICO_EMENTAS, base64Documento);
                                 binding.btnEmitirHistoricoEmentas.txtBtnProgress.setText(R.string.msgBtnEmitirHistoricoEmentas);
                             } else {
                                 Log.e("API Error", "Documento está vazio.");
-                                Toast.makeText(getContext(),"Erro: Resposta do documento está vazia.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Erro: Documento está vazio.", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Log.e("API Error", "Falha ao obter o documento. Código de resposta: " + response.code());
-                            Toast.makeText(getContext(),"Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Erro ao obter documento. Código: " + response.code(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<DocumentoResponse> call, Throwable t) {
+                        // Oculta o ProgressBar após a falha
+                        binding.btnEmitirHistoricoEmentas.progressBarButton.setVisibility(View.GONE);
+                        binding.btnEmitirHistoricoEmentas.txtBtnProgress.setText(R.string.msgBtnEmitirHistoricoEmentas);
+                        configuraHabilitaDesabilitaBotao(true);
+
                         Log.e("API Error", "Falha ao obter o documento.", t);
-                        Toast.makeText(getContext(),"Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Erro na solicitação: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             });
         });
+
 
         binding.btnEmitirDeclaracaoVinculo.txtBtnProgress.setText(R.string.msgBtnEmitirDeclaracaoVinculo);
         binding.btnEmitirDeclaracaoVinculo.progressButtonLayout.setOnClickListener(v -> {
+            // Desabilita o botão para evitar múltiplos cliques durante o carregamento
+            configuraHabilitaDesabilitaBotao(false);
+
             solicitarSenha(() -> {
+                // Exibe o ProgressBar e altera o texto para "Carregando"
                 binding.btnEmitirDeclaracaoVinculo.progressBarButton.setVisibility(View.VISIBLE);
                 binding.btnEmitirDeclaracaoVinculo.txtBtnProgress.setText(R.string.msgCarregando);
+
                 DocumentoRequest documentoRequest = new DocumentoRequest(DOC_DECLARACAO_VINCULO, minhaSenha);
                 Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
+
                 call.enqueue(new Callback<DocumentoResponse>() {
                     @Override
                     public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
+                        // Oculta o ProgressBar após a resposta
+                        binding.btnEmitirDeclaracaoVinculo.progressBarButton.setVisibility(View.GONE);
+                        configuraHabilitaDesabilitaBotao(true);
+                        binding.btnEmitirDeclaracaoVinculo.txtBtnProgress.setText(R.string.msgBtnEmitirDeclaracaoVinculo);
+
                         if (response.isSuccessful()) {
                             DocumentoResponse documentoResponse = response.body();
                             if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
                                 String base64Documento = documentoResponse.getPdfbase64();
-                                salvarEPDFVisualizar(DOC_DECLARACAO_VINCULO,base64Documento);
-                                binding.btnEmitirDeclaracaoVinculo.progressBarButton.setVisibility(View.GONE);
+                                salvarEPDFVisualizar(DOC_DECLARACAO_VINCULO, base64Documento);
                                 binding.btnEmitirDeclaracaoVinculo.txtBtnProgress.setText(R.string.msgBtnEmitirDeclaracaoVinculo);
                             } else {
                                 Log.e("API Error", "Documento está vazio.");
-                                Toast.makeText(getContext(),"Erro: Resposta do documento está vazia.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Erro: Documento está vazio.", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Log.e("API Error", "Falha ao obter o documento. Código de resposta: " + response.code());
-                            Toast.makeText(getContext(),"Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Erro ao obter documento. Código: " + response.code(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<DocumentoResponse> call, Throwable t) {
+                        // Oculta o ProgressBar após a falha
+                        binding.btnEmitirDeclaracaoVinculo.progressBarButton.setVisibility(View.GONE);
+                        binding.btnEmitirDeclaracaoVinculo.txtBtnProgress.setText(R.string.msgBtnEmitirDeclaracaoVinculo);
+                        configuraHabilitaDesabilitaBotao(true);
+
                         Log.e("API Error", "Falha ao obter o documento.", t);
-                        Toast.makeText(getContext(),"Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Erro na solicitação: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             });
         });
 
+
         binding.btnEmitirAtestadoMatricula.txtBtnProgress.setText(R.string.msgBtnEmitirAtestadoMatricula);
         binding.btnEmitirAtestadoMatricula.progressButtonLayout.setOnClickListener(v -> {
+            // Desabilita o botão para evitar múltiplos cliques durante o carregamento
+            configuraHabilitaDesabilitaBotao(false);
+
+
             solicitarSenha(() -> {
+                // Exibe o ProgressBar e altera o texto para "Carregando"
                 binding.btnEmitirAtestadoMatricula.progressBarButton.setVisibility(View.VISIBLE);
                 binding.btnEmitirAtestadoMatricula.txtBtnProgress.setText(R.string.msgCarregando);
+
                 DocumentoRequest documentoRequest = new DocumentoRequest(DOC_ATESTADO_MATRICULA, minhaSenha);
                 Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
+
                 call.enqueue(new Callback<DocumentoResponse>() {
                     @Override
                     public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
+                        // Oculta o ProgressBar após a resposta
+                        binding.btnEmitirAtestadoMatricula.progressBarButton.setVisibility(View.GONE);
+                        configuraHabilitaDesabilitaBotao(true);
+                        binding.btnEmitirAtestadoMatricula.txtBtnProgress.setText(R.string.msgBtnEmitirAtestadoMatricula);
                         if (response.isSuccessful()) {
                             DocumentoResponse documentoResponse = response.body();
                             if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
                                 String base64Documento = documentoResponse.getPdfbase64();
-                                salvarEPDFVisualizar(DOC_ATESTADO_MATRICULA,base64Documento);
-                                binding.btnEmitirAtestadoMatricula.progressBarButton.setVisibility(View.GONE);
+                                salvarEPDFVisualizar(DOC_ATESTADO_MATRICULA, base64Documento);
                                 binding.btnEmitirAtestadoMatricula.txtBtnProgress.setText(R.string.msgBtnEmitirAtestadoMatricula);
                             } else {
                                 Log.e("API Error", "Documento está vazio.");
-                                Toast.makeText(getContext(),"Erro: Resposta do documento está vazia.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Erro: Documento está vazio.", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Log.e("API Error", "Falha ao obter o documento. Código de resposta: " + response.code());
-                            Toast.makeText(getContext(),"Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Erro ao obter documento. Código: " + response.code(), Toast.LENGTH_SHORT).show();
                         }
+
                     }
 
                     @Override
                     public void onFailure(Call<DocumentoResponse> call, Throwable t) {
+                        // Oculta o ProgressBar após a falha
+                        binding.btnEmitirAtestadoMatricula.progressBarButton.setVisibility(View.GONE);
+                        binding.btnEmitirAtestadoMatricula.txtBtnProgress.setText(R.string.msgBtnEmitirAtestadoMatricula);
+                        configuraHabilitaDesabilitaBotao(true);
                         Log.e("API Error", "Falha ao obter o documento.", t);
-                        Toast.makeText(getContext(),"Falha ao obter o documento.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Erro na solicitação: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             });
         });
+
     }
+
+    private void configuraHabilitaDesabilitaBotao(boolean opc) {
+        // Desabilitar ou habilitar a área completa dos botões
+        binding.btnEmitirHistorico.progressButtonLayout.setEnabled(opc);
+        binding.btnEmitirHistoricoEmentas.progressButtonLayout.setEnabled(opc);
+        binding.btnEmitirAtestadoMatricula.progressButtonLayout.setEnabled(opc);
+        binding.btnEmitirDeclaracaoVinculo.progressButtonLayout.setEnabled(opc);
+    }
+
 
     private void checkUserAuthentication() {
         if (mAuth.getCurrentUser() != null) {
