@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
         checkUserAuthentication();
         SharedPreferences preferencias = getContext().getSharedPreferences("loginSigaa", Context.MODE_PRIVATE);
         String token = preferencias.getString("token", "");
-        setupSemiCircularChart();
+        setupSemiCircularChart(0);
         binding.btnEmitirHistorico.txtBtnProgress.setText(R.string.msgBtnEmitirHistorico);
         binding.btnEmitirHistorico.progressButtonLayout.setOnClickListener(v -> {
             solicitarSenha(() -> {
@@ -259,6 +259,7 @@ public class HomeFragment extends Fragment {
                                         binding.txtChTotalCurriculo.setText("CH Total do Currículo: " + perfil.getChTotalCurriculo());
                                         binding.txtChComplementar.setText("CH Complementar Pendente: " + perfil.getChComplementarPendente());
                                         percentualIntegralizado = perfil.getIntegralizado();
+                                        setupSemiCircularChart(Integer.parseInt(percentualIntegralizado));
                                     }
                                 }
                             } else {
@@ -372,10 +373,9 @@ public class HomeFragment extends Fragment {
         binding = null; // Evitar vazamento de memória
     }
 
-    private void setupSemiCircularChart() {
+    private void setupSemiCircularChart(int realizado) {
         // Cria os dados para o gráfico
         List<PieEntry> pieEntries = new ArrayList<>();
-        int realizado = 68;
         int percentualRestante = 100-realizado;
 
         pieEntries.add(new PieEntry(realizado, "")); // 91% preenchido
