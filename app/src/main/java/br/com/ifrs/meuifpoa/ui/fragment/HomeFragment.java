@@ -276,17 +276,20 @@ public class HomeFragment extends Fragment {
                             } else {
                                 if (binding != null) {
                                     binding.containerIntegralizacoes.setVisibility(View.GONE);
+                                    binding.semiCircularChart.setVisibility(View.GONE);
                                 }
                             }
                         } else {
                             if (binding != null) {
                                 binding.containerIntegralizacoes.setVisibility(View.GONE);
+                                binding.semiCircularChart.setVisibility(View.GONE);
                             }
                         }
                     });
         } else {
             if (binding != null) {
                 binding.containerIntegralizacoes.setVisibility(View.GONE);
+                binding.semiCircularChart.setVisibility(View.GONE);
             }
         }
     }
