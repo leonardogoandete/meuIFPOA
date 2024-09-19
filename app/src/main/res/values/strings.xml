@@ -55,6 +55,7 @@
     <string name="msgBtnEmitirDeclaracaoVinculo">Emitir Declaração de vínculo</string>
     <string name="msgBtnEmitirAtestadoMatricula">Emitir Atestado de matrícula</string>
     <string name="msgBemVindoUsuario">Bem vindo(a) usuário!</string>
+    <string name="txtViewTituloIntegralizacoes">Progresso</string>
 
     <string-array name="limites_noticias">
         <item>Nº noticias</item>

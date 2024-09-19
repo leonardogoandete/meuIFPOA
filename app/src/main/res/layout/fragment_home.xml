@@ -43,27 +43,7 @@
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
-            <!-- Título da seção -->
-            <TextView
-                android:id="@+id/txtTituloIntegralizacoes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Integralizações"
-                android:textSize="18sp"
-                android:layout_marginTop="16dp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Gráfico Semi Circular -->
-            <com.github.mikephil.charting.charts.PieChart
-                android:id="@+id/semiCircularChart"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
-                android:layout_marginTop="12dp"
-                android:visibility="visible"
-                android:layout_gravity="center" />
 
             <!-- Container das integralizações -->
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -74,6 +54,31 @@
                 android:padding="8dp"
                 android:visibility="visible">
 
+                <!-- Título da seção -->
+                <TextView
+                    android:id="@+id/txtTituloIntegralizacoes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txtViewTituloIntegralizacoes"
+                    android:textSize="18sp"
+                    android:layout_marginTop="16dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- Gráfico Semi Circular -->
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/semiCircularChart"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtTituloIntegralizacoes" />
+
                 <!-- GridLayout para as informações de CH -->
                 <GridLayout
                     android:id="@+id/gridIntegralizacoes"
@@ -81,13 +86,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:columnCount="2"
+                    android:layout_marginTop="12dp"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="8dp"
                     android:rowCount="4"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toBottomOf="@id/semiCircularChart"
+                    >
 
                     <!-- CH Obrigatória Pendente (valor e descrição) -->
                     <TextView
