@@ -254,10 +254,10 @@ public class HomeFragment extends Fragment {
                                         binding.txtBemVindo.setText(mensagem);
                                         binding.containerIntegralizacoes.setVisibility(View.VISIBLE);
 
-                                        binding.txtChObrigatoria.setText("CH Obrigatória Pendente: " + perfil.getChObrigatoriaPendente());
-                                        binding.txtChOptativa.setText("CH Optativa Pendente: " + perfil.getChOptativaPendente());
-                                        binding.txtChTotalCurriculo.setText("CH Total do Currículo: " + perfil.getChTotalCurriculo());
-                                        binding.txtChComplementar.setText("CH Complementar Pendente: " + perfil.getChComplementarPendente());
+                                        binding.txtChObrigatoria.setText(perfil.getChObrigatoriaPendente());
+                                        binding.txtChOptativa.setText(perfil.getChOptativaPendente());
+                                        binding.txtChTotalCurriculo.setText(perfil.getChTotalCurriculo());
+                                        binding.txtChComplementar.setText(perfil.getChComplementarPendente());
                                         percentualIntegralizado = perfil.getIntegralizado();
                                         try {
                                             percentualIntegralizado = perfil.getIntegralizado();
