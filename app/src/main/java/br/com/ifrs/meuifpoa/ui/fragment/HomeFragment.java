@@ -259,7 +259,18 @@ public class HomeFragment extends Fragment {
                                         binding.txtChTotalCurriculo.setText("CH Total do Currículo: " + perfil.getChTotalCurriculo());
                                         binding.txtChComplementar.setText("CH Complementar Pendente: " + perfil.getChComplementarPendente());
                                         percentualIntegralizado = perfil.getIntegralizado();
-                                        setupSemiCircularChart(Integer.parseInt(percentualIntegralizado));
+                                        try {
+                                            percentualIntegralizado = perfil.getIntegralizado();
+
+                                            if (percentualIntegralizado != null && !percentualIntegralizado.isEmpty()) {
+                                                setupSemiCircularChart(Integer.parseInt(percentualIntegralizado));
+                                            } else {
+                                                setupSemiCircularChart(0); // Valor padrão caso esteja vazio
+                                            }
+                                        } catch (NumberFormatException e) {
+                                            Log.e("Error", "Falha ao converter percentual integralizado", e);
+                                            setupSemiCircularChart(0); // Valor padrão em caso de falha
+                                        }
                                     }
                                 }
                             } else {
