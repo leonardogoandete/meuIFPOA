@@ -49,6 +49,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
+
     private final DocumentoService documentoService = new DocumentoRetrofit().getDocumentoService();
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -58,7 +59,6 @@ public class HomeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inicializar o View Binding
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -66,395 +66,167 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        configurarFirestore();
 
+        SharedPreferences preferencias = getContext().getSharedPreferences("loginSigaa", Context.MODE_PRIVATE);
+        String token = preferencias.getString("token", "");
+
+        if (token.isEmpty()) {
+            Toast.makeText(getContext(), "Token não encontrado, por favor, faça login novamente.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        setupSemiCircularChart(0);
+        configurarBotoes(token);
+        checkUserAuthentication(token);
+    }
+
+    private void configurarFirestore() {
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(true)
                 .build();
         db.setFirestoreSettings(settings);
+    }
 
-        checkUserAuthentication();
-        SharedPreferences preferencias = getContext().getSharedPreferences("loginSigaa", Context.MODE_PRIVATE);
-        String token = preferencias.getString("token", "");
-        setupSemiCircularChart(0);
+    private void configurarBotoes(String token) {
+        configurarBotaoHistorico(token);
+        configurarBotaoHistoricoEmentas(token);
+        configurarBotaoDeclaracaoVinculo(token);
+        configurarBotaoAtestadoMatricula(token);
+    }
+
+    private void configurarBotaoHistorico(String token) {
         binding.btnEmitirHistorico.txtBtnProgress.setText(R.string.msgBtnEmitirHistorico);
         binding.btnEmitirHistorico.progressButtonLayout.setOnClickListener(v -> {
-            // Desabilita todos os botoes para evitar múltiplos cliques durante o carregamento
             configuraHabilitaDesabilitaBotao(false);
-            solicitarSenha(() -> {
-                // Exibe o ProgressBar e altera o texto para "Carregando"
-                binding.btnEmitirHistorico.progressBarButton.setVisibility(View.VISIBLE);
-                binding.btnEmitirHistorico.txtBtnProgress.setText(R.string.msgCarregando);
-
-                DocumentoRequest documentoRequest = new DocumentoRequest(DOC_HISTORICO, minhaSenha);
-                Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
-
-                call.enqueue(new Callback<DocumentoResponse>() {
-                    @Override
-                    public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
-                        if (binding == null) return;
-                        // Oculta o ProgressBar após a resposta
-                        binding.btnEmitirHistorico.progressBarButton.setVisibility(View.GONE);
-                        configuraHabilitaDesabilitaBotao(true);
-                        binding.btnEmitirHistorico.txtBtnProgress.setText(R.string.msgBtnEmitirHistorico);
-
-                        if (response.isSuccessful()) {
-                            DocumentoResponse documentoResponse = response.body();
-                            if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
-                                String base64Documento = documentoResponse.getPdfbase64();
-                                salvarEPDFVisualizar(DOC_HISTORICO, base64Documento);
-                            } else {
-                                Log.e("API Error", "Documento está vazio.");
-                                Toast.makeText(getContext(), "Erro: Documento está vazio.", Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            Log.e("API Error", "Falha ao obter o documento. Código de resposta: " + response.code());
-                            Toast.makeText(getContext(), "Erro ao obter documento. Código: " + response.code(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<DocumentoResponse> call, Throwable t) {
-                        if (binding == null) return;
-                        // Oculta o ProgressBar após a falha
-                        binding.btnEmitirHistorico.progressBarButton.setVisibility(View.GONE);
-                        binding.btnEmitirHistorico.txtBtnProgress.setText(R.string.msgBtnEmitirHistorico);
-                        configuraHabilitaDesabilitaBotao(true);
-
-                        Log.e("API Error", "Falha ao obter o documento.", t);
-                        Toast.makeText(getContext(), "Erro na solicitação: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            });
+            solicitarSenha(() -> emitirDocumento(token, DOC_HISTORICO, binding.btnEmitirHistorico.progressButtonLayout));
         });
+    }
 
+    private void configurarBotaoHistoricoEmentas(String token) {
         binding.btnEmitirHistoricoEmentas.txtBtnProgress.setText(R.string.msgBtnEmitirHistoricoEmentas);
         binding.btnEmitirHistoricoEmentas.progressButtonLayout.setOnClickListener(v -> {
-            // Desabilita o botão para evitar múltiplos cliques durante o carregamento
             configuraHabilitaDesabilitaBotao(false);
-
-            solicitarSenha(() -> {
-                // Exibe o ProgressBar e altera o texto para "Carregando"
-                binding.btnEmitirHistoricoEmentas.progressBarButton.setVisibility(View.VISIBLE);
-                binding.btnEmitirHistoricoEmentas.txtBtnProgress.setText(R.string.msgCarregando);
-
-                DocumentoRequest documentoRequest = new DocumentoRequest(DOC_HISTORICO_EMENTAS, minhaSenha);
-                Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
-
-                call.enqueue(new Callback<DocumentoResponse>() {
-                    @Override
-                    public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
-                        if (binding == null) return;
-                        // Oculta o ProgressBar após a resposta
-                        binding.btnEmitirHistoricoEmentas.progressBarButton.setVisibility(View.GONE);
-                        configuraHabilitaDesabilitaBotao(true);
-                        binding.btnEmitirHistoricoEmentas.txtBtnProgress.setText(R.string.msgBtnEmitirHistoricoEmentas);
-                        if (response.isSuccessful()) {
-                            DocumentoResponse documentoResponse = response.body();
-                            if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
-                                String base64Documento = documentoResponse.getPdfbase64();
-                                salvarEPDFVisualizar(DOC_HISTORICO_EMENTAS, base64Documento);
-                                binding.btnEmitirHistoricoEmentas.txtBtnProgress.setText(R.string.msgBtnEmitirHistoricoEmentas);
-                            } else {
-                                Log.e("API Error", "Documento está vazio.");
-                                Toast.makeText(getContext(), "Erro: Documento está vazio.", Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            Log.e("API Error", "Falha ao obter o documento. Código de resposta: " + response.code());
-                            Toast.makeText(getContext(), "Erro ao obter documento. Código: " + response.code(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<DocumentoResponse> call, Throwable t) {
-                        if (binding == null) return;
-                        // Oculta o ProgressBar após a falha
-                        binding.btnEmitirHistoricoEmentas.progressBarButton.setVisibility(View.GONE);
-                        binding.btnEmitirHistoricoEmentas.txtBtnProgress.setText(R.string.msgBtnEmitirHistoricoEmentas);
-                        configuraHabilitaDesabilitaBotao(true);
-
-                        Log.e("API Error", "Falha ao obter o documento.", t);
-                        Toast.makeText(getContext(), "Erro na solicitação: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            });
+            solicitarSenha(() -> emitirDocumento(token, DOC_HISTORICO_EMENTAS, binding.btnEmitirHistoricoEmentas.progressButtonLayout));
         });
+    }
 
-
+    private void configurarBotaoDeclaracaoVinculo(String token) {
         binding.btnEmitirDeclaracaoVinculo.txtBtnProgress.setText(R.string.msgBtnEmitirDeclaracaoVinculo);
         binding.btnEmitirDeclaracaoVinculo.progressButtonLayout.setOnClickListener(v -> {
-            // Desabilita o botão para evitar múltiplos cliques durante o carregamento
             configuraHabilitaDesabilitaBotao(false);
-
-            solicitarSenha(() -> {
-                // Exibe o ProgressBar e altera o texto para "Carregando"
-                binding.btnEmitirDeclaracaoVinculo.progressBarButton.setVisibility(View.VISIBLE);
-                binding.btnEmitirDeclaracaoVinculo.txtBtnProgress.setText(R.string.msgCarregando);
-
-                DocumentoRequest documentoRequest = new DocumentoRequest(DOC_DECLARACAO_VINCULO, minhaSenha);
-                Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
-
-                call.enqueue(new Callback<DocumentoResponse>() {
-                    @Override
-                    public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
-                        if (binding == null) return;
-                        // Oculta o ProgressBar após a resposta
-                        binding.btnEmitirDeclaracaoVinculo.progressBarButton.setVisibility(View.GONE);
-                        configuraHabilitaDesabilitaBotao(true);
-                        binding.btnEmitirDeclaracaoVinculo.txtBtnProgress.setText(R.string.msgBtnEmitirDeclaracaoVinculo);
-
-                        if (response.isSuccessful()) {
-                            DocumentoResponse documentoResponse = response.body();
-                            if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
-                                String base64Documento = documentoResponse.getPdfbase64();
-                                salvarEPDFVisualizar(DOC_DECLARACAO_VINCULO, base64Documento);
-                                binding.btnEmitirDeclaracaoVinculo.txtBtnProgress.setText(R.string.msgBtnEmitirDeclaracaoVinculo);
-                            } else {
-                                Log.e("API Error", "Documento está vazio.");
-                                Toast.makeText(getContext(), "Erro: Documento está vazio.", Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            Log.e("API Error", "Falha ao obter o documento. Código de resposta: " + response.code());
-                            Toast.makeText(getContext(), "Erro ao obter documento. Código: " + response.code(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<DocumentoResponse> call, Throwable t) {
-                        if (binding == null) return;
-                        // Oculta o ProgressBar após a falha
-                        binding.btnEmitirDeclaracaoVinculo.progressBarButton.setVisibility(View.GONE);
-                        binding.btnEmitirDeclaracaoVinculo.txtBtnProgress.setText(R.string.msgBtnEmitirDeclaracaoVinculo);
-                        configuraHabilitaDesabilitaBotao(true);
-
-                        Log.e("API Error", "Falha ao obter o documento.", t);
-                        Toast.makeText(getContext(), "Erro na solicitação: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            });
+            solicitarSenha(() -> emitirDocumento(token, DOC_DECLARACAO_VINCULO, binding.btnEmitirDeclaracaoVinculo.progressButtonLayout));
         });
+    }
 
-
+    private void configurarBotaoAtestadoMatricula(String token) {
         binding.btnEmitirAtestadoMatricula.txtBtnProgress.setText(R.string.msgBtnEmitirAtestadoMatricula);
         binding.btnEmitirAtestadoMatricula.progressButtonLayout.setOnClickListener(v -> {
-            // Desabilita o botão para evitar múltiplos cliques durante o carregamento
             configuraHabilitaDesabilitaBotao(false);
-
-
-            solicitarSenha(() -> {
-                // Exibe o ProgressBar e altera o texto para "Carregando"
-                binding.btnEmitirAtestadoMatricula.progressBarButton.setVisibility(View.VISIBLE);
-                binding.btnEmitirAtestadoMatricula.txtBtnProgress.setText(R.string.msgCarregando);
-
-                DocumentoRequest documentoRequest = new DocumentoRequest(DOC_ATESTADO_MATRICULA, minhaSenha);
-                Call<DocumentoResponse> call = documentoService.obterDocumento(token, documentoRequest);
-
-                call.enqueue(new Callback<DocumentoResponse>() {
-                    @Override
-                    public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
-                        if (binding == null) return;
-                        // Oculta o ProgressBar após a resposta
-                        binding.btnEmitirAtestadoMatricula.progressBarButton.setVisibility(View.GONE);
-                        configuraHabilitaDesabilitaBotao(true);
-                        binding.btnEmitirAtestadoMatricula.txtBtnProgress.setText(R.string.msgBtnEmitirAtestadoMatricula);
-                        if (response.isSuccessful()) {
-                            DocumentoResponse documentoResponse = response.body();
-                            if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
-                                String base64Documento = documentoResponse.getPdfbase64();
-                                salvarEPDFVisualizar(DOC_ATESTADO_MATRICULA, base64Documento);
-                                binding.btnEmitirAtestadoMatricula.txtBtnProgress.setText(R.string.msgBtnEmitirAtestadoMatricula);
-                            } else {
-                                Log.e("API Error", "Documento está vazio.");
-                                Toast.makeText(getContext(), "Erro: Documento está vazio.", Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            Log.e("API Error", "Falha ao obter o documento. Código de resposta: " + response.code());
-                            Toast.makeText(getContext(), "Erro ao obter documento. Código: " + response.code(), Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<DocumentoResponse> call, Throwable t) {
-                        if (binding == null) return;
-                        // Oculta o ProgressBar após a falha
-                        binding.btnEmitirAtestadoMatricula.progressBarButton.setVisibility(View.GONE);
-                        binding.btnEmitirAtestadoMatricula.txtBtnProgress.setText(R.string.msgBtnEmitirAtestadoMatricula);
-                        configuraHabilitaDesabilitaBotao(true);
-                        Log.e("API Error", "Falha ao obter o documento.", t);
-                        Toast.makeText(getContext(), "Erro na solicitação: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            });
+            solicitarSenha(() -> emitirDocumento(token, DOC_ATESTADO_MATRICULA, binding.btnEmitirAtestadoMatricula.progressButtonLayout));
         });
-
     }
 
-    private void configuraHabilitaDesabilitaBotao(boolean opc) {
-        // Desabilitar ou habilitar a área completa dos botões
-        binding.btnEmitirHistorico.progressButtonLayout.setEnabled(opc);
-        binding.btnEmitirHistoricoEmentas.progressButtonLayout.setEnabled(opc);
-        binding.btnEmitirAtestadoMatricula.progressButtonLayout.setEnabled(opc);
-        binding.btnEmitirDeclaracaoVinculo.progressButtonLayout.setEnabled(opc);
-    }
+    private void emitirDocumento(String token, String tipoDocumento, View botao) {
+        binding.btnEmitirHistorico.progressBarButton.setVisibility(View.VISIBLE);
+        DocumentoRequest documentoRequest = new DocumentoRequest(tipoDocumento, minhaSenha);
 
+        documentoService.obterDocumento(token, documentoRequest).enqueue(new Callback<DocumentoResponse>() {
+            @Override
+            public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
+                if (binding == null) return;
+                binding.btnEmitirHistorico.progressBarButton.setVisibility(View.GONE);
+                configuraHabilitaDesabilitaBotao(true);
 
-    private void checkUserAuthentication() {
-        if (mAuth.getCurrentUser() != null) {
-            // Verifique se o binding ainda está ativo
-            if (binding == null) {
-                return;  // Saia do método se o binding for nulo
-            }
-
-            String userId = mAuth.getCurrentUser().getUid();
-            db.collection("usuarios").document(userId).get(Source.DEFAULT)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                Perfil perfil = document.toObject(Perfil.class);
-                                if (perfil != null) {
-                                    String nomeCompleto = perfil.getNomeDocente();
-                                    String primeiroNome = obterPrimeiroNome(nomeCompleto);
-                                    String mensagem = "Bem vindo(a) " + primeiroNome;
-
-                                    // Verifique novamente se o binding é nulo antes de acessá-lo
-                                    if (binding != null) {
-                                        binding.txtBemVindo.setText(mensagem);
-                                        binding.containerIntegralizacoes.setVisibility(View.VISIBLE);
-
-                                        binding.txtChObrigatoria.setText(perfil.getChObrigatoriaPendente());
-                                        binding.txtChOptativa.setText(perfil.getChOptativaPendente());
-                                        binding.txtChTotalCurriculo.setText(perfil.getChTotalCurriculo());
-                                        binding.txtChComplementar.setText(perfil.getChComplementarPendente());
-                                        percentualIntegralizado = perfil.getIntegralizado();
-                                        try {
-                                            percentualIntegralizado = perfil.getIntegralizado();
-
-                                            if (percentualIntegralizado != null && !percentualIntegralizado.isEmpty()) {
-                                                setupSemiCircularChart(Integer.parseInt(percentualIntegralizado));
-                                            } else {
-                                                setupSemiCircularChart(0); // Valor padrão caso esteja vazio
-                                            }
-                                        } catch (NumberFormatException e) {
-                                            Log.e("Error", "Falha ao converter percentual integralizado", e);
-                                            setupSemiCircularChart(0); // Valor padrão em caso de falha
-                                        }
-                                    }
-                                }
-                            } else {
-                                if (binding != null) {
-                                    binding.containerIntegralizacoes.setVisibility(View.GONE);
-                                    binding.semiCircularChart.setVisibility(View.GONE);
-                                }
-                            }
-                        } else {
-                            if (binding != null) {
-                                binding.containerIntegralizacoes.setVisibility(View.GONE);
-                                binding.semiCircularChart.setVisibility(View.GONE);
-                            }
-                        }
-                    });
-        } else {
-            if (binding != null) {
-                binding.containerIntegralizacoes.setVisibility(View.GONE);
-                binding.semiCircularChart.setVisibility(View.GONE);
-            }
-        }
-    }
-
-
-    private String obterPrimeiroNome(String nomeCompleto) {
-        if (nomeCompleto == null || nomeCompleto.isEmpty()) {
-            return "";
-        }
-        String[] partes = nomeCompleto.split(" ");
-        if (partes.length > 0) {
-            String primeiroNome = partes[0];
-            primeiroNome = primeiroNome.substring(0, 1).toUpperCase() + primeiroNome.substring(1).toLowerCase();
-            return primeiroNome;
-        }
-        return "";
-    }
-
-    private void salvarEPDFVisualizar(String nome, String base64Data) {
-        try {
-            byte[] pdfAsBytes = Base64.decode(base64Data, Base64.DEFAULT);
-
-            File pdfFile = new File(requireContext().getCacheDir(), nome + ".pdf");
-            try (FileOutputStream fos = new FileOutputStream(pdfFile)) {
-                fos.write(pdfAsBytes);
-            }
-
-            visualizarPDF(pdfFile);
-            //compartilharPDF(pdfFile);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(getContext(), "Erro ao salvar o documento.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void visualizarPDF(File pdfFile) {
-        if (pdfFile.exists()) {
-            Uri pdfUri = FileProvider.getUriForFile(requireContext(), requireContext().getPackageName() + ".fileprovider", pdfFile);
-
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(pdfUri, "application/pdf");
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-            Intent googlePDFViewerIntent = new Intent(Intent.ACTION_VIEW);
-            googlePDFViewerIntent.setDataAndType(pdfUri, "application/pdf");
-            googlePDFViewerIntent.setPackage("com.google.android.apps.pdfviewer");
-
-            if (googlePDFViewerIntent.resolveActivity(requireContext().getPackageManager()) != null) {
-                startActivity(googlePDFViewerIntent);
-            } else {
-                Intent chooser = Intent.createChooser(intent, "Abrir com");
-                if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
-                    startActivity(chooser);
+                if (response.isSuccessful()) {
+                    DocumentoResponse documentoResponse = response.body();
+                    if (documentoResponse != null && documentoResponse.getPdfbase64() != null) {
+                        String base64Documento = documentoResponse.getPdfbase64();
+                        salvarEPDFVisualizar(tipoDocumento, base64Documento);
+                    } else {
+                        exibirErro("Documento está vazio.");
+                    }
                 } else {
-                    compartilharPDF(pdfFile);
-                    Toast.makeText(getContext(), "Nenhum aplicativo de visualização de PDF encontrado.", Toast.LENGTH_SHORT).show();
+                    exibirErro("Erro ao obter documento. Código: " + response.code());
                 }
             }
-        } else {
-            Toast.makeText(getContext(), "Arquivo PDF não encontrado.", Toast.LENGTH_SHORT).show();
-        }
-    }
 
-    private void compartilharPDF(File pdfFile) {
-        if (pdfFile.exists()) {
-            Uri pdfUri = FileProvider.getUriForFile(requireContext(), requireContext().getPackageName() + ".fileprovider", pdfFile);
-
-            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("application/pdf");
-            shareIntent.putExtra(Intent.EXTRA_STREAM, pdfUri);
-            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-            Intent chooser = Intent.createChooser(shareIntent, "Compartilhar PDF com");
-            if (shareIntent.resolveActivity(requireContext().getPackageManager()) != null) {
-                startActivity(chooser);
-            } else {
-                Toast.makeText(getContext(), "Nenhum aplicativo de compartilhamento encontrado.", Toast.LENGTH_SHORT).show();
+            @Override
+            public void onFailure(Call<DocumentoResponse> call, Throwable t) {
+                if (binding == null) return;
+                binding.btnEmitirHistorico.progressBarButton.setVisibility(View.GONE);
+                configuraHabilitaDesabilitaBotao(true);
+                exibirErro("Erro na solicitação: " + t.getMessage());
             }
+        });
+    }
+
+    private void configuraHabilitaDesabilitaBotao(boolean habilitar) {
+        binding.btnEmitirHistorico.progressButtonLayout.setEnabled(habilitar);
+        binding.btnEmitirHistoricoEmentas.progressButtonLayout.setEnabled(habilitar);
+        binding.btnEmitirAtestadoMatricula.progressButtonLayout.setEnabled(habilitar);
+        binding.btnEmitirDeclaracaoVinculo.progressButtonLayout.setEnabled(habilitar);
+    }
+
+    private void checkUserAuthentication(String token) {
+        if (mAuth.getCurrentUser() != null) {
+            String userId = mAuth.getCurrentUser().getUid();
+            db.collection("usuarios").document(userId).get(Source.DEFAULT).addOnCompleteListener(task -> {
+                if (task.isSuccessful() && task.getResult().exists()) {
+                    Perfil perfil = task.getResult().toObject(Perfil.class);
+                    if (perfil != null && binding != null) {
+                        atualizarInterfacePerfil(perfil);
+                    }
+                } else {
+                    esconderComponentesInterface();
+                }
+            });
+        } else {
+            esconderComponentesInterface();
         }
     }
 
-    private void solicitarSenha(Runnable onSuccess) {
-        PasswordDialog passwordDialog = new PasswordDialog(requireContext(), senha -> {
-            minhaSenha = senha;
-            onSuccess.run();
-        });
-        passwordDialog.show();
+    private void atualizarInterfacePerfil(Perfil perfil) {
+        String primeiroNome = obterPrimeiroNome(perfil.getNomeDocente());
+        binding.txtBemVindo.setText("Bem vindo(a) " + primeiroNome);
+        binding.containerIntegralizacoes.setVisibility(View.VISIBLE);
+        configurarValoresPerfil(perfil);
+    }
+
+    private void configurarValoresPerfil(Perfil perfil) {
+        binding.txtChObrigatoria.setText(perfil.getChObrigatoriaPendente());
+        binding.txtChOptativa.setText(perfil.getChOptativaPendente());
+        binding.txtChTotalCurriculo.setText(perfil.getChTotalCurriculo());
+        binding.txtChComplementar.setText(perfil.getChComplementarPendente());
+
+        try {
+            percentualIntegralizado = perfil.getIntegralizado();
+            setupSemiCircularChart(percentualIntegralizado != null && !percentualIntegralizado.isEmpty() ?
+                    Integer.parseInt(percentualIntegralizado) : 0);
+        } catch (NumberFormatException e) {
+            Log.e("Error", "Falha ao converter percentual integralizado", e);
+            setupSemiCircularChart(0);
+        }
+    }
+
+    private void esconderComponentesInterface() {
+        if (binding == null) return;
+        binding.containerIntegralizacoes.setVisibility(View.GONE);
+        binding.semiCircularChart.setVisibility(View.GONE);
+    }
+
+    private void exibirErro(String mensagem) {
+        Log.e("API Error", mensagem);
+        Toast.makeText(getContext(), mensagem, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null; // Evitar vazamento de memória
+        binding = null;
     }
 
     private void setupSemiCircularChart(int realizado) {
@@ -515,7 +287,94 @@ public class HomeFragment extends Fragment {
         int b = (color >> 0) & 0xFF;
         return Color.rgb(r, g, b);
     }
+    private String obterPrimeiroNome(String nomeCompleto) {
+        if (nomeCompleto == null || nomeCompleto.isEmpty()) {
+            return "";
+        }
+        String[] partes = nomeCompleto.split(" ");
+        if (partes.length > 0) {
+            String primeiroNome = partes[0];
+            primeiroNome = primeiroNome.substring(0, 1).toUpperCase() + primeiroNome.substring(1).toLowerCase();
+            return primeiroNome;
+        }
+        return "";
+    }
 
+    private void salvarEPDFVisualizar(String nome, String base64Data) {
+        if (base64Data == null || base64Data.isEmpty()) {
+            Toast.makeText(getContext(), "Erro: Base64 vazio ou nulo.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        try {
+            byte[] pdfAsBytes = Base64.decode(base64Data, Base64.DEFAULT);
+
+            File pdfFile = new File(requireContext().getCacheDir(), nome + ".pdf");
+            try (FileOutputStream fos = new FileOutputStream(pdfFile)) {
+                fos.write(pdfAsBytes);
+            }
+
+            visualizarPDF(pdfFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Erro ao salvar o documento.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    private void visualizarPDF(File pdfFile) {
+        if (pdfFile.exists()) {
+            Uri pdfUri = FileProvider.getUriForFile(requireContext(), requireContext().getPackageName() + ".fileprovider", pdfFile);
+
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(pdfUri, "application/pdf");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            Intent googlePDFViewerIntent = new Intent(Intent.ACTION_VIEW);
+            googlePDFViewerIntent.setDataAndType(pdfUri, "application/pdf");
+            googlePDFViewerIntent.setPackage("com.google.android.apps.pdfviewer");
+
+            if (googlePDFViewerIntent.resolveActivity(requireContext().getPackageManager()) != null) {
+                startActivity(googlePDFViewerIntent);
+            } else {
+                Intent chooser = Intent.createChooser(intent, "Abrir com");
+                if (intent.resolveActivity(requireContext().getPackageManager()) != null) {
+                    startActivity(chooser);
+                } else {
+                    compartilharPDF(pdfFile);
+                    Toast.makeText(getContext(), "Nenhum aplicativo de visualização de PDF encontrado.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        } else {
+            Toast.makeText(getContext(), "Arquivo PDF não encontrado.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void compartilharPDF(File pdfFile) {
+        if (pdfFile.exists()) {
+            Uri pdfUri = FileProvider.getUriForFile(requireContext(), requireContext().getPackageName() + ".fileprovider", pdfFile);
+
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("application/pdf");
+            shareIntent.putExtra(Intent.EXTRA_STREAM, pdfUri);
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            Intent chooser = Intent.createChooser(shareIntent, "Compartilhar PDF com");
+            if (shareIntent.resolveActivity(requireContext().getPackageManager()) != null) {
+                startActivity(chooser);
+            } else {
+                Toast.makeText(getContext(), "Nenhum aplicativo de compartilhamento encontrado.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void solicitarSenha(Runnable onSuccess) {
+        PasswordDialog passwordDialog = new PasswordDialog(requireContext(), senha -> {
+            minhaSenha = senha;
+            onSuccess.run();
+        });
+        passwordDialog.show();
+    }
 
 
 }

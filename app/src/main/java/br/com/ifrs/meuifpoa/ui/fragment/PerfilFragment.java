@@ -77,8 +77,7 @@ public class PerfilFragment extends Fragment {
 
     private void obterDadosPerfilDoFirestore() {
         FirebaseUser usuarioAtual = mAuth.getCurrentUser();
-        if (usuarioAtual == null) {
-            Snackbar.make(getView(), R.string.msg_titulo_deve_estar_logado, Snackbar.LENGTH_SHORT).show();
+        if (usuarioAtual == null || binding == null) {
             return;
         }
 
@@ -88,7 +87,7 @@ public class PerfilFragment extends Fragment {
                 .document(usuarioAtual.getUid())
                 .get(Source.DEFAULT)
                 .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
+                    if (task.isSuccessful() && binding != null) {
                         DocumentSnapshot documento = task.getResult();
                         if (documento.exists()) {
                             Perfil perfil = documento.toObject(Perfil.class);
@@ -106,10 +105,17 @@ public class PerfilFragment extends Fragment {
                         mostrarErro("Erro ao obter perfil do servidor");
                     }
                 })
-                .addOnFailureListener(e -> mostrarErro("Falha na conexão: " + e.getMessage()));
+                .addOnFailureListener(e -> {
+                    if (binding != null) {
+                        mostrarErro("Falha na conexão: " + e.getMessage());
+                    }
+                });
     }
 
     private void configurarPerfil(Perfil perfil) {
+        if (binding == null) {
+            return;
+        }
         binding.txtViewValorNome.setText(perfil.getNomeDocente() != null ? perfil.getNomeDocente() : getString(R.string.dado_nao_disponivel));
         binding.txtViewValorMatricula.setText(perfil.getMatricula() != null ? perfil.getMatricula() : getString(R.string.dado_nao_disponivel));
         binding.txtViewValorCurso.setText(perfil.getCurso() != null ? perfil.getCurso() : getString(R.string.dado_nao_disponivel));
@@ -125,6 +131,9 @@ public class PerfilFragment extends Fragment {
     }
 
     private void limparDadosPerfil() {
+        if (binding == null) {
+            return;
+        }
         binding.txtViewValorNome.setText("");
         binding.txtViewValorMatricula.setText("");
         binding.txtViewValorCurso.setText("");
@@ -137,26 +146,36 @@ public class PerfilFragment extends Fragment {
 
     private void carregarFotoPerfil() {
         FirebaseUser usuarioAtual = mAuth.getCurrentUser();
-        if (usuarioAtual == null) {
+        if (usuarioAtual == null || binding == null) {
             return;
         }
 
         File arquivoLocal = new File(getContext().getFilesDir(), CAMINHO_IMAGEM_LOCAL);
 
         if (arquivoLocal.exists()) {
+            Log.d(TAG, "Imagem carregada do cache local");
             exibirImagemLocal(arquivoLocal);
         } else {
             StorageReference fotoRef = storage.getReference().child("perfil/" + usuarioAtual.getUid() + ".jpg");
 
-            fotoRef.getFile(arquivoLocal).addOnSuccessListener(taskSnapshot -> exibirImagemLocal(arquivoLocal))
-                    .addOnFailureListener(exception -> {
-                        Log.e(TAG, "Erro ao baixar a imagem", exception);
-                        binding.imgPerfil.setImageResource(R.drawable.ifrs_poa_logo);
-                    });
+            fotoRef.getFile(arquivoLocal).addOnSuccessListener(taskSnapshot -> {
+                if (binding == null) return;  // Verifica o binding antes de acessar a UI
+                Log.d(TAG, "Download concluído");
+                exibirImagemLocal(arquivoLocal);
+            }).addOnFailureListener(exception -> {
+                if (binding == null) return;  // Verifica o binding antes de acessar a UI
+                Log.e(TAG, "Erro ao baixar a imagem", exception);
+                binding.imgPerfil.setImageResource(R.drawable.ifrs_poa_logo);
+            });
         }
     }
 
+
     private void exibirImagemLocal(File arquivo) {
+        if (binding == null) {
+            return;
+        }
+
         if (arquivo.exists()) {
             Bitmap bitmap = BitmapFactory.decodeFile(arquivo.getAbsolutePath());
             binding.imgPerfil.setImageBitmap(bitmap);
@@ -164,6 +183,7 @@ public class PerfilFragment extends Fragment {
             binding.imgPerfil.setImageResource(R.drawable.ifrs_poa_logo);
         }
     }
+
 
     private void removerFotoPerfil() {
         File arquivoLocal = new File(getContext().getFilesDir(), CAMINHO_IMAGEM_LOCAL);
@@ -175,6 +195,9 @@ public class PerfilFragment extends Fragment {
     }
 
     private void exibirElementosPerfil(boolean exibir) {
+        if (binding == null) {
+            return;
+        }
         int visibilidade = exibir ? View.VISIBLE : View.GONE;
         binding.imgPerfil.setVisibility(visibilidade);
         binding.linearLayoutNome.setVisibility(visibilidade);
@@ -187,6 +210,9 @@ public class PerfilFragment extends Fragment {
     }
 
     private void mostrarSincronizacao(boolean exibir) {
+        if (binding == null) {
+            return;
+        }
         binding.alertSinconizando.setVisibility(exibir ? View.VISIBLE : View.GONE);
     }
 }

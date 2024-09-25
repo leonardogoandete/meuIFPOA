@@ -58,11 +58,12 @@ public class NotasFragment extends Fragment {
     }
 
     private void obterNotasDoFirestore() {
+        if (binding == null) return;
         // Exibe o ProgressBar antes de iniciar o carregamento
         mostrarCarregamento(true);
 
         if (mAuth.getUid() == null) {
-            Snackbar.make(binding.getRoot(), R.string.msg_titulo_deve_estar_logado, Snackbar.LENGTH_SHORT).show();
+            exibirMensagemErro("Você deve estar logado.");
             mostrarCarregamento(false);
             return;
         }
@@ -81,28 +82,34 @@ public class NotasFragment extends Fragment {
                             LinhaNotasAdapter notasAdapter = new LinhaNotasAdapter(notasServidor);
                             binding.listViewNotas.setAdapter(notasAdapter);
                         } else {
-                            Toast.makeText(getContext(), "Sem notas disponíveis", Toast.LENGTH_SHORT).show();
+                            exibirMensagemErro("Sem notas disponíveis");
                         }
                     } else {
-                        Toast.makeText(getContext(), "Erro ao obter notas do servidor", Toast.LENGTH_SHORT).show();
+                        exibirMensagemErro("Erro ao obter notas do servidor");
                     }
                 })
                 .addOnFailureListener(e -> {
                     // Oculta o ProgressBar ao ocorrer uma falha
                     mostrarCarregamento(false);
-                    Toast.makeText(getContext(), "Falha na conexão", Toast.LENGTH_SHORT).show();
+                    exibirMensagemErro("Falha na conexão");
                 });
     }
 
     private void mostrarCarregamento(boolean visivel) {
-        // Mostrar ou esconder o ProgressBar e a mensagem de carregamento
-        if (visivel) {
-            binding.containerProgressBarNotas.setVisibility(View.VISIBLE);
-            binding.listViewNotas.setVisibility(View.GONE);
-        } else {
-            binding.containerProgressBarNotas.setVisibility(View.GONE);
-            binding.listViewNotas.setVisibility(View.VISIBLE);
+        if (binding != null) {  // Verifique se o binding ainda está disponível
+            if (visivel) {
+                binding.containerProgressBarNotas.setVisibility(View.VISIBLE);
+                binding.listViewNotas.setVisibility(View.GONE);
+            } else {
+                binding.containerProgressBarNotas.setVisibility(View.GONE);
+                binding.listViewNotas.setVisibility(View.VISIBLE);
+            }
         }
+    }
+
+
+    private void exibirMensagemErro(String mensagem) {
+        Snackbar.make(binding.getRoot(), mensagem, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

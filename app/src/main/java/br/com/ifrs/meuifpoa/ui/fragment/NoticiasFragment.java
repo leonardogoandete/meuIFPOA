@@ -44,6 +44,7 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
     private int limiteNoticias = 50;
     private String currentQuery = "";
     private FragmentNoticiasBinding binding;
+    private Call<List<Noticia>> callNoticias; // Guardar o call para cancelar se necessário
 
     @Nullable
     @Override
@@ -152,14 +153,18 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
 
     // Realiza a chamada à API para buscar notícias com o filtro e limite especificados
     private void fetchNews(String filter) {
+        if (callNoticias != null && !callNoticias.isCanceled()) {
+            callNoticias.cancel();  // Cancela a chamada anterior, se ainda estiver em andamento
+        }
+
         binding.containerProgressBar.setVisibility(View.VISIBLE);
         binding.listViewNoticias.setVisibility(View.GONE);
         binding.txtNaoTemNoticias.setVisibility(View.GONE);
 
         NoticiasService service = new NoticiasRetrofit().getNoticiasService();
-        Call<List<Noticia>> call = service.listarNoticias(filter, limiteNoticias);
+        callNoticias = service.listarNoticias(filter, limiteNoticias);
 
-        call.enqueue(new Callback<List<Noticia>>() {
+        callNoticias.enqueue(new Callback<List<Noticia>>() {
             @Override
             public void onResponse(Call<List<Noticia>> call, Response<List<Noticia>> response) {
                 if (binding == null) return;
@@ -182,9 +187,11 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
             @Override
             public void onFailure(Call<List<Noticia>> call, Throwable t) {
                 if (binding == null) return;
-                binding.containerProgressBar.setVisibility(View.GONE);
-                binding.txtNaoTemNoticias.setVisibility(View.VISIBLE);
-                binding.txtNaoTemNoticias.setText("Erro ao obter notícias!");
+                if (!call.isCanceled()) {  // Evita o erro se a chamada for cancelada
+                    binding.containerProgressBar.setVisibility(View.GONE);
+                    binding.txtNaoTemNoticias.setVisibility(View.VISIBLE);
+                    binding.txtNaoTemNoticias.setText("Erro ao obter notícias!");
+                }
             }
         });
     }
@@ -226,6 +233,9 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (callNoticias != null) {
+            callNoticias.cancel(); // Cancela a requisição ao destruir o fragmento
+        }
         binding = null; // Evita vazamento de memória
     }
 }
