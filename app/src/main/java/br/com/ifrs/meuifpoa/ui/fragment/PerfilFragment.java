@@ -48,17 +48,17 @@ public class PerfilFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         inicializarFirebase();
 
-        // Usando GerenciadorSinc para verificar e requisitar a senha
         GerenciadorSinc GerenciadorSinc = new GerenciadorSinc();
         GerenciadorSinc.verificarERequisitarSenha(getContext(), this::obterDadosPerfilDoFirestore);
-        binding.alertSinconizando.setVisibility(View.VISIBLE);
+
+        mostrarSincronizacao(true);
 
         binding.btnSairPerfil.setOnClickListener(v -> {
             mAuth.signOut();
+            limparDadosPerfil();
             removerFotoPerfil();
             GerenciadorSinc.limpar(getContext());
 
-            // Navega para o fragmento de login
             Navigation.findNavController(view).navigate(R.id.noticiasFragment);
         });
     }
@@ -66,7 +66,6 @@ public class PerfilFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        // Limpar o binding para evitar vazamento de memória
         binding = null;
     }
 
@@ -83,6 +82,8 @@ public class PerfilFragment extends Fragment {
             return;
         }
 
+        limparDadosPerfil(); // Limpa o perfil atual antes de carregar os novos dados
+
         db.collection("usuarios")
                 .document(usuarioAtual.getUid())
                 .get(Source.DEFAULT)
@@ -94,8 +95,7 @@ public class PerfilFragment extends Fragment {
                             if (perfil != null) {
                                 configurarPerfil(perfil);
                                 carregarFotoPerfil();
-                                exibirElementosPerfil();
-                                binding.alertSinconizando.setVisibility(View.GONE);
+                                mostrarSincronizacao(false);
                             } else {
                                 mostrarErro("Perfil não encontrado");
                             }
@@ -106,22 +106,33 @@ public class PerfilFragment extends Fragment {
                         mostrarErro("Erro ao obter perfil do servidor");
                     }
                 })
-                .addOnFailureListener(e -> {
-                    mostrarErro("Falha na conexão: " + e.getMessage());
-                });
+                .addOnFailureListener(e -> mostrarErro("Falha na conexão: " + e.getMessage()));
     }
 
     private void configurarPerfil(Perfil perfil) {
-        binding.txtViewValorNome.setText(perfil.getNomeDocente() != null ? perfil.getNomeDocente() : "Nome não disponível");
-        binding.txtViewValorMatricula.setText(perfil.getMatricula() != null ? perfil.getMatricula() : "Matrícula não disponível");
-        binding.txtViewValorCurso.setText(perfil.getCurso() != null ? perfil.getCurso() : "Curso não disponível");
-        binding.txtViewValorNivel.setText(perfil.getNivel() != null ? perfil.getNivel() : "Nível não disponível");
-        binding.txtViewValorSituacao.setText(perfil.getStatus() != null ? perfil.getStatus() : "Status não disponível");
-        binding.txtViewValorIngresso.setText(perfil.getAnoIngresso() != null ? perfil.getAnoIngresso() : "Ano de ingresso não disponível");
+        binding.txtViewValorNome.setText(perfil.getNomeDocente() != null ? perfil.getNomeDocente() : getString(R.string.dado_nao_disponivel));
+        binding.txtViewValorMatricula.setText(perfil.getMatricula() != null ? perfil.getMatricula() : getString(R.string.dado_nao_disponivel));
+        binding.txtViewValorCurso.setText(perfil.getCurso() != null ? perfil.getCurso() : getString(R.string.dado_nao_disponivel));
+        binding.txtViewValorNivel.setText(perfil.getNivel() != null ? perfil.getNivel() : getString(R.string.dado_nao_disponivel));
+        binding.txtViewValorSituacao.setText(perfil.getStatus() != null ? perfil.getStatus() : getString(R.string.dado_nao_disponivel));
+        binding.txtViewValorIngresso.setText(perfil.getAnoIngresso() != null ? perfil.getAnoIngresso() : getString(R.string.dado_nao_disponivel));
+        exibirElementosPerfil(true);
     }
 
     private void mostrarErro(String mensagem) {
         Toast.makeText(getContext(), mensagem, Toast.LENGTH_SHORT).show();
+        Log.e(TAG, mensagem);
+    }
+
+    private void limparDadosPerfil() {
+        binding.txtViewValorNome.setText("");
+        binding.txtViewValorMatricula.setText("");
+        binding.txtViewValorCurso.setText("");
+        binding.txtViewValorNivel.setText("");
+        binding.txtViewValorSituacao.setText("");
+        binding.txtViewValorIngresso.setText("");
+        binding.imgPerfil.setImageResource(R.drawable.ifrs_poa_logo);
+        exibirElementosPerfil(false);
     }
 
     private void carregarFotoPerfil() {
@@ -133,18 +144,15 @@ public class PerfilFragment extends Fragment {
         File arquivoLocal = new File(getContext().getFilesDir(), CAMINHO_IMAGEM_LOCAL);
 
         if (arquivoLocal.exists()) {
-            Log.d(TAG, "Imagem carregada do cache local");
             exibirImagemLocal(arquivoLocal);
         } else {
             StorageReference fotoRef = storage.getReference().child("perfil/" + usuarioAtual.getUid() + ".jpg");
 
-            fotoRef.getFile(arquivoLocal).addOnSuccessListener(taskSnapshot -> {
-                Log.d(TAG, "Download concluído");
-                exibirImagemLocal(arquivoLocal);
-            }).addOnFailureListener(exception -> {
-                Log.e(TAG, "Erro ao baixar a imagem", exception);
-                binding.imgPerfil.setImageResource(R.drawable.ifrs_poa_logo);
-            });
+            fotoRef.getFile(arquivoLocal).addOnSuccessListener(taskSnapshot -> exibirImagemLocal(arquivoLocal))
+                    .addOnFailureListener(exception -> {
+                        Log.e(TAG, "Erro ao baixar a imagem", exception);
+                        binding.imgPerfil.setImageResource(R.drawable.ifrs_poa_logo);
+                    });
         }
     }
 
@@ -159,24 +167,26 @@ public class PerfilFragment extends Fragment {
 
     private void removerFotoPerfil() {
         File arquivoLocal = new File(getContext().getFilesDir(), CAMINHO_IMAGEM_LOCAL);
-        if (arquivoLocal.exists()) {
-            boolean excluido = arquivoLocal.delete();
-            if (excluido) {
-                Log.d(TAG, "Foto de perfil removida com sucesso");
-            } else {
-                Log.e(TAG, "Falha ao remover a foto de perfil");
-            }
+        if (arquivoLocal.exists() && arquivoLocal.delete()) {
+            Log.d(TAG, "Foto de perfil removida com sucesso");
+        } else {
+            Log.e(TAG, "Falha ao remover a foto de perfil");
         }
     }
 
-    private void exibirElementosPerfil() {
-        binding.imgPerfil.setVisibility(View.VISIBLE);
-        binding.linearLayoutNome.setVisibility(View.VISIBLE);
-        binding.linearLayoutMatricula.setVisibility(View.VISIBLE);
-        binding.linearLayoutCurso.setVisibility(View.VISIBLE);
-        binding.linearLayoutNivel.setVisibility(View.VISIBLE);
-        binding.linearLayoutSituacao.setVisibility(View.VISIBLE);
-        binding.linearLayoutIngresso.setVisibility(View.VISIBLE);
-        binding.btnSairPerfil.setVisibility(View.VISIBLE);
+    private void exibirElementosPerfil(boolean exibir) {
+        int visibilidade = exibir ? View.VISIBLE : View.GONE;
+        binding.imgPerfil.setVisibility(visibilidade);
+        binding.linearLayoutNome.setVisibility(visibilidade);
+        binding.linearLayoutMatricula.setVisibility(visibilidade);
+        binding.linearLayoutCurso.setVisibility(visibilidade);
+        binding.linearLayoutNivel.setVisibility(visibilidade);
+        binding.linearLayoutSituacao.setVisibility(visibilidade);
+        binding.linearLayoutIngresso.setVisibility(visibilidade);
+        binding.btnSairPerfil.setVisibility(visibilidade);
+    }
+
+    private void mostrarSincronizacao(boolean exibir) {
+        binding.alertSinconizando.setVisibility(exibir ? View.VISIBLE : View.GONE);
     }
 }

@@ -93,6 +93,7 @@ public class HomeFragment extends Fragment {
                 call.enqueue(new Callback<DocumentoResponse>() {
                     @Override
                     public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
+                        if (binding == null) return;
                         // Oculta o ProgressBar após a resposta
                         binding.btnEmitirHistorico.progressBarButton.setVisibility(View.GONE);
                         configuraHabilitaDesabilitaBotao(true);
@@ -115,6 +116,7 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<DocumentoResponse> call, Throwable t) {
+                        if (binding == null) return;
                         // Oculta o ProgressBar após a falha
                         binding.btnEmitirHistorico.progressBarButton.setVisibility(View.GONE);
                         binding.btnEmitirHistorico.txtBtnProgress.setText(R.string.msgBtnEmitirHistorico);
@@ -143,6 +145,7 @@ public class HomeFragment extends Fragment {
                 call.enqueue(new Callback<DocumentoResponse>() {
                     @Override
                     public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
+                        if (binding == null) return;
                         // Oculta o ProgressBar após a resposta
                         binding.btnEmitirHistoricoEmentas.progressBarButton.setVisibility(View.GONE);
                         configuraHabilitaDesabilitaBotao(true);
@@ -165,6 +168,7 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<DocumentoResponse> call, Throwable t) {
+                        if (binding == null) return;
                         // Oculta o ProgressBar após a falha
                         binding.btnEmitirHistoricoEmentas.progressBarButton.setVisibility(View.GONE);
                         binding.btnEmitirHistoricoEmentas.txtBtnProgress.setText(R.string.msgBtnEmitirHistoricoEmentas);
@@ -194,6 +198,7 @@ public class HomeFragment extends Fragment {
                 call.enqueue(new Callback<DocumentoResponse>() {
                     @Override
                     public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
+                        if (binding == null) return;
                         // Oculta o ProgressBar após a resposta
                         binding.btnEmitirDeclaracaoVinculo.progressBarButton.setVisibility(View.GONE);
                         configuraHabilitaDesabilitaBotao(true);
@@ -217,6 +222,7 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<DocumentoResponse> call, Throwable t) {
+                        if (binding == null) return;
                         // Oculta o ProgressBar após a falha
                         binding.btnEmitirDeclaracaoVinculo.progressBarButton.setVisibility(View.GONE);
                         binding.btnEmitirDeclaracaoVinculo.txtBtnProgress.setText(R.string.msgBtnEmitirDeclaracaoVinculo);
@@ -247,6 +253,7 @@ public class HomeFragment extends Fragment {
                 call.enqueue(new Callback<DocumentoResponse>() {
                     @Override
                     public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
+                        if (binding == null) return;
                         // Oculta o ProgressBar após a resposta
                         binding.btnEmitirAtestadoMatricula.progressBarButton.setVisibility(View.GONE);
                         configuraHabilitaDesabilitaBotao(true);
@@ -270,6 +277,7 @@ public class HomeFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<DocumentoResponse> call, Throwable t) {
+                        if (binding == null) return;
                         // Oculta o ProgressBar após a falha
                         binding.btnEmitirAtestadoMatricula.progressBarButton.setVisibility(View.GONE);
                         binding.btnEmitirAtestadoMatricula.txtBtnProgress.setText(R.string.msgBtnEmitirAtestadoMatricula);

@@ -56,6 +56,7 @@
     <string name="msgBtnEmitirAtestadoMatricula">Emitir Atestado de matrícula</string>
     <string name="msgBemVindoUsuario">Bem vindo(a) usuário!</string>
     <string name="txtViewTituloIntegralizacoes">Progresso</string>
+    <string name="dado_nao_disponivel">Não disponivel</string>
 
     <string-array name="limites_noticias">
         <item>Nº noticias</item>

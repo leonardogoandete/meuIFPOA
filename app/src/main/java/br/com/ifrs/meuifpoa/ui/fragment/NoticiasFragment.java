@@ -162,6 +162,7 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
         call.enqueue(new Callback<List<Noticia>>() {
             @Override
             public void onResponse(Call<List<Noticia>> call, Response<List<Noticia>> response) {
+                if (binding == null) return;
                 binding.containerProgressBar.setVisibility(View.GONE);
                 if (response.isSuccessful() && response.body() != null) {
                     List<Noticia> noticias = response.body();
@@ -180,6 +181,7 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
 
             @Override
             public void onFailure(Call<List<Noticia>> call, Throwable t) {
+                if (binding == null) return;
                 binding.containerProgressBar.setVisibility(View.GONE);
                 binding.txtNaoTemNoticias.setVisibility(View.VISIBLE);
                 binding.txtNaoTemNoticias.setText("Erro ao obter notícias!");
