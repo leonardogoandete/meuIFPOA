@@ -69,19 +69,26 @@ public class HomeFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+
+        // Verifica se o usuário está autenticado
+        if (mAuth.getCurrentUser() == null) {
+            // Se o usuário não estiver autenticado, esconder os componentes
+            esconderComponentesInterface();
+            return; // Sai do método para evitar continuar carregando os dados
+        }
+
         configurarFirestore();
 
         SharedPreferences preferencias = getContext().getSharedPreferences("loginSigaa", Context.MODE_PRIVATE);
         String token = preferencias.getString("token", "");
 
-        if (token.isEmpty()) {
-            Toast.makeText(getContext(), "Token não encontrado, por favor, faça login novamente.", Toast.LENGTH_SHORT).show();
-            return;
+
+        if (mAuth.getUid() != null) {
+            setupSemiCircularChart(0);
+            configurarBotoes(token);
+            checkUserAuthentication();
         }
 
-        setupSemiCircularChart(0);
-        configurarBotoes(token);
-        checkUserAuthentication(token);
     }
 
     private void configurarFirestore() {
@@ -170,7 +177,7 @@ public class HomeFragment extends Fragment {
         binding.btnEmitirDeclaracaoVinculo.progressButtonLayout.setEnabled(habilitar);
     }
 
-    private void checkUserAuthentication(String token) {
+    private void checkUserAuthentication() {
         if (mAuth.getCurrentUser() != null) {
             String userId = mAuth.getCurrentUser().getUid();
             db.collection("usuarios").document(userId).get(Source.DEFAULT).addOnCompleteListener(task -> {
@@ -288,6 +295,7 @@ public class HomeFragment extends Fragment {
         int b = (color >> 0) & 0xFF;
         return Color.rgb(r, g, b);
     }
+
     private String obterPrimeiroNome(String nomeCompleto) {
         if (nomeCompleto == null || nomeCompleto.isEmpty()) {
             return "";
