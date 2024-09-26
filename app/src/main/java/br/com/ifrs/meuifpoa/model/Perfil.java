@@ -12,6 +12,7 @@ public class Perfil {
     private String chTotalCurriculo;
     private String chComplementarPendente;
     private String integralizado;
+    private String imgSrc;
 
     public Perfil(){}
 
@@ -124,5 +125,13 @@ public class Perfil {
 
     public void setIntegralizado(String integralizado) {
         this.integralizado = integralizado;
+    }
+
+    public String getImgSrc() {
+        return imgSrc;
+    }
+
+    public void setImgSrc(String imgSrc) {
+        this.imgSrc = imgSrc;
     }
 }

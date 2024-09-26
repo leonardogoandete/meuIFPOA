@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +20,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Source;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
+
 
 import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.databinding.FragmentPerfilBinding;
@@ -31,11 +31,10 @@ import br.com.ifrs.meuifpoa.utils.GerenciadorSinc;
 public class PerfilFragment extends Fragment {
 
     private static final String TAG = "PerfilFragment";
-    private static final String CAMINHO_IMAGEM_LOCAL = "perfil.jpg";
     private FragmentPerfilBinding binding;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
-    private FirebaseStorage storage;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,7 +57,6 @@ public class PerfilFragment extends Fragment {
         binding.btnSairPerfil.setOnClickListener(v -> {
             mAuth.signOut();
             limparDadosPerfil();
-            removerFotoPerfil();
             GerenciadorSinc.limpar(getContext());
 
             Navigation.findNavController(view).navigate(R.id.noticiasFragment);
@@ -73,7 +71,6 @@ public class PerfilFragment extends Fragment {
 
     private void inicializarFirebase() {
         mAuth = FirebaseAuth.getInstance();
-        storage = FirebaseStorage.getInstance();
         db = FirebaseFirestore.getInstance();
     }
 
@@ -94,7 +91,7 @@ public class PerfilFragment extends Fragment {
                             Perfil perfil = documento.toObject(Perfil.class);
                             if (perfil != null) {
                                 configurarPerfil(perfil);
-                                carregarFotoPerfil();  // Tenta carregar a foto do cache local também
+                                carregarFotoPerfil(perfil);  // Tenta carregar a foto do cache local também
                             } else {
                                 mostrarErro("Perfil não encontrado no cache");
                             }
@@ -123,8 +120,9 @@ public class PerfilFragment extends Fragment {
                         if (documento.exists()) {
                             Perfil perfil = documento.toObject(Perfil.class);
                             if (perfil != null) {
+                                //Log.d("PERFIL", perfil.getImgSrc());
                                 configurarPerfil(perfil);  // Atualiza os dados com os do servidor
-                                carregarFotoPerfil();
+                                carregarFotoPerfil(perfil);
                             } else {
                                 mostrarErro("Perfil não encontrado no servidor");
                             }
@@ -174,53 +172,34 @@ public class PerfilFragment extends Fragment {
         exibirElementosPerfil(false);
     }
 
-    private void carregarFotoPerfil() {
-        FirebaseUser usuarioAtual = mAuth.getCurrentUser();
-        if (usuarioAtual == null || binding == null) {
+    private void carregarFotoPerfil(Perfil perfil) {
+        if (perfil == null || binding == null) {
             return;
         }
 
-        File arquivoLocal = new File(getContext().getFilesDir(), CAMINHO_IMAGEM_LOCAL);
+        String base64Imagem = perfil.getImgSrc();  // Supondo que o perfil contenha a imagem em Base64
+        if (base64Imagem != null && !base64Imagem.isEmpty()) {
+            try {
+                // Decodifica o Base64 para um array de bytes
+                byte[] decodedString = Base64.decode(base64Imagem, Base64.DEFAULT);
 
-        if (arquivoLocal.exists()) {
-            Log.d(TAG, "Imagem carregada do cache local");
-            exibirImagemLocal(arquivoLocal);
+                // Converte o array de bytes em um Bitmap
+                Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+                // Define o Bitmap no ImageView
+                binding.imgPerfil.setImageBitmap(bitmap);
+
+                Log.d(TAG, "Imagem de perfil carregada a partir do Base64");
+            } catch (IllegalArgumentException e) {
+                Log.e(TAG, "Erro ao decodificar Base64", e);
+                binding.imgPerfil.setImageResource(R.drawable.ifrs_poa_logo);  // Define uma imagem padrão em caso de erro
+            }
         } else {
-            StorageReference fotoRef = storage.getReference().child("perfil/" + usuarioAtual.getUid() + ".jpg");
-
-            fotoRef.getFile(arquivoLocal).addOnSuccessListener(taskSnapshot -> {
-                if (binding == null) return;  // Verifica o binding antes de acessar a UI
-                Log.d(TAG, "Download concluído");
-                exibirImagemLocal(arquivoLocal);
-            }).addOnFailureListener(exception -> {
-                if (binding == null) return;  // Verifica o binding antes de acessar a UI
-                Log.e(TAG, "Erro ao baixar a imagem", exception);
-                binding.imgPerfil.setImageResource(R.drawable.ifrs_poa_logo);
-            });
+            Log.d(TAG, "Nenhuma imagem de perfil disponível, carregando padrão");
+            binding.imgPerfil.setImageResource(R.drawable.ifrs_poa_logo);  // Define a imagem padrão
         }
     }
 
-    private void exibirImagemLocal(File arquivo) {
-        if (binding == null) {
-            return;
-        }
-
-        if (arquivo.exists()) {
-            Bitmap bitmap = BitmapFactory.decodeFile(arquivo.getAbsolutePath());
-            binding.imgPerfil.setImageBitmap(bitmap);
-        } else {
-            binding.imgPerfil.setImageResource(R.drawable.ifrs_poa_logo);
-        }
-    }
-
-    private void removerFotoPerfil() {
-        File arquivoLocal = new File(getContext().getFilesDir(), CAMINHO_IMAGEM_LOCAL);
-        if (arquivoLocal.exists() && arquivoLocal.delete()) {
-            Log.d(TAG, "Foto de perfil removida com sucesso");
-        } else {
-            Log.e(TAG, "Falha ao remover a foto de perfil");
-        }
-    }
 
     private void exibirElementosPerfil(boolean exibir) {
         if (binding == null) {
@@ -232,12 +211,4 @@ public class PerfilFragment extends Fragment {
         binding.btnSairPerfil.setVisibility(visibilidade);
     }
 
-    private void mostrarSincronizacao(boolean exibir) {
-        if (binding == null) {
-            return;
-        }
-        binding.containerProgressBarPerfil.setVisibility(exibir ? View.VISIBLE : View.GONE);
-        binding.containerPerfil.setVisibility(exibir ? View.GONE : View.VISIBLE);
-        binding.imgPerfil.setVisibility(exibir ? View.GONE : View.VISIBLE);
-    }
 }
