@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp">
@@ -17,9 +17,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp" />
 
-    <!-- Campo de e-mail para recuperação de senha -->
+    <!-- Campo de senha -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputSenhaSyncSigaa"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -28,7 +28,6 @@
         android:hint="@string/txtInputSenhaSigaa"
         android:layout_marginTop="8dp"
         app:boxBackgroundMode="outline"
-        app:boxStrokeWidth="2dp"
         app:passwordToggleEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,9 +37,38 @@
             android:id="@+id/editTextSenhaSigaa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:importantForAccessibility="yes"
-            android:contentDescription="Campo para digitar o e-mail para recuperação de senha" />
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- ProgressBar de carregamento -->
+    <LinearLayout
+        android:id="@+id/containerProgressBarSync"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/textInputSenhaSyncSigaa"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ProgressBar
+            android:id="@+id/progressBarSync"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/colorPrimary"
+            android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/txtCarregandoSync"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/msgCarregando"
+            android:textSize="18sp"
+            android:visibility="visible"
+            android:gravity="center"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

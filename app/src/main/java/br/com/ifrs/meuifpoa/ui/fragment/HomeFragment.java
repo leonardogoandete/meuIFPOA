@@ -102,7 +102,6 @@ public class HomeFragment extends Fragment {
         binding.btnEmitirHistorico.txtBtnProgress.setText(R.string.msgBtnEmitirHistorico);
         binding.btnEmitirHistorico.progressButtonLayout.setOnClickListener(v -> {
             configuraHabilitaDesabilitaBotao(false);
-            solicitarSenha(() -> emitirDocumento(token, DOC_HISTORICO, binding.btnEmitirHistorico.progressButtonLayout));
         });
     }
 
@@ -191,7 +190,9 @@ public class HomeFragment extends Fragment {
 
     private void atualizarInterfacePerfil(Perfil perfil) {
         String primeiroNome = obterPrimeiroNome(perfil.getNomeDocente());
-        binding.txtBemVindo.setText("Bem vindo(a) " + primeiroNome);
+        StringBuffer mensagem = new StringBuffer();
+        mensagem.append(getString(R.string.msgBemVindo)).append(primeiroNome).append("!");
+        binding.txtBemVindo.setText(mensagem);
         binding.containerIntegralizacoes.setVisibility(View.VISIBLE);
         configurarValoresPerfil(perfil);
     }
@@ -301,10 +302,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void salvarEPDFVisualizar(String nome, String base64Data) {
-        if (base64Data == null || base64Data.isEmpty()) {
-            Toast.makeText(getContext(), "Erro: Base64 vazio ou nulo.", Toast.LENGTH_SHORT).show();
-            return;
-        }
         try {
             byte[] pdfAsBytes = Base64.decode(base64Data, Base64.DEFAULT);
 
@@ -314,12 +311,13 @@ public class HomeFragment extends Fragment {
             }
 
             visualizarPDF(pdfFile);
+            //compartilharPDF(pdfFile);
+
         } catch (IOException e) {
             e.printStackTrace();
             Toast.makeText(getContext(), "Erro ao salvar o documento.", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     private void visualizarPDF(File pdfFile) {
         if (pdfFile.exists()) {

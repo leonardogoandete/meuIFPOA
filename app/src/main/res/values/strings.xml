@@ -57,6 +57,8 @@
     <string name="msgBemVindoUsuario">Bem vindo(a) usuário!</string>
     <string name="txtViewTituloIntegralizacoes">Progresso</string>
     <string name="dado_nao_disponivel">Não disponivel</string>
+    <string name="msgSincronizando">Sincronizando...</string>
+    <string name="msgBemVindo">"Bem vindo(a) "</string>
 
     <string-array name="limites_noticias">
         <item>Nº noticias</item>

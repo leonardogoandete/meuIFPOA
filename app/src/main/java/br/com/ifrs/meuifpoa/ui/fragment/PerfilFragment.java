@@ -1,5 +1,6 @@
 package br.com.ifrs.meuifpoa.ui.fragment;
 
+import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -12,7 +13,6 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -48,10 +48,12 @@ public class PerfilFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         inicializarFirebase();
 
-        GerenciadorSinc GerenciadorSinc = new GerenciadorSinc();
-        GerenciadorSinc.verificarERequisitarSenha(getContext(), this::obterDadosPerfilDoFirestore);
+        // Primeiramente, exibe os dados do cache
+        obterDadosDoCache();
 
-        mostrarSincronizacao(true);
+        // Sincronização opcional com o servidor após verificar a senha
+        GerenciadorSinc GerenciadorSinc = new GerenciadorSinc();
+        GerenciadorSinc.verificarERequisitarSenha(getContext(), this::sincronizarComServidor);
 
         binding.btnSairPerfil.setOnClickListener(v -> {
             mAuth.signOut();
@@ -75,17 +77,16 @@ public class PerfilFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
     }
 
-    private void obterDadosPerfilDoFirestore() {
+    private void obterDadosDoCache() {
         FirebaseUser usuarioAtual = mAuth.getCurrentUser();
         if (usuarioAtual == null || binding == null) {
             return;
         }
 
-        limparDadosPerfil(); // Limpa o perfil atual antes de carregar os novos dados
-
+        // Primeira tentativa: obter dados do cache local
         db.collection("usuarios")
                 .document(usuarioAtual.getUid())
-                .get(Source.DEFAULT)
+                .get(Source.CACHE)  // Tenta obter do cache primeiro
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && binding != null) {
                         DocumentSnapshot documento = task.getResult();
@@ -93,13 +94,42 @@ public class PerfilFragment extends Fragment {
                             Perfil perfil = documento.toObject(Perfil.class);
                             if (perfil != null) {
                                 configurarPerfil(perfil);
-                                carregarFotoPerfil();
-                                mostrarSincronizacao(false);
+                                carregarFotoPerfil();  // Tenta carregar a foto do cache local também
                             } else {
-                                mostrarErro("Perfil não encontrado");
+                                mostrarErro("Perfil não encontrado no cache");
                             }
                         } else {
-                            mostrarErro("Documento não encontrado");
+                            mostrarErro("Documento não encontrado no cache");
+                        }
+                    } else {
+                        mostrarErro("Erro ao obter perfil do cache");
+                    }
+                });
+    }
+
+    private void sincronizarComServidor() {
+        FirebaseUser usuarioAtual = mAuth.getCurrentUser();
+        if (usuarioAtual == null || binding == null) {
+            return;
+        }
+
+        // Sincronizar dados do servidor
+        db.collection("usuarios")
+                .document(usuarioAtual.getUid())
+                .get(Source.SERVER)  // Busca os dados do servidor para sincronizar
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && binding != null) {
+                        DocumentSnapshot documento = task.getResult();
+                        if (documento.exists()) {
+                            Perfil perfil = documento.toObject(Perfil.class);
+                            if (perfil != null) {
+                                configurarPerfil(perfil);  // Atualiza os dados com os do servidor
+                                carregarFotoPerfil();
+                            } else {
+                                mostrarErro("Perfil não encontrado no servidor");
+                            }
+                        } else {
+                            mostrarErro("Documento não encontrado no servidor");
                         }
                     } else {
                         mostrarErro("Erro ao obter perfil do servidor");
@@ -107,7 +137,7 @@ public class PerfilFragment extends Fragment {
                 })
                 .addOnFailureListener(e -> {
                     if (binding != null) {
-                        mostrarErro("Falha na conexão: " + e.getMessage());
+                        mostrarErro("Falha na conexão com o servidor: " + e.getMessage());
                     }
                 });
     }
@@ -170,7 +200,6 @@ public class PerfilFragment extends Fragment {
         }
     }
 
-
     private void exibirImagemLocal(File arquivo) {
         if (binding == null) {
             return;
@@ -183,7 +212,6 @@ public class PerfilFragment extends Fragment {
             binding.imgPerfil.setImageResource(R.drawable.ifrs_poa_logo);
         }
     }
-
 
     private void removerFotoPerfil() {
         File arquivoLocal = new File(getContext().getFilesDir(), CAMINHO_IMAGEM_LOCAL);
@@ -200,12 +228,7 @@ public class PerfilFragment extends Fragment {
         }
         int visibilidade = exibir ? View.VISIBLE : View.GONE;
         binding.imgPerfil.setVisibility(visibilidade);
-        binding.linearLayoutNome.setVisibility(visibilidade);
-        binding.linearLayoutMatricula.setVisibility(visibilidade);
-        binding.linearLayoutCurso.setVisibility(visibilidade);
-        binding.linearLayoutNivel.setVisibility(visibilidade);
-        binding.linearLayoutSituacao.setVisibility(visibilidade);
-        binding.linearLayoutIngresso.setVisibility(visibilidade);
+        binding.containerPerfil.setVisibility(visibilidade);
         binding.btnSairPerfil.setVisibility(visibilidade);
     }
 
@@ -213,6 +236,8 @@ public class PerfilFragment extends Fragment {
         if (binding == null) {
             return;
         }
-        binding.alertSinconizando.setVisibility(exibir ? View.VISIBLE : View.GONE);
+        binding.containerProgressBarPerfil.setVisibility(exibir ? View.VISIBLE : View.GONE);
+        binding.containerPerfil.setVisibility(exibir ? View.GONE : View.VISIBLE);
+        binding.imgPerfil.setVisibility(exibir ? View.GONE : View.VISIBLE);
     }
 }
