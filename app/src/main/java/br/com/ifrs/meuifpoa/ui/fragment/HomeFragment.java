@@ -5,6 +5,7 @@ import static br.com.ifrs.meuifpoa.utils.Constants.DOC_DECLARACAO_VINCULO;
 import static br.com.ifrs.meuifpoa.utils.Constants.DOC_HISTORICO_EMENTAS;
 import static br.com.ifrs.meuifpoa.utils.Constants.DOC_HISTORICO;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +17,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
@@ -24,6 +28,7 @@ import androidx.fragment.app.Fragment;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
@@ -133,15 +138,20 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void emitirDocumento(String token, String tipoDocumento, View botao) {
-        binding.btnEmitirHistorico.progressBarButton.setVisibility(View.VISIBLE);
+
+    private void emitirDocumento(String token, String tipoDocumento, View buttonLayout) {
+        // Exibir o ProgressBar do botão clicado
+        buttonLayout.findViewById(R.id.progressBarButton).setVisibility(View.VISIBLE);
+
         DocumentoRequest documentoRequest = new DocumentoRequest(tipoDocumento, minhaSenha);
 
         documentoService.obterDocumento(token, documentoRequest).enqueue(new Callback<DocumentoResponse>() {
             @Override
             public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
                 if (binding == null) return;
-                binding.btnEmitirHistorico.progressBarButton.setVisibility(View.GONE);
+
+                // Ocultar o ProgressBar após a resposta
+                buttonLayout.findViewById(R.id.progressBarButton).setVisibility(View.GONE);
 
                 if (response.isSuccessful()) {
                     DocumentoResponse documentoResponse = response.body();
@@ -159,12 +169,15 @@ public class HomeFragment extends Fragment {
             @Override
             public void onFailure(Call<DocumentoResponse> call, Throwable t) {
                 if (binding == null) return;
-                binding.btnEmitirHistorico.progressBarButton.setVisibility(View.GONE);
+
+                // Ocultar o ProgressBar em caso de falha
+                buttonLayout.findViewById(R.id.progressBarButton).setVisibility(View.GONE);
                 exibirErro("Erro na solicitação: " + t.getMessage());
             }
         });
         configuraDesabilitarBotao(true);
     }
+
 
     private void configuraDesabilitarBotao(boolean habilitar) {
         Log.d("HomeFragment", "configuraDesabilitarBotao: " + habilitar);
@@ -370,12 +383,42 @@ public class HomeFragment extends Fragment {
         }
     }
 
+
     private void solicitarSenha(Runnable onSuccess) {
-        PasswordDialog passwordDialog = new PasswordDialog(requireContext(), senha -> {
-            minhaSenha = senha;
-            onSuccess.run();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View dialogView = inflater.inflate(R.layout.dialog_sync_sigaa, null);
+
+        // Referenciando o TextInputLayout para obter a senha digitada
+        TextInputLayout senhaInput = dialogView.findViewById(R.id.textInputSenhaSyncSigaa);
+        TextView titulo = dialogView.findViewById(R.id.textViewTitulo);
+        titulo.setText("Senha SIGA");
+        builder.setView(dialogView)
+                .setPositiveButton("OK", null)  // Não fechar o diálogo automaticamente
+                .setNegativeButton("Cancelar", (dialogInterface, which) -> dialogInterface.dismiss());
+
+        AlertDialog dialog = builder.create();
+
+        // Override do botão positivo para tratar a senha
+        dialog.setOnShowListener(dialogInterface -> {
+            Button okButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            okButton.setOnClickListener(v -> {
+                // Capturar a senha
+                String senhaDigitada = senhaInput.getEditText().getText().toString().trim();
+
+                if (!senhaDigitada.isEmpty()) {
+                    // Armazena a senha e executa o callback
+                    minhaSenha = senhaDigitada;
+                    onSuccess.run();  // Executa a ação após inserir a senha
+                    dialog.dismiss();  // Fecha o diálogo
+                } else {
+                    // Exibe um erro se o campo de senha estiver vazio
+                    senhaInput.setError("Senha não pode ser vazia");
+                }
+            });
         });
-        passwordDialog.show();
+
+        dialog.show();  // Exibe o diálogo
     }
 
 

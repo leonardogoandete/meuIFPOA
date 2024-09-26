@@ -46,6 +46,9 @@ public class GerenciadorSinc {
                 AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
                 LayoutInflater inflater = LayoutInflater.from(contexto);
                 View dialogView = inflater.inflate(R.layout.dialog_sync_sigaa, null);
+                TextInputLayout senhaInput = dialogView.findViewById(R.id.textInputSenhaSyncSigaa);
+                LinearLayout progressBarContainer = dialogView.findViewById(R.id.containerProgressBarSync);
+
                 builder.setView(dialogView)
                         .setPositiveButton("OK", null)  // Não fechar o diálogo automaticamente
                         .setNegativeButton("Cancelar", (dialogInterface, which) -> dialogInterface.dismiss());
@@ -57,50 +60,15 @@ public class GerenciadorSinc {
                     Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
 
                     positiveButton.setOnClickListener(v -> {
-                        TextInputLayout senhaSigaa = dialogView.findViewById(R.id.textInputSenhaSyncSigaa);
-                        String senha = senhaSigaa.getEditText().getText().toString().trim();
+                        String senha = senhaInput.getEditText().getText().toString().trim();
 
                         if (!senha.isEmpty()) {
-                            LinearLayout progressBarContainer = dialogView.findViewById(R.id.containerProgressBarSync);
-                            progressBarContainer.setVisibility(View.VISIBLE);
-                            senhaSigaa.setVisibility(View.GONE);
-
-                            SharedPreferences preferencias = contexto.getSharedPreferences("loginSigaa", Context.MODE_PRIVATE);
-                            String token = preferencias.getString("token", "");
-                            SyncService syncService = new SyncRetrofit().getSyncService();
-
-                            Log.d(TAG, "Iniciando sincronização com token: " + token);
-                            Call<SyncResponse> chamada = syncService.sincronizar(token, senha);
-                            chamada.enqueue(new Callback<SyncResponse>() {
-                                @Override
-                                public void onResponse(Call<SyncResponse> chamada, Response<SyncResponse> resposta) {
-                                    if (resposta.isSuccessful()) {
-                                        Log.d(TAG, "Sincronização realizada com sucesso");
-                                        salvarDataUltimaSincronizacao(contexto, System.currentTimeMillis());
-                                        dialog.dismiss();
-                                        aoSucesso.run();
-                                    } else {
-                                        exibirMensagem(contexto, "Erro ao sincronizar dados");
-                                        Log.e(TAG, "Erro ao sincronizar dados: " + resposta.body());
-                                        progressBarContainer.setVisibility(View.GONE);
-                                        senhaSigaa.setVisibility(View.VISIBLE);
-                                        positiveButton.setEnabled(true); // Reabilita o botão para tentar novamente
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Call<SyncResponse> chamada, Throwable t) {
-                                    exibirMensagem(contexto, "Falha na conexão: " + t.getMessage());
-                                    Log.e(TAG, "Falha na conexão: " + t.getMessage(), t);
-                                    progressBarContainer.setVisibility(View.GONE);
-                                    senhaSigaa.setVisibility(View.VISIBLE);
-                                    positiveButton.setEnabled(true); // Reabilita o botão para tentar novamente
-                                }
-                            });
+                            iniciarSincronizacao(contexto, senha, dialogView, dialog, progressBarContainer, aoSucesso, positiveButton);
                         } else {
-                            Toast.makeText(contexto, "Digite sua senha", Toast.LENGTH_SHORT).show();
+                            senhaInput.setError("Senha não pode ser vazia");
                         }
                     });
+
                     negativeButton.setOnClickListener(v -> dialog.dismiss());
                 });
 
@@ -113,6 +81,51 @@ public class GerenciadorSinc {
             exibirMensagem(contexto, "Usuário não autenticado");
         }
     }
+
+    private static void iniciarSincronizacao(Context contexto, String senha, View dialogView, AlertDialog dialog, LinearLayout progressBarContainer, Runnable aoSucesso, Button positiveButton) {
+        TextInputLayout senhaSigaa = dialogView.findViewById(R.id.textInputSenhaSyncSigaa);
+        progressBarContainer.setVisibility(View.VISIBLE);
+        senhaSigaa.setVisibility(View.GONE);
+
+        SharedPreferences preferencias = contexto.getSharedPreferences("loginSigaa", Context.MODE_PRIVATE);
+        String token = preferencias.getString("token", "");
+        SyncService syncService = new SyncRetrofit().getSyncService();
+
+        Log.d(TAG, "Iniciando sincronização com token: " + token);
+        Call<SyncResponse> chamada = syncService.sincronizar(token, senha);
+
+        chamada.enqueue(new Callback<SyncResponse>() {
+            @Override
+            public void onResponse(Call<SyncResponse> chamada, Response<SyncResponse> resposta) {
+                if (resposta.isSuccessful()) {
+                    Log.d(TAG, "Sincronização realizada com sucesso");
+                    salvarDataUltimaSincronizacao(contexto, System.currentTimeMillis());
+                    dialog.dismiss();
+                    aoSucesso.run();
+                } else {
+                    tratarErroSincronizacao(contexto, progressBarContainer, senhaSigaa, positiveButton, "Erro ao sincronizar dados: " + resposta.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SyncResponse> chamada, Throwable t) {
+                tratarErroSincronizacao(contexto, progressBarContainer, senhaSigaa, positiveButton, "Falha na conexão: " + t.getMessage());
+            }
+        });
+    }
+
+    private static void tratarErroSincronizacao(Context contexto, LinearLayout progressBarContainer, TextInputLayout senhaSigaa, Button positiveButton, String mensagemErro) {
+        exibirMensagem(contexto, mensagemErro);
+        Log.e(TAG, mensagemErro);
+        progressBarContainer.setVisibility(View.GONE);
+        senhaSigaa.setVisibility(View.VISIBLE);
+        positiveButton.setEnabled(true);  // Reabilita o botão para tentar novamente
+    }
+
+    private static void exibirMensagem(Context contexto, String mensagem) {
+        Toast.makeText(contexto, mensagem, Toast.LENGTH_SHORT).show();
+    }
+
 
     public static long obterDataUltimaSincronizacao(Context contexto) {
         return getSharedPrefs(contexto, "syncPrefs").getLong("ultimaSincronizacao", 0);
@@ -131,9 +144,6 @@ public class GerenciadorSinc {
     private static SharedPreferences getSharedPrefs(Context context, String prefsName) {
         return context.getSharedPreferences(prefsName, Context.MODE_PRIVATE);
     }
-
-    private static void exibirMensagem(Context contexto, String mensagem) {
-        Toast.makeText(contexto, mensagem, Toast.LENGTH_SHORT).show();
-    }
+    
 }
 
