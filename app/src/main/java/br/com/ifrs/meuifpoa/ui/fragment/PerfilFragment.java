@@ -177,10 +177,10 @@ public class PerfilFragment extends Fragment {
             return;
         }
 
-        String base64Imagem = perfil.getImgSrc();  // Supondo que o perfil contenha a imagem em Base64
+        String base64Imagem = perfil.getImgSrc();  // Obtém a imagem em Base64
         if (base64Imagem != null && !base64Imagem.isEmpty()) {
             try {
-                // Decodifica o Base64 para um array de bytes
+                // Decodifica a string Base64 para um array de bytes
                 byte[] decodedString = Base64.decode(base64Imagem, Base64.DEFAULT);
 
                 // Converte o array de bytes em um Bitmap
@@ -199,6 +199,7 @@ public class PerfilFragment extends Fragment {
             binding.imgPerfil.setImageResource(R.drawable.ifrs_poa_logo);  // Define a imagem padrão
         }
     }
+
 
 
     private void exibirElementosPerfil(boolean exibir) {
