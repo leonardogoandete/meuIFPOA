@@ -2,8 +2,8 @@ package br.com.ifrs.meuifpoa.ui.fragment;
 
 import static br.com.ifrs.meuifpoa.utils.Constants.DOC_ATESTADO_MATRICULA;
 import static br.com.ifrs.meuifpoa.utils.Constants.DOC_DECLARACAO_VINCULO;
-import static br.com.ifrs.meuifpoa.utils.Constants.DOC_HISTORICO;
 import static br.com.ifrs.meuifpoa.utils.Constants.DOC_HISTORICO_EMENTAS;
+import static br.com.ifrs.meuifpoa.utils.Constants.DOC_HISTORICO;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +25,6 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Source;
@@ -85,6 +84,7 @@ public class HomeFragment extends Fragment {
 
         if (mAuth.getUid() != null) {
             setupSemiCircularChart(0);
+            binding.containerIntegralizacoes.setVisibility(View.VISIBLE);
             configurarBotoes(token);
             checkUserAuthentication();
         }
@@ -108,14 +108,13 @@ public class HomeFragment extends Fragment {
     private void configurarBotaoHistorico(String token) {
         binding.btnEmitirHistorico.txtBtnProgress.setText(R.string.msgBtnEmitirHistorico);
         binding.btnEmitirHistorico.progressButtonLayout.setOnClickListener(v -> {
-            configuraHabilitaDesabilitaBotao(false);
+            solicitarSenha(() -> emitirDocumento(token, DOC_HISTORICO, binding.btnEmitirHistorico.progressButtonLayout));
         });
     }
 
     private void configurarBotaoHistoricoEmentas(String token) {
         binding.btnEmitirHistoricoEmentas.txtBtnProgress.setText(R.string.msgBtnEmitirHistoricoEmentas);
         binding.btnEmitirHistoricoEmentas.progressButtonLayout.setOnClickListener(v -> {
-            configuraHabilitaDesabilitaBotao(false);
             solicitarSenha(() -> emitirDocumento(token, DOC_HISTORICO_EMENTAS, binding.btnEmitirHistoricoEmentas.progressButtonLayout));
         });
     }
@@ -123,7 +122,6 @@ public class HomeFragment extends Fragment {
     private void configurarBotaoDeclaracaoVinculo(String token) {
         binding.btnEmitirDeclaracaoVinculo.txtBtnProgress.setText(R.string.msgBtnEmitirDeclaracaoVinculo);
         binding.btnEmitirDeclaracaoVinculo.progressButtonLayout.setOnClickListener(v -> {
-            configuraHabilitaDesabilitaBotao(false);
             solicitarSenha(() -> emitirDocumento(token, DOC_DECLARACAO_VINCULO, binding.btnEmitirDeclaracaoVinculo.progressButtonLayout));
         });
     }
@@ -131,7 +129,6 @@ public class HomeFragment extends Fragment {
     private void configurarBotaoAtestadoMatricula(String token) {
         binding.btnEmitirAtestadoMatricula.txtBtnProgress.setText(R.string.msgBtnEmitirAtestadoMatricula);
         binding.btnEmitirAtestadoMatricula.progressButtonLayout.setOnClickListener(v -> {
-            configuraHabilitaDesabilitaBotao(false);
             solicitarSenha(() -> emitirDocumento(token, DOC_ATESTADO_MATRICULA, binding.btnEmitirAtestadoMatricula.progressButtonLayout));
         });
     }
@@ -145,7 +142,6 @@ public class HomeFragment extends Fragment {
             public void onResponse(Call<DocumentoResponse> call, Response<DocumentoResponse> response) {
                 if (binding == null) return;
                 binding.btnEmitirHistorico.progressBarButton.setVisibility(View.GONE);
-                configuraHabilitaDesabilitaBotao(true);
 
                 if (response.isSuccessful()) {
                     DocumentoResponse documentoResponse = response.body();
@@ -164,13 +160,14 @@ public class HomeFragment extends Fragment {
             public void onFailure(Call<DocumentoResponse> call, Throwable t) {
                 if (binding == null) return;
                 binding.btnEmitirHistorico.progressBarButton.setVisibility(View.GONE);
-                configuraHabilitaDesabilitaBotao(true);
                 exibirErro("Erro na solicitação: " + t.getMessage());
             }
         });
+        configuraDesabilitarBotao(true);
     }
 
-    private void configuraHabilitaDesabilitaBotao(boolean habilitar) {
+    private void configuraDesabilitarBotao(boolean habilitar) {
+        Log.d("HomeFragment", "configuraDesabilitarBotao: " + habilitar);
         binding.btnEmitirHistorico.progressButtonLayout.setEnabled(habilitar);
         binding.btnEmitirHistoricoEmentas.progressButtonLayout.setEnabled(habilitar);
         binding.btnEmitirAtestadoMatricula.progressButtonLayout.setEnabled(habilitar);
@@ -223,7 +220,6 @@ public class HomeFragment extends Fragment {
     private void esconderComponentesInterface() {
         if (binding == null) return;
         binding.containerIntegralizacoes.setVisibility(View.GONE);
-        binding.semiCircularChart.setVisibility(View.GONE);
     }
 
     private void exibirErro(String mensagem) {
