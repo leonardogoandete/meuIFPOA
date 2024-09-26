@@ -13,5 +13,10 @@
         <!-- Estilo de barra de botões herdado dos atributos de sistema -->
         <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
     </style>
-
+    <!-- Tema para SplashActivity -->
+    <style name="Theme.Splash" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Cor da barra de status -->
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:windowLightStatusBar">true</item> <!-- Ajuste o texto da barra para escuro/claro, se necessário -->
+    </style>
 </resources>

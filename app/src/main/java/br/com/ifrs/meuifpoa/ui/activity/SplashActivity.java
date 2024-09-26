@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import br.com.ifrs.meuifpoa.R;
-import br.com.ifrs.meuifpoa.databinding.ActivitySplashBinding;
 
 public class SplashActivity extends AppCompatActivity {
 
