@@ -64,6 +64,9 @@ public class LoginActivity extends AppCompatActivity {
         if (email.isEmpty()) {
             binding.etCpf.setError("Digite seu e-mail");
             valido = false;
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.etCpf.setError("E-mail inválido");
+            valido = false;
         }
 
         if (senha.isEmpty()) {
@@ -73,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
 
         return valido;
     }
+
 
     private void realizarLogin(String email, String senha) {
         binding.progressBar.setVisibility(View.VISIBLE);
