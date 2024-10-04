@@ -67,4 +67,11 @@
         <item>100</item>
         <item>500</item>
     </string-array>
+    <string name="dado_nao_disponivel">No disponible</string>
+    <string name="msgSincronizando">Sincronizando...</string>
+    <string name="msgBemVindo">Bienvenido</string>
+    <string name="txtViewChObrigatoriaPendente">CH Obrigatória Pendente</string>
+    <string name="txtViewChComplementarPendente">CH complementario Pendiente</string>
+    <string name="txtViewChOptativaPendente">CH Opcional Pendiente</string>
+    <string name="txtViewChTotalCurriculo">CH total Plan de estudios</string>
 </resources>
