@@ -59,6 +59,10 @@
     <string name="dado_nao_disponivel">Não disponivel</string>
     <string name="msgSincronizando">Sincronizando...</string>
     <string name="msgBemVindo">"Bem vindo(a) "</string>
+    <string name="txtViewChObrigatoriaPendente">CH Obrigatória\nPendente</string>
+    <string name="txtViewChComplementarPendente">CH Complementar\nPendente</string>
+    <string name="txtViewChOptativaPendente">CH Optativa\nPendente</string>
+    <string name="txtViewChTotalCurriculo">CH Total\nCurrículo</string>
 
     <string-array name="limites_noticias">
         <item>Nº noticias</item>

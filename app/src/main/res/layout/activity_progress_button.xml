@@ -10,8 +10,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/progressButtonLayout"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_width="150sp"
+        android:layout_height="150sp"
         android:background="@drawable/button_backgroud_doc"
         android:clickable="true"
         android:focusable="true"

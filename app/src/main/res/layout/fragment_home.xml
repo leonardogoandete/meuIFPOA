@@ -43,8 +43,6 @@
                 android:textColor="@android:color/black"
                 android:textSize="20sp" />
 
-
-
             <!-- Container das integralizações -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/containerIntegralizacoes"
@@ -79,182 +77,234 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txtTituloIntegralizacoes" />
 
-                <!-- GridLayout para as informações de CH -->
-                <GridLayout
-                    android:id="@+id/gridIntegralizacoes"
+
+                <!-- LinearLayout para as informações de CH -->
+                <LinearLayout
+                    android:id="@+id/linearLayoutCh"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:columnCount="2"
                     android:layout_marginTop="12dp"
-                    android:gravity="center"
                     android:orientation="horizontal"
-                    android:padding="8dp"
-                    android:rowCount="4"
-                    app:layout_constraintTop_toBottomOf="@id/semiCircularChart"
-                    >
+                    android:weightSum="2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/semiCircularChart">
 
-                    <!-- CH Obrigatória Pendente (valor e descrição) -->
-                    <TextView
-                        android:id="@+id/txtChObrigatoria"
-                        android:layout_width="wrap_content"
+                    <!-- Coluna da esquerda (duas caixas) -->
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_row="1"
-                        android:layout_column="0"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="406"
-                        android:textColor="@android:color/black"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                        <!-- CH Obrigatória Pendente (valor e descrição) -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="8dp"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@string/txtViewChObrigatoriaPendente"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/txtChObrigatoria"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="406"
+                                android:textColor="@android:color/black"
+                                android:textSize="24sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <!-- CH Complementar Pendente (valor e descrição) -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="8dp"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@string/txtViewChComplementarPendente"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/txtChComplementar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="78"
+                                android:textColor="@android:color/black"
+                                android:textSize="24sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- Coluna da direita (duas caixas) -->
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_row="0"
-                        android:layout_column="0"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:singleLine="false"
-                        android:textStyle="bold"
-                        android:text="CH Obrigatória Pendente"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14sp" />
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    <!-- CH Optativa Pendente (valor e descrição) -->
-                    <TextView
-                        android:id="@+id/txtChOptativa"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_row="1"
-                        android:layout_column="1"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="20"
-                        android:textColor="@android:color/black"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
+                        <!-- CH Optativa Pendente (valor e descrição) -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="8dp"
+                            android:gravity="center">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_row="0"
-                        android:layout_column="1"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:singleLine="false"
-                        android:text="CH Optativa Pendente"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold"
-                        android:textSize="14sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@string/txtViewChOptativaPendente"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
 
-                    <!-- CH Complementar Pendente (valor e descrição) -->
-                    <TextView
-                        android:id="@+id/txtChComplementar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_row="3"
-                        android:layout_column="0"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="78"
-                        android:textColor="@android:color/black"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
+                            <TextView
+                                android:id="@+id/txtChOptativa"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="20"
+                                android:textColor="@android:color/black"
+                                android:textSize="24sp"
+                                android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_row="2"
-                        android:layout_column="0"
-                        android:layout_gravity="center"
-                        android:textStyle="bold"
-                        android:gravity="center"
-                        android:singleLine="false"
-                        android:text="CH Complementar Pendente"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14sp" />
+                        </LinearLayout>
 
-                    <!-- CH Total Currículo (valor e descrição) -->
-                    <TextView
-                        android:id="@+id/txtChTotalCurriculo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_row="3"
-                        android:layout_column="1"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="689"
-                        android:textColor="@android:color/black"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
+                        <!-- CH Total Currículo (valor e descrição) -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="8dp"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_row="2"
-                        android:layout_column="1"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:singleLine="false"
-                        android:textStyle="bold"
-                        android:text="CH Total Currículo"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="14sp" />
-                </GridLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="@string/txtViewChTotalCurriculo"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
 
+                            <TextView
+                                android:id="@+id/txtChTotalCurriculo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="689"
+                                android:textColor="@android:color/black"
+                                android:textSize="24sp"
+                                android:textStyle="bold" />
 
-                <!-- GridLayout para botões -->
-                <GridLayout
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- LinearLayout para os botões organizados em quadrados -->
+                <LinearLayout
                     android:id="@+id/containerBotoes"
                     android:layout_width="match_parent"
+                    app:layout_constraintTop_toBottomOf="@id/linearLayoutCh"
                     android:layout_height="wrap_content"
-                    android:columnCount="2"
-                    android:rowCount="2"
-                    android:orientation="horizontal"
                     android:layout_marginTop="16dp"
-                    android:alignmentMode="alignMargins"
-                    android:rowOrderPreserved="false"
-                    android:useDefaultMargins="true"
-                    app:layout_constraintTop_toBottomOf="@id/gridIntegralizacoes">
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
-                    <include
-                        android:id="@+id/btnEmitirHistorico"
-                        layout="@layout/activity_progress_button"
+                    <!-- Coluna da esquerda (dois botões) -->
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:layout_margin="4dp" />
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    <include
-                        android:id="@+id/btnEmitirHistoricoEmentas"
-                        layout="@layout/activity_progress_button"
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="4dp"
+                                android:gravity="center">
+
+                                <include
+                                    android:id="@+id/btnEmitirHistorico"
+                                    layout="@layout/activity_progress_button"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="4dp"
+                                android:gravity="center">
+
+                                <include
+                                    android:id="@+id/btnEmitirHistoricoEmentas"
+                                    layout="@layout/activity_progress_button"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal" />
+                            </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Coluna da direita (dois botões) -->
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:layout_margin="4dp" />
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                    <include
-                        android:id="@+id/btnEmitirDeclaracaoVinculo"
-                        layout="@layout/activity_progress_button"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:layout_margin="4dp" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="4dp"
+                                android:gravity="center">
 
-                    <include
-                        android:id="@+id/btnEmitirAtestadoMatricula"
-                        layout="@layout/activity_progress_button"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:layout_margin="4dp"
-                        android:enabled="false" />
-                </GridLayout>
+                                <include
+                                    android:id="@+id/btnEmitirDeclaracaoVinculo"
+                                    layout="@layout/activity_progress_button"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:padding="4dp"
+                                android:gravity="center">
+
+                                <include
+                                    android:id="@+id/btnEmitirAtestadoMatricula"
+                                    layout="@layout/activity_progress_button"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal" />
+                            </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
