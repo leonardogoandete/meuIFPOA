@@ -50,7 +50,7 @@
     <string name="msgCarregando">Carregando…</string>
     <string name="msgBuscarNoticias">Buscar notícias</string>
     <string name="msgNaoTemNoticias">Não há notícias disponíveis</string>
-    <string name="msgBtnEmitirHistorico">Emitir histórico</string>
+    <string name="msgBtnEmitirHistorico">Emitir Histórico</string>
     <string name="msgBtnEmitirHistoricoEmentas">Emitir Historico com Ementas</string>
     <string name="msgBtnEmitirDeclaracaoVinculo">Emitir Declaração de vínculo</string>
     <string name="msgBtnEmitirAtestadoMatricula">Emitir Atestado de matrícula</string>
@@ -60,8 +60,8 @@
     <string name="msgSincronizando">Sincronizando...</string>
     <string name="msgBemVindo">"Bem vindo(a) "</string>
     <string name="txtViewChObrigatoriaPendente">CH Obrigatória\nPendente</string>
-    <string name="txtViewChComplementarPendente">CH Complementar\nPendente</string>
-    <string name="txtViewChOptativaPendente">CH Optativa\nPendente</string>
+    <string name="txtViewChComplementarPendente">CH Complementar Pendente</string>
+    <string name="txtViewChOptativaPendente">CH Optativa Pendente</string>
     <string name="txtViewChTotalCurriculo">CH Total\nCurrículo</string>
 
     <string-array name="limites_noticias">

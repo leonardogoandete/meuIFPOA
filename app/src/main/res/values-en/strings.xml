@@ -49,7 +49,7 @@
     <string name="msgCarregando">Loading…</string>
     <string name="msgBuscarNoticias">Search news</string>
     <string name="msgNaoTemNoticias">No news available</string>
-    <string name="msgBtnEmitirHistorico">Issue transcript</string>
+    <string name="msgBtnEmitirHistorico">Issue Transcript</string>
     <string name="msgBtnEmitirHistoricoEmentas">Issue Transcript with Course Descriptions</string>
     <string name="msgBtnEmitirDeclaracaoVinculo">Issue Affiliation Statement</string>
     <string name="msgBtnEmitirAtestadoMatricula">Issue Enrollment Certificate</string>
@@ -68,10 +68,10 @@
         <item>500</item>
     </string-array>
     <string name="dado_nao_disponivel">Not available</string>
-    <string name="msgSincronizando">Sincronizando...</string>
+    <string name="msgSincronizando">Synchronizing...</string>
     <string name="msgBemVindo">"Welcome "</string>
-    <string name="txtViewChObrigatoriaPendente">CH Obrigatória Pendente</string>
-    <string name="txtViewChComplementarPendente">CH Complementar Pendente</string>
-    <string name="txtViewChOptativaPendente">CH Optativa Pendente</string>
-    <string name="txtViewChTotalCurriculo">CH Total Currículo</string>
+    <string name="txtViewChObrigatoriaPendente">Mandatory CH Pending</string>
+    <string name="txtViewChComplementarPendente">Pending Complementary CH</string>
+    <string name="txtViewChOptativaPendente">CH Optional Pending</string>
+    <string name="txtViewChTotalCurriculo">CH Total Curriculum</string>
 </resources>
