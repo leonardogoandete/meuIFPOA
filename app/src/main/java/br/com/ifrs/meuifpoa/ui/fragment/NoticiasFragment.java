@@ -36,6 +36,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * The type Noticias fragment.
+ */
 public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.OnClickListener {
 
     private static final long SEARCH_DELAY_MS = 400;

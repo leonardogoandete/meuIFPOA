@@ -8,7 +8,17 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
+/**
+ * The interface Noticias service.
+ */
 public interface NoticiasService {
+    /**
+     * Listar noticias call.
+     *
+     * @param filter the filter
+     * @param limit  the limit
+     * @return the call
+     */
     @POST("noticias")
     Call<List<Noticia>> listarNoticias(
             @Query("filter") String filter,

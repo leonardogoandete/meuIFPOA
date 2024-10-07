@@ -49,12 +49,20 @@
     <string name="msgCarregando">Cargando…</string>
     <string name="msgBuscarNoticias">Buscar noticias</string>
     <string name="msgNaoTemNoticias">No hay noticias disponibles</string>
-    <string name="msgBtnEmitirHistorico">Emitir historial</string>
+    <string name="msgBtnEmitirHistorico">Emitir Historial</string>
     <string name="msgBtnEmitirHistoricoEmentas">Emitir Historial con Descripciones de Cursos</string>
     <string name="msgBtnEmitirDeclaracaoVinculo">Emitir Declaración de Afiliación</string>
     <string name="msgBtnEmitirAtestadoMatricula">Emitir Certificado de Matrícula</string>
     <string name="msgBemVindoUsuario">¡Bienvenido usuario!</string>
     <string name="txtViewTituloIntegralizacoes">Progreso</string>
+    <string name="dado_nao_disponivel">No disponible</string>
+    <string name="msgSincronizando">Sincronizando...</string>
+    <string name="msgBemVindo">Bienvenido</string>
+    <string name="txtViewChObrigatoriaPendente">CH Obrigatória Pendente</string>
+    <string name="txtViewChComplementarPendente">CH complementario Pendiente</string>
+    <string name="txtViewChOptativaPendente">CH Opcional Pendiente</string>
+    <string name="txtViewChTotalCurriculo">CH CV total</string>
+    <string name="msgIntegralizado">Pagado\n</string>
 
     <string-array name="limites_noticias">
         <item>Cantidad de noticias</item>
@@ -67,11 +75,5 @@
         <item>100</item>
         <item>500</item>
     </string-array>
-    <string name="dado_nao_disponivel">No disponible</string>
-    <string name="msgSincronizando">Sincronizando...</string>
-    <string name="msgBemVindo">Bienvenido</string>
-    <string name="txtViewChObrigatoriaPendente">CH Obrigatória Pendente</string>
-    <string name="txtViewChComplementarPendente">CH complementario Pendiente</string>
-    <string name="txtViewChOptativaPendente">CH Opcional Pendiente</string>
-    <string name="txtViewChTotalCurriculo">CH total Plan de estudios</string>
+
 </resources>

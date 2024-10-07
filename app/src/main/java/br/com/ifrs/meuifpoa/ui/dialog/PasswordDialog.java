@@ -13,6 +13,9 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import br.com.ifrs.meuifpoa.R;
 
+/**
+ * The type Password dialog.
+ */
 public class PasswordDialog {
 
     private final Context context;
@@ -22,11 +25,20 @@ public class PasswordDialog {
     private LinearLayout progressBarContainer;
     private TextInputLayout senhaSigaa;
 
+    /**
+     * Instantiates a new Password dialog.
+     *
+     * @param context  the context
+     * @param listener the listener
+     */
     public PasswordDialog(Context context, OnPasswordEnteredListener listener) {
         this.context = context;
         this.listener = listener;
     }
 
+    /**
+     * Show.
+     */
     public void show() {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.dialog_sync_sigaa, null);
@@ -69,7 +81,15 @@ public class PasswordDialog {
         }
     }
 
+    /**
+     * The interface On password entered listener.
+     */
     public interface OnPasswordEnteredListener {
+        /**
+         * On password entered.
+         *
+         * @param senha the senha
+         */
         void onPasswordEntered(String senha);
     }
 }

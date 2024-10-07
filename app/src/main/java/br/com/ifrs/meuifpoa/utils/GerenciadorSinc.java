@@ -26,11 +26,25 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * A classe `GerenciadorSinc` é responsável pela sincronização de dados entre o aplicativo e o backend.
+ * Essa classe pode realizar operações de sincronização periódicas ou sob demanda.
+ * <p>
+ * Funções principais incluem:
+ * - Sincronizar documentos e dados com o backend.
+ * - Gerenciar o cache de documentos para acesso offline.
+ */
 public class GerenciadorSinc {
 
     private static final String TAG = "GerenciadorSincronizacao";
     private static final long QUINZE_DIAS_EM_MILLIS = 15 * 24 * 60 * 60 * 1000L;
 
+    /**
+     * Verificar e requisitar senha.
+     *
+     * @param contexto  the contexto
+     * @param aoSucesso the ao sucesso
+     */
     public static void verificarERequisitarSenha(Context contexto, Runnable aoSucesso) {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser usuario = mAuth.getCurrentUser();
@@ -127,14 +141,31 @@ public class GerenciadorSinc {
     }
 
 
+    /**
+     * Obter data ultima sincronizacao long.
+     *
+     * @param contexto the contexto
+     * @return the long
+     */
     public static long obterDataUltimaSincronizacao(Context contexto) {
         return getSharedPrefs(contexto, "syncPrefs").getLong("ultimaSincronizacao", 0);
     }
 
+    /**
+     * Salvar data ultima sincronizacao.
+     *
+     * @param contexto  the contexto
+     * @param timestamp the timestamp
+     */
     public static void salvarDataUltimaSincronizacao(Context contexto, long timestamp) {
         getSharedPrefs(contexto, "syncPrefs").edit().putLong("ultimaSincronizacao", timestamp).apply();
     }
 
+    /**
+     * Limpar.
+     *
+     * @param contexto the contexto
+     */
     public static void limpar(Context contexto) {
         getSharedPrefs(contexto, "syncPrefs").edit().clear().apply();
         getSharedPrefs(contexto, "loginSigaa").edit().clear().apply();

@@ -28,6 +28,9 @@ import br.com.ifrs.meuifpoa.databinding.FragmentPerfilBinding;
 import br.com.ifrs.meuifpoa.model.Perfil;
 import br.com.ifrs.meuifpoa.utils.GerenciadorSinc;
 
+/**
+ * The type Perfil fragment.
+ */
 public class PerfilFragment extends Fragment {
 
     private static final String TAG = "PerfilFragment";

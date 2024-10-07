@@ -11,10 +11,16 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * The type Noticias retrofit.
+ */
 public class NoticiasRetrofit {
 
     private final NoticiasService noticiasService;
 
+    /**
+     * Instantiates a new Noticias retrofit.
+     */
     public NoticiasRetrofit() {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -35,6 +41,11 @@ public class NoticiasRetrofit {
         noticiasService = retrofit.create(NoticiasService.class);
     }
 
+    /**
+     * Gets noticias service.
+     *
+     * @return the noticias service
+     */
     public NoticiasService getNoticiasService() {
         return noticiasService;
     }

@@ -52,6 +52,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * The type Home fragment.
+ */
 public class HomeFragment extends Fragment {
 
     private final DocumentoService documentoService = new DocumentoRetrofit().getDocumentoService();
@@ -289,14 +292,21 @@ public class HomeFragment extends Fragment {
         binding.semiCircularChart.setDrawEntryLabels(false);
 
         // Exibe o texto central como "%"
-        binding.semiCircularChart.setCenterText("Integralizado\n"+realizado+"%"); // Exibe o texto central com o valor desejado
+        //String msgIntegralizado = get
+        binding.semiCircularChart.setCenterText(getString(R.string.msgIntegralizado)+realizado+"%"); // Exibe o texto central com o valor desejado
         binding.semiCircularChart.setCenterTextSize(20f); // Define o tamanho do texto central
 
         // Atualiza o gráfico
         binding.semiCircularChart.invalidate();
     }
 
-    // Configura a cor
+    /**
+     * Rgb int.
+     *
+     * @param hex the hex
+     * @return the int
+     */
+// Configura a cor
     public static int rgb(String hex) {
         int color = (int) Long.parseLong(hex.replace("#", ""), 16);
         int r = (color >> 16) & 0xFF;

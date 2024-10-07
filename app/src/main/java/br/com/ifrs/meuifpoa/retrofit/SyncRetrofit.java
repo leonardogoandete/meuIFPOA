@@ -10,10 +10,16 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * The type Sync retrofit.
+ */
 public class SyncRetrofit {
 
     private final SyncService syncService;
 
+    /**
+     * Instantiates a new Sync retrofit.
+     */
     public SyncRetrofit() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -34,6 +40,11 @@ public class SyncRetrofit {
         syncService = retrofit.create(SyncService.class);
     }
 
+    /**
+     * Gets sync service.
+     *
+     * @return the sync service
+     */
     public SyncService getSyncService() {
         return syncService;
     }

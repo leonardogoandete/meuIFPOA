@@ -18,6 +18,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.databinding.ActivityLoginBinding;
 
+/**
+ * The type Login activity.
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;

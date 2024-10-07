@@ -63,6 +63,7 @@
     <string name="txtViewChComplementarPendente">CH Complementar Pendente</string>
     <string name="txtViewChOptativaPendente">CH Optativa Pendente</string>
     <string name="txtViewChTotalCurriculo">CH Total\nCurrículo</string>
+    <string name="msgIntegralizado">Integralizado\n</string>
 
     <string-array name="limites_noticias">
         <item>Nº noticias</item>

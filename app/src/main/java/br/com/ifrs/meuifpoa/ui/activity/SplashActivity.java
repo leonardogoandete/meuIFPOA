@@ -6,6 +6,10 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import br.com.ifrs.meuifpoa.R;
 
+
+/**
+ * The type Splash activity.
+ */
 public class SplashActivity extends AppCompatActivity {
 
     private static final int SPLASH_DISPLAY_LENGTH = 2000; // Tempo em milissegundos

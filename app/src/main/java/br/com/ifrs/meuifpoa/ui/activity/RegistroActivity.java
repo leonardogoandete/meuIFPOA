@@ -18,6 +18,9 @@ import br.com.caelum.stella.validation.InvalidStateException;
 import br.com.ifrs.meuifpoa.databinding.ActivityRegistroBinding;
 import br.com.ifrs.meuifpoa.model.Registro;
 
+/**
+ * The type Registro activity.
+ */
 public class RegistroActivity extends AppCompatActivity {
 
     private ActivityRegistroBinding binding;

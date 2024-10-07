@@ -55,6 +55,14 @@
     <string name="msgBtnEmitirAtestadoMatricula">Issue Enrollment Certificate</string>
     <string name="msgBemVindoUsuario">Welcome user!</string>
     <string name="txtViewTituloIntegralizacoes">Progress</string>
+    <string name="dado_nao_disponivel">Not available</string>
+    <string name="msgSincronizando">Synchronizing...</string>
+    <string name="msgBemVindo">"Welcome "</string>
+    <string name="txtViewChObrigatoriaPendente">Mandatory CH Pending</string>
+    <string name="txtViewChComplementarPendente">Pending Complementary CH</string>
+    <string name="txtViewChOptativaPendente">CH Optional Pending</string>
+    <string name="txtViewChTotalCurriculo">CH Total Curriculum</string>
+    <string name="msgIntegralizado">Integrated\n</string>
 
     <string-array name="limites_noticias">
         <item>News count</item>
@@ -67,11 +75,5 @@
         <item>100</item>
         <item>500</item>
     </string-array>
-    <string name="dado_nao_disponivel">Not available</string>
-    <string name="msgSincronizando">Synchronizing...</string>
-    <string name="msgBemVindo">"Welcome "</string>
-    <string name="txtViewChObrigatoriaPendente">Mandatory CH Pending</string>
-    <string name="txtViewChComplementarPendente">Pending Complementary CH</string>
-    <string name="txtViewChOptativaPendente">CH Optional Pending</string>
-    <string name="txtViewChTotalCurriculo">CH Total Curriculum</string>
+
 </resources>

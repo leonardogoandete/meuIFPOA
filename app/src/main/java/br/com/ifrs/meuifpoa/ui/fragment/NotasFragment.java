@@ -22,6 +22,9 @@ import br.com.ifrs.meuifpoa.databinding.FragmentNotasBinding;
 import br.com.ifrs.meuifpoa.model.Nota;
 import br.com.ifrs.meuifpoa.utils.GerenciadorSinc;
 
+/**
+ * The type Notas fragment.
+ */
 public class NotasFragment extends Fragment {
 
     private FragmentNotasBinding binding;

@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.databinding.ActivityProgressButtonBinding;
 
+/**
+ * The type Progress button activity.
+ */
 public class ProgressButtonActivity extends AppCompatActivity implements View.OnClickListener {
     // Fazer binding
     private ActivityProgressButtonBinding binding;
@@ -23,11 +26,17 @@ public class ProgressButtonActivity extends AppCompatActivity implements View.On
         binding.progressButtonLayout.setOnClickListener(this);
     }
 
+    /**
+     * Show loading.
+     */
     public void showLoading() {
         binding.progressBarButton.setVisibility(View.VISIBLE);
         binding.txtBtnProgress.setText("Carregando...");
     }
 
+    /**
+     * Hide loading.
+     */
     public void hideLoading() {
         binding.progressBarButton.setVisibility(View.GONE);
         binding.txtBtnProgress.setText("Clique aqui");
