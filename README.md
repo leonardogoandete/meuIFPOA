@@ -1,7 +1,8 @@
 # meuIFPOA
 
 ## Descrição
-Este projeto é um aplicativo Android desenvolvido para facilitar o acesso a informações e serviços do IFPOA.
+Este projeto é um aplicativo Android desenvolvido para a disciplina de TCC2 afim de obter a conclusão do curso.
+O objetivo é facilitar o acesso a informações e serviços para a comunidade do Instituto Federal do Rio Grande do Sul - Campus Porto Alegre.
 
 ## Tecnologias Utilizadas
 - Java
@@ -9,9 +10,11 @@ Este projeto é um aplicativo Android desenvolvido para facilitar o acesso a inf
 - Gradle
 
 ## Funcionalidades
-- Visualização de documentos PDF
-- Compartilhamento de documentos PDF
-- Solicitação de senha do usuário
+- Download de documentos em PDF
+- Visualização de notícias
+- Visualização de notas
+- Visualização de dados acadêmicos
+- Visualização de cargas horárias
 
 ## Como Executar
 1. Clone o repositório:
@@ -22,21 +25,6 @@ Este projeto é um aplicativo Android desenvolvido para facilitar o acesso a inf
 3. Conecte um dispositivo Android ou inicie um emulador.
 4. Execute o aplicativo.
 
-## Contribuição
-1. Faça um fork do projeto.
-2. Crie uma nova branch:
-    ```sh
-    git checkout -b minha-nova-funcionalidade
-    ```
-3. Faça suas alterações e commit:
-    ```sh
-    git commit -m 'Adiciona nova funcionalidade'
-    ```
-4. Envie para o branch original:
-    ```sh
-    git push origin minha-nova-funcionalidade
-    ```
-5. Abra um Pull Request.
 
 ## Licença
 Este projeto está licenciado sob a Licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
