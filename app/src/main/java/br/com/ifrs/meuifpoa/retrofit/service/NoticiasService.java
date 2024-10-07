@@ -9,20 +9,19 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
- * The interface Noticias service.
+ * Interface `NoticiasService` define os endpoints da API para interagir com notícias no servidor.
+ * Utiliza as anotações do Retrofit para mapear as chamadas HTTP.
  */
 public interface NoticiasService {
     /**
-     * Listar noticias call.
+     * Lista as notícias do servidor com base no filtro e no limite fornecidos.
      *
-     * @param filter the filter
-     * @param limit  the limit
-     * @return the call
+     * @param filter O filtro a ser aplicado na listagem de notícias.
+     * @param limit  O número máximo de notícias a serem retornadas.
+     * @return Call com a lista de notícias (List<Noticia>).
      */
     @POST("noticias")
     Call<List<Noticia>> listarNoticias(
             @Query("filter") String filter,
             @Query("limit") int limit);
-    //@GET("noticias")
-    //Call<List<Noticia>> listarNoticias();
 }

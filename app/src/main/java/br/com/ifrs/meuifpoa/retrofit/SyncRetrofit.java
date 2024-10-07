@@ -11,14 +11,16 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * The type Sync retrofit.
+ * Classe `SyncRetrofit` configura e fornece uma instância do serviço `SyncService`
+ * para interagir com a API de sincronização.
  */
 public class SyncRetrofit {
 
     private final SyncService syncService;
 
     /**
-     * Instantiates a new Sync retrofit.
+     * Construtor da classe `SyncRetrofit`.
+     * Configura o cliente HTTP e o Retrofit para o serviço de sincronização.
      */
     public SyncRetrofit() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -36,14 +38,13 @@ public class SyncRetrofit {
                 .client(httpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         syncService = retrofit.create(SyncService.class);
     }
 
     /**
-     * Gets sync service.
+     * Retorna a instância do serviço `SyncService`.
      *
-     * @return the sync service
+     * @return Instância de `SyncService`.
      */
     public SyncService getSyncService() {
         return syncService;

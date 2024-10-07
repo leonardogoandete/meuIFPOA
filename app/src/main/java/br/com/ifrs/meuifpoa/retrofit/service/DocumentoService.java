@@ -22,7 +22,7 @@ public interface DocumentoService {
      * Solicita um documento do servidor com base no tipo de documento e nas credenciais fornecidas.
      *
      * @param token            Token de autenticação do usuário.
-     * @param documentoRequest the documento request
+     * @param documentoRequest O objeto de requisição do documento.
      * @return Call com a resposta do documento (DocumentoResponse).
      */
     @POST("documento")

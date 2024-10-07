@@ -23,7 +23,7 @@ import br.com.ifrs.meuifpoa.model.Nota;
 import br.com.ifrs.meuifpoa.utils.GerenciadorSinc;
 
 /**
- * The type Notas fragment.
+ * O tipo NotasFragment representa um fragmento que exibe as notas do usuário.
  */
 public class NotasFragment extends Fragment {
 
@@ -31,14 +31,27 @@ public class NotasFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
+    /**
+     * Método chamado para criar a visualização do fragmento.
+     *
+     * @param inflater  O LayoutInflater usado para inflar qualquer visualização no fragmento.
+     * @param container O ViewGroup pai ao qual a visualização do fragmento será anexada.
+     * @param savedInstanceState Se não for nulo, este fragmento está sendo reconstruído a partir de um estado salvo anterior.
+     * @return A visualização raiz do fragmento.
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inicializar o View Binding
         binding = FragmentNotasBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
+    /**
+     * Método chamado imediatamente após onCreateView(LayoutInflater, ViewGroup, Bundle) ter retornado.
+     *
+     * @param view A visualização retornada por onCreateView(LayoutInflater, ViewGroup, Bundle).
+     * @param savedInstanceState Se não for nulo, este fragmento está sendo reconstruído a partir de um estado salvo anterior.
+     */
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -59,6 +72,9 @@ public class NotasFragment extends Fragment {
         obterNotasDoFirestore();
     }
 
+    /**
+     * Obtém as notas do Firestore e as exibe no RecyclerView.
+     */
     private void obterNotasDoFirestore() {
         if (binding == null) return;
         // Exibe o ProgressBar antes de iniciar o carregamento
@@ -97,6 +113,12 @@ public class NotasFragment extends Fragment {
                 });
     }
 
+
+    /**
+     * Mostra ou oculta o ProgressBar.
+     *
+     * @param visivel true para mostrar o ProgressBar, false para ocultar.
+     */
     private void mostrarCarregamento(boolean visivel) {
         if (binding != null) {  // Verifique se o binding ainda está disponível
             if (visivel) {
@@ -110,14 +132,22 @@ public class NotasFragment extends Fragment {
     }
 
 
+    /**
+     * Exibe uma mensagem de erro usando um Snackbar.
+     *
+     * @param mensagem A mensagem de erro a ser exibida.
+     */
     private void exibirMensagemErro(String mensagem) {
         Snackbar.make(binding.getRoot(), mensagem, Snackbar.LENGTH_SHORT).show();
     }
 
+    /**
+     * Método chamado quando a visualização do fragmento é destruída.
+     * Limpa o binding para evitar vazamento de memória.
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        // Limpar o binding para evitar vazamento de memória
         binding = null;
     }
 }

@@ -20,9 +20,6 @@ import com.google.firebase.auth.FirebaseUser;
 import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.databinding.ActivityMainBinding;
 
-/**
- * The type Main activity.
- */
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -52,14 +49,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Configura a toolbar da atividade.
+     */
     private void setupToolbar() {
         setSupportActionBar(binding.toolbar);
     }
 
+    /**
+     * Configura a autenticação do Firebase.
+     */
     private void configFirebaseAuth() {
         mAuth = FirebaseAuth.getInstance();
     }
 
+    /**
+     * Configura a navegação da aplicação.
+     */
     private void configNavegacao() {
         mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment).build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -71,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Configura a BottomNavigationView da aplicação.
+     */
     private void configBottomNavigationView() {
         binding.bottomNav.getMenu().removeItem(R.id.Sobre);
         NavigationUI.setupWithNavController(binding.bottomNav, navController);
@@ -148,16 +157,28 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
 
+    /**
+     * Verifica se o usuário está autenticado.
+     *
+     * @return true se o usuário estiver autenticado, false caso contrário.
+     */
     private boolean isUsuarioAutenticado() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         return currentUser != null;
     }
 
+
+    /**
+     * Inicia a LoginActivity.
+     */
     private void startIntentLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Exibe o diálogo "Sobre".
+     */
     private void showSobreDialog() {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.msg_titulo_sobre)
@@ -167,3 +188,4 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 }
+

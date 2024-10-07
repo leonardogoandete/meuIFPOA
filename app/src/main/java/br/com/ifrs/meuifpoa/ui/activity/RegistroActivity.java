@@ -1,3 +1,6 @@
+/**
+ * Classe de atividade para registro de novos usuários.
+ */
 package br.com.ifrs.meuifpoa.ui.activity;
 
 import android.content.Intent;
@@ -19,7 +22,7 @@ import br.com.ifrs.meuifpoa.databinding.ActivityRegistroBinding;
 import br.com.ifrs.meuifpoa.model.Registro;
 
 /**
- * The type Registro activity.
+ * Classe responsável pela atividade de registro de novos usuários.
  */
 public class RegistroActivity extends AppCompatActivity {
 
@@ -27,6 +30,11 @@ public class RegistroActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
+    /**
+     * Método chamado quando a atividade é criada.
+     *
+     * @param savedInstanceState Estado salvo da instância anterior da atividade.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,12 +50,20 @@ public class RegistroActivity extends AppCompatActivity {
         binding.btnRegistrar.setOnClickListener(this::registrar);
     }
 
+    /**
+     * Método chamado quando a atividade é destruída.
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
         binding = null; // Limpar o binding para evitar vazamento de memória
     }
 
+    /**
+     * Método chamado ao clicar no botão de registrar.
+     *
+     * @param v A view que foi clicada.
+     */
     private void registrar(View v) {
         String nome = binding.etNome.getText().toString().trim();
         String cpf = binding.etCpf.getText().toString().trim();
@@ -64,6 +80,15 @@ public class RegistroActivity extends AppCompatActivity {
         verificarUsuarioExistente(cpf, email, senha, v);
     }
 
+    /**
+     * Valida as entradas do formulário de registro.
+     *
+     * @param nome  Nome do usuário.
+     * @param cpf   CPF do usuário.
+     * @param email E-mail do usuário.
+     * @param senha Senha do usuário.
+     * @return true se todas as entradas forem válidas, false caso contrário.
+     */
     private boolean validarEntradas(String nome, String cpf, String email, String senha) {
         if (nome.isEmpty()) {
             binding.etNome.setError("Nome obrigatório");
@@ -92,6 +117,14 @@ public class RegistroActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Verifica se o usuário já existe no Firestore.
+     *
+     * @param cpf   CPF do usuário.
+     * @param email E-mail do usuário.
+     * @param senha Senha do usuário.
+     * @param v     A view que foi clicada.
+     */
     private void verificarUsuarioExistente(String cpf, String email, String senha, View v) {
         Query query = db.collection("usuarios").whereEqualTo("cpf", cpf);
         query.get().addOnCompleteListener(task -> {
@@ -108,6 +141,14 @@ public class RegistroActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Cria um novo usuário no Firebase Authentication.
+     *
+     * @param email E-mail do usuário.
+     * @param senha Senha do usuário.
+     * @param cpf   CPF do usuário.
+     * @param v     A view que foi clicada.
+     */
     private void criarNovoUsuario(String email, String senha, String cpf, View v) {
         mAuth.createUserWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this, task -> {
@@ -124,6 +165,15 @@ public class RegistroActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Salva os dados do usuário no Firestore.
+     *
+     * @param uid   ID do usuário.
+     * @param nome  Nome do usuário.
+     * @param cpf   CPF do usuário.
+     * @param email E-mail do usuário.
+     * @param v     A view que foi clicada.
+     */
     private void salvarDadosNoFirestore(String uid, String nome, String cpf, String email, View v) {
         Registro registro = new Registro(uid, nome, cpf, email);
         db.collection("usuarios").document(uid).set(registro)
@@ -135,12 +185,21 @@ public class RegistroActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Navega para a LoginActivity.
+     */
     private void navegarParaLogin() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
 
+    /**
+     * Valida o CPF do usuário.
+     *
+     * @param cpf CPF do usuário.
+     * @return true se o CPF for válido, false caso contrário.
+     */
     private boolean validarCpf(String cpf) {
         cpf = cpf.replaceAll("[^\\d]", ""); // Remove formatação do CPF
         CPFValidator cpfValidator = new CPFValidator();
@@ -153,6 +212,12 @@ public class RegistroActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Mostra uma mensagem de erro usando Snackbar.
+     *
+     * @param mensagem Mensagem de erro.
+     * @param v        A view que foi clicada.
+     */
     private void mostrarErro(String mensagem, View v) {
         Snackbar.make(v, mensagem, Snackbar.LENGTH_LONG).show();
         binding.progressBar.setVisibility(View.GONE);

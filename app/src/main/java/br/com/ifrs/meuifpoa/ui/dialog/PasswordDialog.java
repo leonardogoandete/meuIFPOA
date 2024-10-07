@@ -14,7 +14,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import br.com.ifrs.meuifpoa.R;
 
 /**
- * The type Password dialog.
+ * Classe responsável por exibir um diálogo para entrada de senha.
  */
 public class PasswordDialog {
 
@@ -26,10 +26,10 @@ public class PasswordDialog {
     private TextInputLayout senhaSigaa;
 
     /**
-     * Instantiates a new Password dialog.
+     * Construtor da classe PasswordDialog.
      *
-     * @param context  the context
-     * @param listener the listener
+     * @param context  o contexto da aplicação
+     * @param listener o listener que será chamado quando a senha for inserida
      */
     public PasswordDialog(Context context, OnPasswordEnteredListener listener) {
         this.context = context;
@@ -37,7 +37,7 @@ public class PasswordDialog {
     }
 
     /**
-     * Show.
+     * Exibe o diálogo de senha.
      */
     public void show() {
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -68,7 +68,11 @@ public class PasswordDialog {
         });
     }
 
-    // Método para exibir/esconder o ProgressBar e controlar os componentes
+    /**
+     * Exibe ou esconde o ProgressBar e controla a visibilidade dos componentes.
+     *
+     * @param carregando se true, exibe o ProgressBar e esconde o campo de senha; se false, faz o contrário
+     */
     private void mostrarCarregando(boolean carregando) {
         if (carregando) {
             progressBarContainer.setVisibility(View.VISIBLE);
@@ -82,13 +86,13 @@ public class PasswordDialog {
     }
 
     /**
-     * The interface On password entered listener.
+     * Interface para escutar quando a senha for inserida.
      */
     public interface OnPasswordEnteredListener {
         /**
-         * On password entered.
+         * Método chamado quando a senha for inserida.
          *
-         * @param senha the senha
+         * @param senha a senha inserida
          */
         void onPasswordEntered(String senha);
     }

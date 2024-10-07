@@ -1,18 +1,17 @@
 package br.com.ifrs.meuifpoa.model.login;
 
 /**
- * A classe `LoginRequest` encapsula os dados de uma requisição de login para o backend.
- * Contém os dados de autenticação, como nome de usuário e senha.
+ * Classe que representa uma requisição de login.
  */
 public class LoginRequest {
     private String cpf;
     private String senha;
 
     /**
-     * Construtor da classe `LoginRequest`.
+     * Construtor da classe LoginRequest.
      *
-     * @param cpf   the cpf
-     * @param senha the senha
+     * @param cpf o CPF do usuário
+     * @param senha a senha do usuário
      */
     public LoginRequest(String cpf, String senha) {
         this.cpf = cpf;
@@ -20,18 +19,18 @@ public class LoginRequest {
     }
 
     /**
-     * Gets cpf.
+     * Retorna o CPF do usuário.
      *
-     * @return the cpf
+     * @return o CPF do usuário
      */
     public String getCpf() {
         return cpf;
     }
 
     /**
-     * Gets senha.
+     * Retorna a senha do usuário.
      *
-     * @return the senha
+     * @return a senha do usuário
      */
     public String getSenha() {
         return senha;

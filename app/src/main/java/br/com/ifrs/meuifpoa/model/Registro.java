@@ -1,7 +1,7 @@
 package br.com.ifrs.meuifpoa.model;
 
 /**
- * The type Registro.
+ * Classe que representa um registro.
  */
 public class Registro {
     private String uid;
@@ -10,12 +10,12 @@ public class Registro {
     private String email;
 
     /**
-     * Instantiates a new Registro.
+     * Construtor que inicializa um registro com os parâmetros fornecidos.
      *
-     * @param uid   the uid
-     * @param nome  the nome
-     * @param cpf   the cpf
-     * @param email the email
+     * @param uid   o identificador único
+     * @param nome  o nome do registro
+     * @param cpf   o CPF do registro
+     * @param email o email do registro
      */
     public Registro(String uid, String nome, String cpf, String email) {
         this.uid = uid;
@@ -25,83 +25,80 @@ public class Registro {
     }
 
     /**
-     * Instantiates a new Registro.
+     * Construtor padrão.
      */
     public Registro() {
-
     }
 
     /**
-     * Sets uid.
+     * Define o identificador único.
      *
-     * @param uid the uid
+     * @param uid o novo identificador único
      */
     public void setUid(String uid) {
         this.uid = uid;
     }
 
     /**
-     * Sets nome.
+     * Define o nome.
      *
-     * @param nome the nome
+     * @param nome o novo nome
      */
     public void setNome(String nome) {
         this.nome = nome;
     }
 
     /**
-     * Sets cpf.
+     * Define o CPF.
      *
-     * @param cpf the cpf
+     * @param cpf o novo CPF
      */
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
     /**
-     * Sets email.
+     * Define o email.
      *
-     * @param email the email
+     * @param email o novo email
      */
     public void setEmail(String email) {
         this.email = email;
     }
 
     /**
-     * Gets uid.
+     * Retorna o identificador único.
      *
-     * @return the uid
+     * @return o identificador único
      */
     public String getUid() {
         return uid;
     }
 
     /**
-     * Gets nome.
+     * Retorna o nome.
      *
-     * @return the nome
+     * @return o nome
      */
     public String getNome() {
         return nome;
     }
 
     /**
-     * Gets cpf.
+     * Retorna o CPF.
      *
-     * @return the cpf
+     * @return o CPF
      */
     public String getCpf() {
         return cpf;
     }
 
     /**
-     * Gets email.
+     * Retorna o email.
      *
-     * @return the email
+     * @return o email
      */
     public String getEmail() {
         return email;
     }
-
-
 }

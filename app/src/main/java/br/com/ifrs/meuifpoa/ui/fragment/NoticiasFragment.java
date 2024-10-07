@@ -37,7 +37,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * The type Noticias fragment.
+ * Fragmento responsável por exibir as notícias.
  */
 public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.OnClickListener {
 
@@ -49,6 +49,14 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
     private FragmentNoticiasBinding binding;
     private Call<List<Noticia>> callNoticias; // Guardar o call para cancelar se necessário
 
+    /**
+     * Cria a view do fragmento.
+     *
+     * @param inflater           O LayoutInflater.
+     * @param container          O ViewGroup.
+     * @param savedInstanceState O Bundle.
+     * @return A View criada.
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,6 +65,12 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
         return binding.getRoot();
     }
 
+    /**
+     * Método chamado quando a view é criada.
+     *
+     * @param view               A View.
+     * @param savedInstanceState O Bundle.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -69,13 +83,17 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
         loadInitialNews();
     }
 
-    // Configura o RecyclerView para exibir as notícias
+    /**
+     * Configura o RecyclerView para exibir as notícias.
+     */
     private void setupRecyclerView() {
         binding.listViewNoticias.setHasFixedSize(true);
         binding.listViewNoticias.setLayoutManager(new LinearLayoutManager(requireContext()));
     }
 
-    // Configura a SearchView para capturar as pesquisas com um delay de 400ms
+    /**
+     * Configura a SearchView para capturar as pesquisas com um delay de 400ms.
+     */
     private void setupSearchView() {
         binding.searchViewNoticias.setIconified(false);
         binding.searchViewNoticias.setQueryHint("Buscar noticias");
@@ -100,13 +118,17 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
         });
     }
 
-    // Método para lidar com debounce da pesquisa
+    /**
+     * Método para lidar com debounce da pesquisa.
+     */
     private void debounceSearch() {
         searchHandler.removeCallbacksAndMessages(null);
         searchHandler.postDelayed(() -> fetchNews(currentQuery), SEARCH_DELAY_MS);
     }
 
-    // Configura o Spinner para permitir seleção de limite de notícias com item de dica "Selecione o limite"
+    /**
+     * Configura o Spinner para permitir seleção de limite de notícias com item de dica "Selecione o limite".
+     */
     private void setupSpinner() {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(requireContext(),
                 android.R.layout.simple_spinner_item,
@@ -149,12 +171,18 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
         });
     }
 
-    // Carrega as notícias iniciais sem filtro
+    /**
+     * Carrega as notícias iniciais sem filtro.
+     */
     private void loadInitialNews() {
         fetchNews(null);
     }
 
-    // Realiza a chamada à API para buscar notícias com o filtro e limite especificados
+    /**
+     * Realiza a chamada à API para buscar notícias com o filtro e limite especificados.
+     *
+     * @param filter O filtro de pesquisa.
+     */
     private void fetchNews(String filter) {
         if (callNoticias != null && !callNoticias.isCanceled()) {
             callNoticias.cancel();  // Cancela a chamada anterior, se ainda estiver em andamento
@@ -199,7 +227,11 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
         });
     }
 
-    // Atualiza o RecyclerView com as notícias recebidas
+    /**
+     * Atualiza o RecyclerView com as notícias recebidas.
+     *
+     * @param noticias A lista de notícias.
+     */
     private void updateRecyclerView(List<Noticia> noticias) {
         if (noticiasAdapter == null) {
             noticiasAdapter = new LinhaNoticiasAdapter(noticias);
@@ -211,7 +243,11 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
         binding.listViewNoticias.setVisibility(View.VISIBLE);
     }
 
-    // Exibe uma mensagem usando Snackbar ou Toast
+    /**
+     * Exibe uma mensagem usando Snackbar ou Toast.
+     *
+     * @param message A mensagem a ser exibida.
+     */
     private void showMessage(String message) {
         View rootView = getView();
         if (rootView != null) {
@@ -221,7 +257,12 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
         }
     }
 
-    // Abre a URL da notícia quando o item é clicado
+    /**
+     * Abre a URL da notícia quando o item é clicado.
+     *
+     * @param position A posição do item.
+     * @param noticia  A notícia.
+     */
     @Override
     public void onClick(int position, Noticia noticia) {
         String url = noticia.getLink();
@@ -233,6 +274,9 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
         }
     }
 
+    /**
+     * Método chamado quando a view é destruída.
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();

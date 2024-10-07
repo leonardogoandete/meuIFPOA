@@ -19,14 +19,18 @@ import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.databinding.ActivityLoginBinding;
 
 /**
- * The type Login activity.
+ * A atividade de login do aplicativo.
  */
 public class LoginActivity extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
-
+    /**
+     * Método chamado quando a atividade é criada.
+     *
+     * @param savedInstanceState O estado salvo da instância.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,12 +40,18 @@ public class LoginActivity extends AppCompatActivity {
         configurarListeners();
     }
 
+    /**
+     * Método chamado quando a atividade é destruída.
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
         binding = null;
     }
 
+    /**
+     * Configura os listeners para os botões e textos da interface.
+     */
     private void configurarListeners() {
         binding.btnLogin.setOnClickListener(v -> {
             String email = binding.etCpf.getText().toString().trim();
@@ -61,6 +71,13 @@ public class LoginActivity extends AppCompatActivity {
         binding.textEsqueciSenha.setOnClickListener(v -> mostrarDialogoEsqueciSenha());
     }
 
+    /**
+     * Valida a entrada do usuário.
+     *
+     * @param email O e-mail inserido pelo usuário.
+     * @param senha A senha inserida pelo usuário.
+     * @return true se a entrada for válida, false caso contrário.
+     */
     private boolean validarEntrada(String email, String senha) {
         boolean valido = true;
 
@@ -81,6 +98,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+
+    /**
+     * Realiza o login do usuário.
+     *
+     * @param email O e-mail do usuário.
+     * @param senha A senha do usuário.
+     */
     private void realizarLogin(String email, String senha) {
         binding.progressBar.setVisibility(View.VISIBLE);
 
@@ -96,6 +120,10 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+
+    /**
+     * Trata o login bem-sucedido do usuário.
+     */
     private void tratarLoginBemSucedido() {
         FirebaseUser usuario = mAuth.getCurrentUser();
         if (usuario != null) {
@@ -120,6 +148,10 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+
+    /**
+     * Mostra o diálogo para recuperação de senha.
+     */
     private void mostrarDialogoEsqueciSenha() {
         LayoutInflater inflater = LayoutInflater.from(this);
         final View viewDialogo = inflater.inflate(R.layout.dialog_esqueci_senha, null);
@@ -134,6 +166,12 @@ public class LoginActivity extends AppCompatActivity {
                 .show();
     }
 
+
+    /**
+     * Trata a recuperação de senha do usuário.
+     *
+     * @param viewDialogo A view do diálogo de recuperação de senha.
+     */
     private void tratarRecuperacaoSenha(View viewDialogo) {
         TextInputLayout layoutEmail = viewDialogo.findViewById(R.id.textInputEmailRecuperacao);
         String email = layoutEmail.getEditText().getText().toString().trim();

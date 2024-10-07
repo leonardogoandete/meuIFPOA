@@ -29,7 +29,7 @@ import br.com.ifrs.meuifpoa.model.Perfil;
 import br.com.ifrs.meuifpoa.utils.GerenciadorSinc;
 
 /**
- * The type Perfil fragment.
+ * Fragmento responsável por exibir e gerenciar o perfil do usuário.
  */
 public class PerfilFragment extends Fragment {
 
@@ -39,12 +39,26 @@ public class PerfilFragment extends Fragment {
     private FirebaseFirestore db;
 
 
+    /**
+     * Método chamado para inflar o layout do fragmento.
+     *
+     * @param inflater           O LayoutInflater usado para inflar o layout.
+     * @param container          O ViewGroup pai ao qual o layout será anexado.
+     * @param savedInstanceState O estado salvo anteriormente do fragmento.
+     * @return A View raiz do layout inflado.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentPerfilBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
+    /**
+     * Método chamado após a criação da view do fragmento.
+     *
+     * @param view               A View criada.
+     * @param savedInstanceState O estado salvo anteriormente do fragmento.
+     */
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -66,17 +80,26 @@ public class PerfilFragment extends Fragment {
         });
     }
 
+    /**
+     * Método chamado quando a view do fragmento é destruída.
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
 
+    /**
+     * Inicializa as instâncias do Firebase Authentication e Firestore.
+     */
     private void inicializarFirebase() {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
     }
 
+    /**
+     * Obtém os dados do perfil do cache local.
+     */
     private void obterDadosDoCache() {
         FirebaseUser usuarioAtual = mAuth.getCurrentUser();
         if (usuarioAtual == null || binding == null) {
@@ -107,6 +130,10 @@ public class PerfilFragment extends Fragment {
                 });
     }
 
+
+    /**
+     * Sincroniza os dados do perfil com o servidor.
+     */
     private void sincronizarComServidor() {
         FirebaseUser usuarioAtual = mAuth.getCurrentUser();
         if (usuarioAtual == null || binding == null) {
@@ -123,7 +150,6 @@ public class PerfilFragment extends Fragment {
                         if (documento.exists()) {
                             Perfil perfil = documento.toObject(Perfil.class);
                             if (perfil != null) {
-                                //Log.d("PERFIL", perfil.getImgSrc());
                                 configurarPerfil(perfil);  // Atualiza os dados com os do servidor
                                 carregarFotoPerfil(perfil);
                             } else {
@@ -143,6 +169,12 @@ public class PerfilFragment extends Fragment {
                 });
     }
 
+
+    /**
+     * Configura os dados do perfil na interface do usuário.
+     *
+     * @param perfil O objeto Perfil contendo os dados do usuário.
+     */
     private void configurarPerfil(Perfil perfil) {
         if (binding == null) {
             return;
@@ -156,11 +188,20 @@ public class PerfilFragment extends Fragment {
         exibirElementosPerfil(true);
     }
 
+
+    /**
+     * Exibe uma mensagem de erro na interface do usuário.
+     *
+     * @param mensagem A mensagem de erro a ser exibida.
+     */
     private void mostrarErro(String mensagem) {
         Toast.makeText(getContext(), mensagem, Toast.LENGTH_SHORT).show();
         Log.e(TAG, mensagem);
     }
 
+    /**
+     * Limpa os dados do perfil exibidos na interface do usuário.
+     */
     private void limparDadosPerfil() {
         if (binding == null) {
             return;
@@ -175,6 +216,11 @@ public class PerfilFragment extends Fragment {
         exibirElementosPerfil(false);
     }
 
+    /**
+     * Carrega a foto do perfil a partir de uma string Base64.
+     *
+     * @param perfil O objeto Perfil contendo a string Base64 da imagem.
+     */
     private void carregarFotoPerfil(Perfil perfil) {
         if (perfil == null || binding == null) {
             return;
@@ -205,6 +251,11 @@ public class PerfilFragment extends Fragment {
 
 
 
+/**
+ * Exibe ou oculta os elementos do perfil na interface do usuário.
+ *
+ * @param exibir Se true, exibe os elementos; caso contrário, oculta-os.
+ */
     private void exibirElementosPerfil(boolean exibir) {
         if (binding == null) {
             return;

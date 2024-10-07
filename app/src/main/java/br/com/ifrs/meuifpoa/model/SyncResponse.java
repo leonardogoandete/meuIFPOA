@@ -1,26 +1,26 @@
 package br.com.ifrs.meuifpoa.model;
 
 /**
- * The type Sync response.
+ * Classe que representa a resposta de uma sincronização.
  */
 public class SyncResponse {
     private String erro;
 
     /**
-     * Gets erro.
+     * Obtém a mensagem de erro.
      *
-     * @return the erro
+     * @return A mensagem de erro.
      */
     public String getErro() {
         return erro;
     }
 
     /**
-     * Sets erro.
+     * Define a mensagem de erro.
      *
-     * @param pdfbase64 the pdfbase 64
+     * @param erro A mensagem de erro a ser definida.
      */
-    public void setErro(String pdfbase64) {
+    public void setErro(String erro) {
         this.erro = erro;
     }
 }

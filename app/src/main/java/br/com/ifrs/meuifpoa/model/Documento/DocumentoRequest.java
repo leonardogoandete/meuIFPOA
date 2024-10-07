@@ -1,12 +1,7 @@
 package br.com.ifrs.meuifpoa.model.Documento;
 
 /**
- * A classe `DocumentoRequest` encapsula os dados necessários para fazer uma solicitação de documento ao servidor.
- * Essa classe é usada para enviar os parâmetros que o backend precisa para gerar e retornar o documento solicitado.
- * <p>
- * Parâmetros incluem:
- * - Tipo de documento (Histórico, Declaração, etc.)
- * - Senha ou token do usuário, se necessário para autorização.
+ * Classe que representa uma requisição de documento.
  */
 public class DocumentoRequest {
     private String tipo;
@@ -15,8 +10,8 @@ public class DocumentoRequest {
     /**
      * Construtor da classe DocumentoRequest.
      *
-     * @param tipo  the tipo
-     * @param senha Senha do usuário para autenticação (se aplicável).
+     * @param tipo o tipo do documento
+     * @param senha a senha do documento
      */
     public DocumentoRequest(String tipo, String senha) {
         this.senha = senha;
@@ -24,38 +19,38 @@ public class DocumentoRequest {
     }
 
     /**
-     * Gets senha.
+     * Retorna a senha do documento.
      *
-     * @return the senha
+     * @return a senha do documento
      */
     public String getSenha() {
         return senha;
     }
 
     /**
-     * Sets senha.
+     * Define a senha do documento.
      *
-     * @param senha the senha
+     * @param senha a nova senha do documento
      */
     public void setSenha(String senha) {
         this.senha = senha;
     }
 
     /**
-     * Gets tipo documento.
+     * Retorna o tipo do documento.
      *
-     * @return the tipo documento
+     * @return o tipo do documento
      */
     public String getTipoDocumento() {
         return tipo;
     }
 
     /**
-     * Sets tipo documento.
+     * Define o tipo do documento.
      *
-     * @param tipoDocumento the tipo documento
+     * @param tipoDocumento o novo tipo do documento
      */
     public void setTipoDocumento(String tipoDocumento) {
-        this.tipo = tipo;
+        this.tipo = tipoDocumento;
     }
 }

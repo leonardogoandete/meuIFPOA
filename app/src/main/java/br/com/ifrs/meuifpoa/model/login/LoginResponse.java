@@ -1,34 +1,35 @@
 package br.com.ifrs.meuifpoa.model.login;
 
 /**
- * The type Login response.
+ * Classe que representa a resposta de um login.
  */
 public class LoginResponse {
 
     private String token;
 
     /**
-     * Instantiates a new Login response.
+     * Construtor da classe LoginResponse.
      *
-     * @param token the token
+     * @param token o token de autenticação
      */
     public LoginResponse(String token) {
         this.token = token;
     }
 
     /**
-     * Gets token.
+     /**
+      * Retorna o token de autenticação.
      *
-     * @return the token
+      * @return o token de autenticação
      */
     public String getToken() {
         return token;
     }
 
     /**
-     * Sets token.
+     * Define o token de autenticação.
      *
-     * @param token the token
+     * @param token o novo token de autenticação
      */
     public void setToken(String token) {
         this.token = token;

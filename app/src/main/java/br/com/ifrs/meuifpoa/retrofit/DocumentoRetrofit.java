@@ -11,14 +11,15 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * A classe `DocumentoRetrofit` configura o cliente Retrofit para realizar chamadas à API relacionadas aos documentos.
- * Esta classe é responsável por inicializar o Retrofit com a URL base e outros parâmetros de configuração.
+ * Classe `DocumentoRetrofit` configura e fornece uma instância do serviço `DocumentoService`
+ * para interagir com a API de documentos.
  */
 public class DocumentoRetrofit {
     private final DocumentoService documentoService;
 
     /**
-     * Construtor que inicializa o cliente Retrofit com a URL base.
+     * Construtor da classe `DocumentoRetrofit`.
+     * Configura o cliente HTTP e o Retrofit para o serviço de documentos.
      */
     public DocumentoRetrofit() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -40,9 +41,9 @@ public class DocumentoRetrofit {
     }
 
     /**
-     * Retorna o serviço `DocumentoService` para fazer as requisições relacionadas aos documentos.
+     * Retorna a instância do serviço `DocumentoService`.
      *
-     * @return DocumentoService documento service
+     * @return Instância de `DocumentoService`.
      */
     public DocumentoService getDocumentoService(){
         return documentoService;

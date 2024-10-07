@@ -12,14 +12,16 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * The type Noticias retrofit.
+ * Classe `NoticiasRetrofit` configura e fornece uma instância do serviço `NoticiasService`
+ * para interagir com a API de notícias.
  */
 public class NoticiasRetrofit {
 
     private final NoticiasService noticiasService;
 
     /**
-     * Instantiates a new Noticias retrofit.
+     * Construtor da classe `NoticiasRetrofit`.
+     * Configura o cliente HTTP e o Retrofit para o serviço de notícias.
      */
     public NoticiasRetrofit() {
 
@@ -42,9 +44,9 @@ public class NoticiasRetrofit {
     }
 
     /**
-     * Gets noticias service.
+     * Retorna a instância do serviço `NoticiasService`.
      *
-     * @return the noticias service
+     * @return Instância de `NoticiasService`.
      */
     public NoticiasService getNoticiasService() {
         return noticiasService;

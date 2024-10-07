@@ -17,9 +17,7 @@ import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.model.Noticia;
 
 /**
- * O adaptador `LinhaNoticiasAdapter` é responsável por adaptar os dados das notícias em um RecyclerView.
- * Ele fornece o layout e a lógica para exibir cada item de notícia na interface do usuário.
- * Ele também implementa a funcionalidade de filtro para que os usuários possam pesquisar notícias por título ou resumo.
+ * Adaptador para exibir uma lista de notícias em um RecyclerView.
  */
 public class LinhaNoticiasAdapter extends RecyclerView.Adapter<LinhaNoticiasAdapter.NoticiasViewHolder> implements Filterable {
 
@@ -28,9 +26,9 @@ public class LinhaNoticiasAdapter extends RecyclerView.Adapter<LinhaNoticiasAdap
     private OnClickListener onItemClickListener;
 
     /**
-     * Construtor para inicializar o adaptador com uma lista de notícias.
+     * Construtor do adaptador LinhaNoticiasAdapter.
      *
-     * @param noticias Lista de objetos {@link Noticia}.
+     * @param noticias a lista de notícias a ser exibida
      */
     public LinhaNoticiasAdapter(List<Noticia> noticias) {
         this.noticias = noticias;
@@ -38,11 +36,11 @@ public class LinhaNoticiasAdapter extends RecyclerView.Adapter<LinhaNoticiasAdap
     }
 
     /**
-     * Infla o layout para cada item de notícia no RecyclerView.
+     * Cria um novo ViewHolder para a linha de notícias.
      *
-     * @param parent   O ViewGroup ao qual a nova View será anexada.
-     * @param viewType O tipo de visualização do novo item.
-     * @return Um novo objeto {@link NoticiasViewHolder} que contém as Views para cada item de notícia.
+     * @param parent o ViewGroup pai
+     * @param viewType o tipo de view
+     * @return um novo NoticiasViewHolder
      */
     @NonNull
     @Override
@@ -53,10 +51,10 @@ public class LinhaNoticiasAdapter extends RecyclerView.Adapter<LinhaNoticiasAdap
     }
 
     /**
-     * Vincula os dados de uma notícia ao ViewHolder.
+     * Vincula os dados da notícia ao ViewHolder.
      *
-     * @param holder   O ViewHolder que será atualizado com os dados da notícia.
-     * @param position A posição do item no dataset.
+     * @param holder o ViewHolder
+     * @param position a posição do item
      */
     @Override
     public void onBindViewHolder(@NonNull NoticiasViewHolder holder, int position) {
@@ -74,9 +72,9 @@ public class LinhaNoticiasAdapter extends RecyclerView.Adapter<LinhaNoticiasAdap
     }
 
     /**
-     * Retorna o número total de itens na lista filtrada de notícias.
+     * Retorna o número de itens na lista de notícias.
      *
-     * @return O número de itens na lista de notícias filtradas.
+     * @return o número de itens
      */
     @Override
     public int getItemCount() {
@@ -84,18 +82,18 @@ public class LinhaNoticiasAdapter extends RecyclerView.Adapter<LinhaNoticiasAdap
     }
 
     /**
-     * Define o listener para cliques nos itens de notícias.
+     * Define o listener de clique para os itens da lista.
      *
-     * @param onClickListener O listener que será chamado quando um item for clicado.
+     * @param onClickListener o listener de clique
      */
     public void setOnClickListener(OnClickListener onClickListener) {
         this.onItemClickListener = onClickListener;
     }
 
     /**
-     * Retorna o objeto de filtro que será usado para realizar a filtragem de notícias.
+     * Retorna o filtro para a lista de notícias.
      *
-     * @return Um filtro para realizar a pesquisa de notícias.
+     * @return o filtro
      */
     @Override
     public Filter getFilter() {
@@ -132,21 +130,14 @@ public class LinhaNoticiasAdapter extends RecyclerView.Adapter<LinhaNoticiasAdap
     }
 
     /**
-     * Interface para tratar os cliques nos itens do RecyclerView.
+     * Interface para o listener de clique nos itens da lista.
      */
     public interface OnClickListener {
-        /**
-         * Método chamado quando um item é clicado.
-         *
-         * @param position A posição do item que foi clicado.
-         * @param noticia  A notícia correspondente ao item clicado.
-         */
         void onClick(int position, Noticia noticia);
     }
 
     /**
-     * Classe interna que representa o ViewHolder para as notícias.
-     * Armazena as Views que exibem as informações de uma notícia.
+     * ViewHolder para os itens da lista de notícias.
      */
     public class NoticiasViewHolder extends RecyclerView.ViewHolder {
 
@@ -155,9 +146,9 @@ public class LinhaNoticiasAdapter extends RecyclerView.Adapter<LinhaNoticiasAdap
         TextView textDataNoticia;
 
         /**
-         * Construtor da classe ViewHolder, que inicializa as Views para exibir os dados de uma notícia.
+         * Construtor do ViewHolder.
          *
-         * @param itemView A View correspondente ao item da lista.
+         * @param itemView a view do item
          */
         public NoticiasViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -168,9 +159,9 @@ public class LinhaNoticiasAdapter extends RecyclerView.Adapter<LinhaNoticiasAdap
     }
 
     /**
-     * Atualiza a lista de notícias exibida no RecyclerView.
+     * Atualiza a lista de notícias.
      *
-     * @param novasNoticias A nova lista de objetos {@link Noticia} a ser exibida.
+     * @param novasNoticias a nova lista de notícias
      */
     public void updateNoticias(List<Noticia> novasNoticias) {
         this.noticias = novasNoticias;

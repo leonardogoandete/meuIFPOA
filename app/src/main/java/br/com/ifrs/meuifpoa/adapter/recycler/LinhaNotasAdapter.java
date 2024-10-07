@@ -16,28 +16,25 @@ import java.util.List;
 import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.model.Nota;
 
-/**
- * O adaptador `LinhaNotasAdapter` é responsável por adaptar os dados das notas dos alunos em um RecyclerView.
- * Ele fornece o layout e a lógica para exibir cada item de nota na interface do usuário.
- */
 public class LinhaNotasAdapter extends RecyclerView.Adapter<LinhaNotasAdapter.NotasViewHolder> {
     List<Nota> notas = new ArrayList<>();
 
     /**
-     * Construtor para inicializar o adaptador com uma lista de notas.
+     * Construtor do adaptador LinhaNotasAdapter.
      *
-     * @param notas Lista de objetos {@link Nota}.
+     * @param notas a lista de notas a ser exibida
      */
     public LinhaNotasAdapter(List<Nota> notas) {
         this.notas = notas;
     }
 
+
     /**
-     * Infla o layout para cada item do RecyclerView.
+     * Cria um novo ViewHolder para a linha de notas.
      *
-     * @param parent   O ViewGroup ao qual a nova View será anexada.
-     * @param position A posição do item na lista.
-     * @return Um novo objeto {@link NotasViewHolder} que contém as Views para cada item.
+     * @param parent o ViewGroup pai
+     * @param position a posição do item
+     * @return um novo NotasViewHolder
      */
     @NonNull
     @Override
@@ -48,10 +45,10 @@ public class LinhaNotasAdapter extends RecyclerView.Adapter<LinhaNotasAdapter.No
     }
 
     /**
-     * Vincula os dados da {@link Nota} ao ViewHolder.
+     * Vincula os dados da nota ao ViewHolder.
      *
-     * @param holder   O ViewHolder que será atualizado com os dados.
-     * @param position A posição do item no dataset.
+     * @param holder o ViewHolder
+     * @param position a posição do item
      */
     @Override
     public void onBindViewHolder(@NonNull NotasViewHolder holder, int position) {
@@ -76,18 +73,18 @@ public class LinhaNotasAdapter extends RecyclerView.Adapter<LinhaNotasAdapter.No
     }
 
     /**
-     * Retorna o número total de itens na lista de notas.
+     * Retorna o número de itens na lista de notas.
      *
-     * @return O tamanho da lista de notas.
+     * @return o número de itens
      */
     @Override
     public int getItemCount() {
         return notas.size();
     }
 
+
     /**
-     * Classe interna que representa o ViewHolder para as notas.
-     * Armazena as Views que exibem as informações de uma nota.
+     * ViewHolder para os itens da lista de notas.
      */
     public class NotasViewHolder extends RecyclerView.ViewHolder {
 
@@ -102,9 +99,9 @@ public class LinhaNotasAdapter extends RecyclerView.Adapter<LinhaNotasAdapter.No
         TextView textSituacaoValor;
 
         /**
-         * Construtor da classe ViewHolder, que inicializa as Views para exibir os dados de uma nota.
+         * Construtor do ViewHolder.
          *
-         * @param itemView A View correspondente ao item da lista.
+         * @param itemView a view do item
          */
         public NotasViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -120,3 +117,4 @@ public class LinhaNotasAdapter extends RecyclerView.Adapter<LinhaNotasAdapter.No
         }
     }
 }
+

@@ -8,7 +8,7 @@ import br.com.ifrs.meuifpoa.R;
 
 
 /**
- * The type Splash activity.
+ * Classe responsável pela exibição da tela de splash.
  */
 public class SplashActivity extends AppCompatActivity {
 
@@ -18,7 +18,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        // Criar um handler para iniciar a MainActivity após o tempo de exibição
+        // Cria um handler para iniciar a MainActivity após o tempo de exibição
         new Handler().postDelayed(() -> {
             Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
             startActivity(mainIntent);

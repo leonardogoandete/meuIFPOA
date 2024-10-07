@@ -1,7 +1,6 @@
 package br.com.ifrs.meuifpoa.utils;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -9,14 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.model.SyncResponse;
@@ -27,12 +23,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A classe `GerenciadorSinc` é responsável pela sincronização de dados entre o aplicativo e o backend.
- * Essa classe pode realizar operações de sincronização periódicas ou sob demanda.
- * <p>
- * Funções principais incluem:
- * - Sincronizar documentos e dados com o backend.
- * - Gerenciar o cache de documentos para acesso offline.
+ * A classe `GerenciadorSinc` é responsável por gerenciar a sincronização de dados do aplicativo.
+ * Ela verifica a necessidade de sincronização, solicita a senha do usuário e realiza a sincronização
+ * com o servidor.
  */
 public class GerenciadorSinc {
 
@@ -40,10 +33,10 @@ public class GerenciadorSinc {
     private static final long QUINZE_DIAS_EM_MILLIS = 15 * 24 * 60 * 60 * 1000L;
 
     /**
-     * Verificar e requisitar senha.
+     * Verifica se a sincronização é necessária e solicita a senha do usuário, se necessário.
      *
-     * @param contexto  the contexto
-     * @param aoSucesso the ao sucesso
+     * @param contexto  O contexto da aplicação.
+     * @param aoSucesso Runnable a ser executado em caso de sucesso.
      */
     public static void verificarERequisitarSenha(Context contexto, Runnable aoSucesso) {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -96,6 +89,17 @@ public class GerenciadorSinc {
         }
     }
 
+    /**
+     * Inicia o processo de sincronização com o servidor.
+     *
+     * @param contexto             O contexto da aplicação.
+     * @param senha                A senha do usuário.
+     * @param dialogView           A view do diálogo.
+     * @param dialog               O diálogo de sincronização.
+     * @param progressBarContainer O container da barra de progresso.
+     * @param aoSucesso            Runnable a ser executado em caso de sucesso.
+     * @param positiveButton       O botão positivo do diálogo.
+     */
     private static void iniciarSincronizacao(Context contexto, String senha, View dialogView, AlertDialog dialog, LinearLayout progressBarContainer, Runnable aoSucesso, Button positiveButton) {
         TextInputLayout senhaSigaa = dialogView.findViewById(R.id.textInputSenhaSyncSigaa);
         progressBarContainer.setVisibility(View.VISIBLE);
@@ -128,6 +132,15 @@ public class GerenciadorSinc {
         });
     }
 
+    /**
+     * Trata os erros ocorridos durante a sincronização.
+     *
+     * @param contexto             O contexto da aplicação.
+     * @param progressBarContainer O container da barra de progresso.
+     * @param senhaSigaa           O campo de entrada da senha.
+     * @param positiveButton       O botão positivo do diálogo.
+     * @param mensagemErro         A mensagem de erro a ser exibida.
+     */
     private static void tratarErroSincronizacao(Context contexto, LinearLayout progressBarContainer, TextInputLayout senhaSigaa, Button positiveButton, String mensagemErro) {
         exibirMensagem(contexto, mensagemErro);
         Log.e(TAG, mensagemErro);
@@ -136,35 +149,40 @@ public class GerenciadorSinc {
         positiveButton.setEnabled(true);  // Reabilita o botão para tentar novamente
     }
 
+    /**
+     * Exibe uma mensagem ao usuário.
+     *
+     * @param contexto O contexto da aplicação.
+     * @param mensagem A mensagem a ser exibida.
+     */
     private static void exibirMensagem(Context contexto, String mensagem) {
         Toast.makeText(contexto, mensagem, Toast.LENGTH_SHORT).show();
     }
 
-
     /**
-     * Obter data ultima sincronizacao long.
+     * Obtém a data da última sincronização.
      *
-     * @param contexto the contexto
-     * @return the long
+     * @param contexto O contexto da aplicação.
+     * @return A data da última sincronização em milissegundos.
      */
     public static long obterDataUltimaSincronizacao(Context contexto) {
         return getSharedPrefs(contexto, "syncPrefs").getLong("ultimaSincronizacao", 0);
     }
 
     /**
-     * Salvar data ultima sincronizacao.
+     * Salva a data da última sincronização.
      *
-     * @param contexto  the contexto
-     * @param timestamp the timestamp
+     * @param contexto   O contexto da aplicação.
+     * @param timestamp  O timestamp da última sincronização.
      */
     public static void salvarDataUltimaSincronizacao(Context contexto, long timestamp) {
         getSharedPrefs(contexto, "syncPrefs").edit().putLong("ultimaSincronizacao", timestamp).apply();
     }
 
     /**
-     * Limpar.
+     * Limpa os dados de sincronização e login.
      *
-     * @param contexto the contexto
+     * @param contexto O contexto da aplicação.
      */
     public static void limpar(Context contexto) {
         getSharedPrefs(contexto, "syncPrefs").edit().clear().apply();
@@ -172,9 +190,15 @@ public class GerenciadorSinc {
         Log.d(TAG, "GerenciadorSincronizacao limpo");
     }
 
+    /**
+     * Obtém as preferências compartilhadas.
+     *
+     * @param context   O contexto da aplicação.
+     * @param prefsName O nome das preferências.
+     * @return As preferências compartilhadas.
+     */
     private static SharedPreferences getSharedPrefs(Context context, String prefsName) {
         return context.getSharedPreferences(prefsName, Context.MODE_PRIVATE);
     }
-    
 }
 

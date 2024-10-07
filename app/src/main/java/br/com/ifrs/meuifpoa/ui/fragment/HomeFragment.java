@@ -2,8 +2,8 @@ package br.com.ifrs.meuifpoa.ui.fragment;
 
 import static br.com.ifrs.meuifpoa.utils.Constants.DOC_ATESTADO_MATRICULA;
 import static br.com.ifrs.meuifpoa.utils.Constants.DOC_DECLARACAO_VINCULO;
-import static br.com.ifrs.meuifpoa.utils.Constants.DOC_HISTORICO_EMENTAS;
 import static br.com.ifrs.meuifpoa.utils.Constants.DOC_HISTORICO;
+import static br.com.ifrs.meuifpoa.utils.Constants.DOC_HISTORICO_EMENTAS;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -18,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,13 +46,12 @@ import br.com.ifrs.meuifpoa.model.Documento.DocumentoResponse;
 import br.com.ifrs.meuifpoa.model.Perfil;
 import br.com.ifrs.meuifpoa.retrofit.DocumentoRetrofit;
 import br.com.ifrs.meuifpoa.retrofit.service.DocumentoService;
-import br.com.ifrs.meuifpoa.ui.dialog.PasswordDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * The type Home fragment.
+ * A classe HomeFragment representa o fragmento da tela inicial.
  */
 public class HomeFragment extends Fragment {
 
@@ -64,12 +62,26 @@ public class HomeFragment extends Fragment {
     private String minhaSenha;
     private String percentualIntegralizado;
 
+    /**
+     * Cria a visualização do fragmento.
+     *
+     * @param inflater           O LayoutInflater.
+     * @param container          O ViewGroup.
+     * @param savedInstanceState O estado salvo da instância.
+     * @return A View criada.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
+    /**
+     * Método chamado quando a visualização é criada.
+     *
+     * @param view               A View criada.
+     * @param savedInstanceState O estado salvo da instância.
+     */
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -99,6 +111,9 @@ public class HomeFragment extends Fragment {
 
     }
 
+    /**
+     * Configura o Firestore.
+     */
     private void configurarFirestore() {
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(true)
@@ -106,6 +121,11 @@ public class HomeFragment extends Fragment {
         db.setFirestoreSettings(settings);
     }
 
+    /**
+     * Configura os botões da interface.
+     *
+     * @param token O token de autenticação.
+     */
     private void configurarBotoes(String token) {
         configurarBotaoHistorico(token);
         configurarBotaoHistoricoEmentas(token);
@@ -113,6 +133,11 @@ public class HomeFragment extends Fragment {
         configurarBotaoAtestadoMatricula(token);
     }
 
+    /**
+     * Configura o botão de emissão de histórico.
+     *
+     * @param token O token de autenticação.
+     */
     private void configurarBotaoHistorico(String token) {
         binding.btnEmitirHistorico.txtBtnProgress.setText(R.string.msgBtnEmitirHistorico);
         binding.btnEmitirHistorico.progressButtonLayout.setOnClickListener(v -> {
@@ -120,6 +145,11 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    /**
+     * Configura o botão de emissão de histórico com ementas.
+     *
+     * @param token O token de autenticação.
+     */
     private void configurarBotaoHistoricoEmentas(String token) {
         binding.btnEmitirHistoricoEmentas.txtBtnProgress.setText(R.string.msgBtnEmitirHistoricoEmentas);
         binding.btnEmitirHistoricoEmentas.progressButtonLayout.setOnClickListener(v -> {
@@ -127,6 +157,11 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    /**
+     * Configura o botão de emissão de declaração de vínculo.
+     *
+     * @param token O token de autenticação.
+     */
     private void configurarBotaoDeclaracaoVinculo(String token) {
         binding.btnEmitirDeclaracaoVinculo.txtBtnProgress.setText(R.string.msgBtnEmitirDeclaracaoVinculo);
         binding.btnEmitirDeclaracaoVinculo.progressButtonLayout.setOnClickListener(v -> {
@@ -134,6 +169,11 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    /**
+     * Configura o botão de emissão de atestado de matrícula.
+     *
+     * @param token O token de autenticação.
+     */
     private void configurarBotaoAtestadoMatricula(String token) {
         binding.btnEmitirAtestadoMatricula.txtBtnProgress.setText(R.string.msgBtnEmitirAtestadoMatricula);
         binding.btnEmitirAtestadoMatricula.progressButtonLayout.setOnClickListener(v -> {
@@ -141,7 +181,13 @@ public class HomeFragment extends Fragment {
         });
     }
 
-
+    /**
+     * Emite um documento.
+     *
+     * @param token         O token de autenticação.
+     * @param tipoDocumento O tipo de documento a ser emitido.
+     * @param buttonLayout  O layout do botão que foi clicado.
+     */
     private void emitirDocumento(String token, String tipoDocumento, View buttonLayout) {
         // Exibir o ProgressBar do botão clicado
         buttonLayout.findViewById(R.id.progressBarButton).setVisibility(View.VISIBLE);
@@ -181,7 +227,11 @@ public class HomeFragment extends Fragment {
         configuraDesabilitarBotao(true);
     }
 
-
+    /**
+     * Configura a habilitação dos botões.
+     *
+     * @param habilitar Se os botões devem ser habilitados ou não.
+     */
     private void configuraDesabilitarBotao(boolean habilitar) {
         Log.d("HomeFragment", "configuraDesabilitarBotao: " + habilitar);
         binding.btnEmitirHistorico.progressButtonLayout.setEnabled(habilitar);
@@ -190,6 +240,9 @@ public class HomeFragment extends Fragment {
         binding.btnEmitirDeclaracaoVinculo.progressButtonLayout.setEnabled(habilitar);
     }
 
+    /**
+     * Verifica a autenticação do usuário.
+     */
     private void checkUserAuthentication() {
         if (mAuth.getCurrentUser() != null) {
             String userId = mAuth.getCurrentUser().getUid();
@@ -208,6 +261,11 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    /**
+     * Atualiza a interface com os dados do perfil do usuário.
+     *
+     * @param perfil O perfil do usuário.
+     */
     private void atualizarInterfacePerfil(Perfil perfil) {
         String primeiroNome = obterPrimeiroNome(perfil.getNomeDocente());
         StringBuffer mensagem = new StringBuffer();
@@ -217,6 +275,11 @@ public class HomeFragment extends Fragment {
         configurarValoresPerfil(perfil);
     }
 
+    /**
+     * Configura os valores do perfil do usuário na interface.
+     *
+     * @param perfil O perfil do usuário.
+     */
     private void configurarValoresPerfil(Perfil perfil) {
         binding.txtChObrigatoria.setText(perfil.getChObrigatoriaPendente());
         binding.txtChOptativa.setText(perfil.getChOptativaPendente());
@@ -233,22 +296,38 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    /**
+     * Esconde os componentes da interface.
+     */
     private void esconderComponentesInterface() {
         if (binding == null) return;
         binding.containerIntegralizacoes.setVisibility(View.GONE);
     }
 
+    /**
+     * Exibe uma mensagem de erro.
+     *
+     * @param mensagem A mensagem de erro.
+     */
     private void exibirErro(String mensagem) {
         Log.e("API Error", mensagem);
         Toast.makeText(getContext(), mensagem, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Método chamado quando a visualização é destruída.
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
 
+    /**
+     * Configura o gráfico semi-circular.
+     *
+     * @param realizado O percentual realizado.
+     */
     private void setupSemiCircularChart(int realizado) {
         // Cria os dados para o gráfico
         List<PieEntry> pieEntries = new ArrayList<>();
@@ -292,7 +371,6 @@ public class HomeFragment extends Fragment {
         binding.semiCircularChart.setDrawEntryLabels(false);
 
         // Exibe o texto central como "%"
-        //String msgIntegralizado = get
         binding.semiCircularChart.setCenterText(getString(R.string.msgIntegralizado)+realizado+"%"); // Exibe o texto central com o valor desejado
         binding.semiCircularChart.setCenterTextSize(20f); // Define o tamanho do texto central
 
@@ -301,12 +379,11 @@ public class HomeFragment extends Fragment {
     }
 
     /**
-     * Rgb int.
+     * Converte uma cor hexadecimal para RGB.
      *
-     * @param hex the hex
-     * @return the int
+     * @param hex A cor hexadecimal.
+     * @return A cor em RGB.
      */
-// Configura a cor
     public static int rgb(String hex) {
         int color = (int) Long.parseLong(hex.replace("#", ""), 16);
         int r = (color >> 16) & 0xFF;
@@ -315,6 +392,12 @@ public class HomeFragment extends Fragment {
         return Color.rgb(r, g, b);
     }
 
+    /**
+     * Obtém o primeiro nome a partir do nome completo.
+     *
+     * @param nomeCompleto O nome completo.
+     * @return O primeiro nome.
+     */
     private String obterPrimeiroNome(String nomeCompleto) {
         if (nomeCompleto == null || nomeCompleto.isEmpty()) {
             return "";
@@ -328,6 +411,12 @@ public class HomeFragment extends Fragment {
         return "";
     }
 
+    /**
+     * Salva e visualiza um documento PDF.
+     *
+     * @param nome       O nome do documento.
+     * @param base64Data Os dados do documento em base64.
+     */
     private void salvarEPDFVisualizar(String nome, String base64Data) {
         try {
             byte[] pdfAsBytes = Base64.decode(base64Data, Base64.DEFAULT);
@@ -346,6 +435,11 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    /**
+     * Visualiza um documento PDF.
+     *
+     * @param pdfFile O arquivo PDF.
+     */
     private void visualizarPDF(File pdfFile) {
         if (pdfFile.exists()) {
             Uri pdfUri = FileProvider.getUriForFile(requireContext(), requireContext().getPackageName() + ".fileprovider", pdfFile);
@@ -375,6 +469,11 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    /**
+     * Compartilha um documento PDF.
+     *
+     * @param pdfFile O arquivo PDF.
+     */
     private void compartilharPDF(File pdfFile) {
         if (pdfFile.exists()) {
             Uri pdfUri = FileProvider.getUriForFile(requireContext(), requireContext().getPackageName() + ".fileprovider", pdfFile);
@@ -393,7 +492,11 @@ public class HomeFragment extends Fragment {
         }
     }
 
-
+    /**
+     * Solicita a senha do usuário.
+     *
+     * @param onSuccess A ação a ser executada após a inserção da senha.
+     */
     private void solicitarSenha(Runnable onSuccess) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -430,6 +533,4 @@ public class HomeFragment extends Fragment {
 
         dialog.show();  // Exibe o diálogo
     }
-
-
 }

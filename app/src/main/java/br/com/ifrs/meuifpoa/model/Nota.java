@@ -3,7 +3,7 @@ package br.com.ifrs.meuifpoa.model;
 import java.io.Serializable;
 
 /**
- * The type Nota.
+ * Classe que representa uma Nota.
  */
 public class Nota implements Serializable{
     private String codigoDisciplina;
@@ -16,22 +16,22 @@ public class Nota implements Serializable{
     private String situacao;
 
     /**
-     * Instantiates a new Nota.
+     * Construtor padrão da classe Nota.
      */
     public Nota() {
     }
 
     /**
-     * Instantiates a new Nota.
+     * Construtor da classe Nota.
      *
-     * @param codigoDisciplina the codigo disciplina
-     * @param nomeDisciplina   the nome disciplina
-     * @param primeiraUnidade  the primeira unidade
-     * @param segundaUnidade   the segunda unidade
-     * @param notaRecuperacao  the nota recuperacao
-     * @param notaFinal        the nota final
-     * @param numeroFaltas     the numero faltas
-     * @param situacao         the situacao
+     * @param codigoDisciplina o código da disciplina
+     * @param nomeDisciplina o nome da disciplina
+     * @param primeiraUnidade a nota da primeira unidade
+     * @param segundaUnidade a nota da segunda unidade
+     * @param notaRecuperacao a nota de recuperação
+     * @param notaFinal a nota final
+     * @param numeroFaltas o número de faltas
+     * @param situacao a situação
      */
     public Nota(String codigoDisciplina, String nomeDisciplina, String primeiraUnidade, String segundaUnidade, String notaRecuperacao, String notaFinal, String numeroFaltas, String situacao) {
         this.codigoDisciplina = codigoDisciplina;
@@ -45,144 +45,144 @@ public class Nota implements Serializable{
     }
 
     /**
-     * Gets codigo disciplina.
+     * Retorna o código da disciplina.
      *
-     * @return the codigo disciplina
+     * @return o código da disciplina
      */
     public String getCodigoDisciplina() {
         return codigoDisciplina;
     }
 
     /**
-     * Gets nome disciplina.
+     * Retorna o nome da disciplina.
      *
-     * @return the nome disciplina
+     * @return o nome da disciplina
      */
     public String getNomeDisciplina() {
         return nomeDisciplina;
     }
 
     /**
-     * Gets primeira unidade.
+     * Retorna a nota da primeira unidade.
      *
-     * @return the primeira unidade
+     * @return a nota da primeira unidade
      */
     public String getPrimeiraUnidade() {
         return primeiraUnidade;
     }
 
     /**
-     * Gets segunda unidade.
+     * Retorna a nota da segunda unidade.
      *
-     * @return the segunda unidade
+     * @return a nota da segunda unidade
      */
     public String getSegundaUnidade() {
         return segundaUnidade;
     }
 
     /**
-     * Gets nota recuperacao.
+     * Retorna a nota de recuperação.
      *
-     * @return the nota recuperacao
+     * @return a nota de recuperação
      */
     public String getNotaRecuperacao() {
         return notaRecuperacao;
     }
 
     /**
-     * Gets nota final.
+     * Retorna a nota final.
      *
-     * @return the nota final
+     * @return a nota final
      */
     public String getNotaFinal() {
         return notaFinal;
     }
 
     /**
-     * Gets numero faltas.
+     * Retorna o número de faltas.
      *
-     * @return the numero faltas
+     * @return o número de faltas
      */
     public String getNumeroFaltas() {
         return numeroFaltas;
     }
 
     /**
-     * Gets situacao.
+     * Retorna a situação.
      *
-     * @return the situacao
+     * @return a situação
      */
     public String getSituacao() {
         return situacao;
     }
 
     /**
-     * Sets codigo disciplina.
+     * Define o código da disciplina.
      *
-     * @param codigoDisciplina the codigo disciplina
+     * @param codigoDisciplina o novo código da disciplina
      */
     public void setCodigoDisciplina(String codigoDisciplina) {
         this.codigoDisciplina = codigoDisciplina;
     }
 
     /**
-     * Sets nome disciplina.
+     * Define o nome da disciplina.
      *
-     * @param nomeDisciplina the nome disciplina
+     * @param nomeDisciplina o novo nome da disciplina
      */
     public void setNomeDisciplina(String nomeDisciplina) {
         this.nomeDisciplina = nomeDisciplina;
     }
 
     /**
-     * Sets primeira unidade.
+     * Define a nota da primeira unidade.
      *
-     * @param primeiraUnidade the primeira unidade
+     * @param primeiraUnidade a nova nota da primeira unidade
      */
     public void setPrimeiraUnidade(String primeiraUnidade) {
         this.primeiraUnidade = primeiraUnidade;
     }
 
     /**
-     * Sets segunda unidade.
+     * Define a nota da segunda unidade.
      *
-     * @param segundaUnidade the segunda unidade
+     * @param segundaUnidade a nova nota da segunda unidade
      */
     public void setSegundaUnidade(String segundaUnidade) {
         this.segundaUnidade = segundaUnidade;
     }
 
     /**
-     * Sets nota recuperacao.
+     * Define a nota de recuperação.
      *
-     * @param notaRecuperacao the nota recuperacao
+     * @param notaRecuperacao a nova nota de recuperação
      */
     public void setNotaRecuperacao(String notaRecuperacao) {
         this.notaRecuperacao = notaRecuperacao;
     }
 
     /**
-     * Sets nota final.
+     * Define a nota final.
      *
-     * @param notaFinal the nota final
+     * @param notaFinal a nova nota final
      */
     public void setNotaFinal(String notaFinal) {
         this.notaFinal = notaFinal;
     }
 
     /**
-     * Sets numero faltas.
+     * Define o número de faltas.
      *
-     * @param numeroFaltas the numero faltas
+     * @param numeroFaltas o novo número de faltas
      */
     public void setNumeroFaltas(String numeroFaltas) {
         this.numeroFaltas = numeroFaltas;
     }
 
     /**
-     * Sets situacao.
+     * Define a situação.
      *
-     * @param situacao the situacao
+     * @param situacao a nova situação
      */
     public void setSituacao(String situacao) {
         this.situacao = situacao;
