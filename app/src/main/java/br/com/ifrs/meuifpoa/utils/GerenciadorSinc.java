@@ -118,6 +118,7 @@ public class GerenciadorSinc {
                 if (resposta.isSuccessful()) {
                     Log.d(TAG, "Sincronização realizada com sucesso");
                     salvarDataUltimaSincronizacao(contexto, System.currentTimeMillis());
+                    exibirMensagem(contexto, "Sincronização realizada com sucesso");
                     dialog.dismiss();
                     aoSucesso.run();
                 } else {
@@ -156,7 +157,7 @@ public class GerenciadorSinc {
      * @param mensagem A mensagem a ser exibida.
      */
     private static void exibirMensagem(Context contexto, String mensagem) {
-        Toast.makeText(contexto, mensagem, Toast.LENGTH_SHORT).show();
+        Toast.makeText(contexto, mensagem, Toast.LENGTH_LONG).show();
     }
 
     /**
