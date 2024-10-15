@@ -51,17 +51,17 @@
     <string name="msgBuscarNoticias">Buscar notícias</string>
     <string name="msgNaoTemNoticias">Não há notícias disponíveis</string>
     <string name="msgBtnEmitirHistorico">Emitir Histórico</string>
-    <string name="msgBtnEmitirHistoricoEmentas">Emitir Historico com Ementas</string>
-    <string name="msgBtnEmitirDeclaracaoVinculo">Emitir Declaração de vínculo</string>
-    <string name="msgBtnEmitirAtestadoMatricula">Emitir Atestado de matrícula</string>
+    <string name="msgBtnEmitirHistoricoEmentas">Emitir\nHistorico com\nEmentas</string>
+    <string name="msgBtnEmitirDeclaracaoVinculo">Emitir\nDeclaração de\nvínculo</string>
+    <string name="msgBtnEmitirAtestadoMatricula">Emitir\nAtestado de\nmatrícula</string>
     <string name="msgBemVindoUsuario">Bem vindo(a) usuário!</string>
     <string name="txtViewTituloIntegralizacoes">Progresso</string>
     <string name="dado_nao_disponivel">Não disponivel</string>
     <string name="msgSincronizando">Sincronizando...</string>
     <string name="msgBemVindo">"Bem vindo(a) "</string>
     <string name="txtViewChObrigatoriaPendente">CH Obrigatória\nPendente</string>
-    <string name="txtViewChComplementarPendente">CH Complementar Pendente</string>
-    <string name="txtViewChOptativaPendente">CH Optativa Pendente</string>
+    <string name="txtViewChComplementarPendente">CH Complementar\nPendente</string>
+    <string name="txtViewChOptativaPendente">CH Optativa\nPendente</string>
     <string name="txtViewChTotalCurriculo">CH Total\nCurrículo</string>
     <string name="msgIntegralizado">Integralizado\n</string>
 

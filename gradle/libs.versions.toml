@@ -5,19 +5,20 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
 material = "1.12.0"
-activity = "1.9.1"
+activity = "1.9.2"
 constraintlayout = "2.1.4"
-navigationFragment = "2.7.7"
-navigationUi = "2.7.7"
+navigationFragment = "2.8.2"
+navigationUi = "2.8.2"
 retrofit = "2.11.0"
 loggingInterceptor = "5.0.0-alpha.14"
 converterGson = "2.11.0"
 googleGmsGoogleServices = "4.4.2"
 firebaseAuth = "23.0.0"
-firebaseFirestore = "25.0.0"
+firebaseFirestore = "25.1.0"
 firebaseStorage = "21.0.0"
-glide = "4.15.1"
+glide = "4.16.0"
 mpandroidchart = "v3.1.0"
+dokkaGradlePlugin = "2.0.0-Beta"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -37,6 +38,7 @@ firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore
 firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 mpandroidchart = { group = "PhilJay", name = "MPAndroidChart", version.ref = "mpandroidchart" }
+dokka-gradle-plugin = { group = "org.jetbrains.dokka", name = "dokka-gradle-plugin", version.ref = "dokkaGradlePlugin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
