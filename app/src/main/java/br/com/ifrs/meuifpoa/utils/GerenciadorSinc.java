@@ -122,7 +122,8 @@ public class GerenciadorSinc {
                     dialog.dismiss();
                     aoSucesso.run();
                 } else {
-                    tratarErroSincronizacao(contexto, progressBarContainer, senhaSigaa, positiveButton, "Erro ao sincronizar dados: " + resposta.message());
+                    Log.e(TAG, "Erro ao sincronizar dados: " + resposta.message());
+                    tratarErroSincronizacao(contexto, progressBarContainer, senhaSigaa, positiveButton, "Erro ao sincronizar dados, tente novamente!" + resposta.message());
                 }
             }
 
