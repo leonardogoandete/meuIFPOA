@@ -20,6 +20,7 @@ import java.util.List;
 import br.com.ifrs.meuifpoa.adapter.recycler.LinhaNotasAdapter;
 import br.com.ifrs.meuifpoa.databinding.FragmentNotasBinding;
 import br.com.ifrs.meuifpoa.model.Nota;
+import br.com.ifrs.meuifpoa.model.Perfil;
 import br.com.ifrs.meuifpoa.utils.GerenciadorSinc;
 
 /**
@@ -86,21 +87,25 @@ public class NotasFragment extends Fragment {
             return;
         }
 
-        db.collection("notas")
+        db.collection("usuarios")
                 .document(mAuth.getUid())
-                .collection("disciplinas")
                 .get(Source.DEFAULT)
                 .addOnCompleteListener(task -> {
                     // Oculta o ProgressBar ao finalizar o carregamento
                     mostrarCarregamento(false);
 
                     if (task.isSuccessful()) {
-                        List<Nota> notasServidor = task.getResult().toObjects(Nota.class);
-                        if (!notasServidor.isEmpty()) {
-                            LinhaNotasAdapter notasAdapter = new LinhaNotasAdapter(notasServidor);
-                            binding.listViewNotas.setAdapter(notasAdapter);
+                        Perfil perfil = task.getResult().toObject(Perfil.class);
+                        if (perfil != null) {
+                            List<Nota> notasServidor = perfil.getNotas();
+                            if (notasServidor != null && !notasServidor.isEmpty()) {
+                                LinhaNotasAdapter notasAdapter = new LinhaNotasAdapter(notasServidor);
+                                binding.listViewNotas.setAdapter(notasAdapter);
+                            }else {
+                                exibirMensagemErro("Sem notas disponíveis");
+                            }
                         } else {
-                            exibirMensagemErro("Sem notas disponíveis");
+                            exibirMensagemErro("Perfil não encontrado");
                         }
                     } else {
                         exibirMensagemErro("Erro ao obter notas do servidor");
