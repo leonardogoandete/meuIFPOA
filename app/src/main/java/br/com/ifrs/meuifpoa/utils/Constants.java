@@ -8,7 +8,7 @@ package br.com.ifrs.meuifpoa.utils;
  */
 public class Constants {
     /**
-     * A constante BASE_URL.
+     * A constante BASE_URL, utilizada para definir a URL da api do backend.
      */
     //public static final String BASE_URL = "http://192.168.0.15:8080/";
     //public static final String BASE_URL = "https://app-ifrs-back-5ee5bb142a80.herokuapp.com/";
@@ -16,23 +16,23 @@ public class Constants {
     //public static final String BASE_URL = "http://leogoandete.tplinkdns.com:8080/meuifpoa/";
     public static final String BASE_URL = "https://app.poa.ifrs.edu.br/meuifpoa/";
      /**
-      * A constante BASE_URL_NOTICIA.
+      * A constante BASE_URL_NOTICIA, utilizada para definir a URL base das noticias.
      */
     public static final String BASE_URL_NOTICIA = "https://poa.ifrs.edu.br";
      /**
-      * A constante DOC_HISTORICO.
+      * A constante DOC_HISTORICO, define o tipo de documento para o formulario.
      */
     public static final String DOC_HISTORICO = "historico";
      /**
-      * A constante DOC_HISTORICO_EMENTAS.
+      * A constante DOC_HISTORICO_EMENTAS, define o tipo de documento para o formulario.
      */
     public static final String DOC_HISTORICO_EMENTAS = "historicoEmentas";
      /**
-      * A constante DOC_DECLARACAO_VINCULO.
+      * A constante DOC_DECLARACAO_VINCULO, define o tipo de documento para o formulario.
      */
     public static final String DOC_DECLARACAO_VINCULO = "declaracaoVinculo";
      /**
-      * A constante DOC_ATESTADO_MATRICULA.
+      * A constante DOC_ATESTADO_MATRICULA, define o tipo de documento para o formulario.
      */
     public static final String DOC_ATESTADO_MATRICULA = "atestadoMatricula";
 }
