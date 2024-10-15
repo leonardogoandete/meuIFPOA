@@ -1,5 +1,7 @@
 package br.com.ifrs.meuifpoa.model;
 
+import java.util.ArrayList;
+
 /**
  * A classe Perfil representa o perfil de um estudante ou docente.
  */
@@ -15,7 +17,8 @@ public class Perfil {
     private String chTotalCurriculo;
     private String chComplementarPendente;
     private String integralizado;
-    private String imgSrc;
+    private String imgPerfil;
+    private ArrayList<Nota> notas;
 
     /**
      * Instancia um novo Perfil.
@@ -52,14 +55,15 @@ public class Perfil {
      * @param status                 o status
      * @param anoIngresso            o ano de ingresso
      * @param email                  o email
-     * @param imgSrc                 a URL da imagem
+     * @param imgPerfil                 a URL da imagem
      * @param chObrigatoriaPendente  a carga horária obrigatória pendente
      * @param chOptativaPendente     a carga horária optativa pendente
      * @param chTotalCurriculo       a carga horária total do currículo
      * @param chComplementarPendente a carga horária complementar pendente
      * @param integralizado          o status de integralização
+     * @param notas                  a lista de notas
      */
-    public Perfil(String nomeDocente, String matricula, String cpf, String curso, String nivel, String status, String anoIngresso, String email, String imgSrc, String chObrigatoriaPendente, String chOptativaPendente, String chTotalCurriculo, String chComplementarPendente, String integralizado){
+    public Perfil(String nomeDocente, String matricula, String cpf, String curso, String nivel, String status, String anoIngresso, String email, String imgPerfil, String chObrigatoriaPendente, String chOptativaPendente, String chTotalCurriculo, String chComplementarPendente, String integralizado, ArrayList<Nota> notas){
         this.nomeDocente = nomeDocente;
         this.matricula = matricula;
         this.curso = curso;
@@ -71,6 +75,8 @@ public class Perfil {
         this.chTotalCurriculo = chTotalCurriculo;
         this.chComplementarPendente = chComplementarPendente;
         this.integralizado = integralizado;
+        this.imgPerfil = imgPerfil;
+        this.notas = notas;
     }
 
     /**
@@ -285,17 +291,35 @@ public class Perfil {
      *
       * @return a URL da imagem
      */
-    public String getImgSrc() {
-        return imgSrc;
+    public String getImgPerfil() {
+        return imgPerfil;
     }
 
     /**
      /**
       * Define a URL da imagem.
      *
-      * @param imgSrc a nova URL da imagem
+      * @param imgPerfil a nova URL da imagem
      */
-    public void setImgSrc(String imgSrc) {
-        this.imgSrc = imgSrc;
+    public void setImgPerfil(String imgPerfil) {
+        this.imgPerfil = imgPerfil;
+    }
+
+    /**
+     * Retorna a lista de notas.
+     *
+     * @return a lista de notas
+     */
+    public ArrayList<Nota> getNotas() {
+        return notas;
+    }
+
+    /**
+     * Define a lista de notas.
+     *
+     * @param notas a nova lista de notas
+     */
+    public void setNotas(ArrayList<Nota> notas) {
+        this.notas = notas;
     }
 }

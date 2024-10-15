@@ -19,7 +19,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Source;
-import com.google.firebase.storage.FirebaseStorage;
 
 
 
@@ -226,7 +225,7 @@ public class PerfilFragment extends Fragment {
             return;
         }
 
-        String base64Imagem = perfil.getImgSrc();  // Obtém a imagem em Base64
+        String base64Imagem = perfil.getImgPerfil();  // Obtém a imagem em Base64
         if (base64Imagem != null && !base64Imagem.isEmpty()) {
             try {
                 // Decodifica a string Base64 para um array de bytes
