@@ -25,6 +25,23 @@ O objetivo é facilitar o acesso a informações e serviços para a comunidade d
 3. Conecte um dispositivo Android ou inicie um emulador.
 4. Execute o aplicativo.
 
+## APIs
+Link para a API REST: [meuIFPOA-API](https://app.poa.ifrs.edu.br/meuifpoa/q/swagger-ui/)
+Link para o repositório da API: [meuIFPOA-API](https://github.com/leonardogoandete/meuifpoa-back/tree/okhttp3)
+
+O aplicativo consome uma API RESTful desenvolvida em Java. As rotas disponíveis são:
+- `GET /noticias` - Retorna todas as notícias cadastradas.
+- `POST /noticias` - Retorna noticias com base no filtro ou quantidade de resultados.
+- `GET /documento` - Retorna um documento em PDF codificado em base64.
+- `POST /sync` - Realiza a sincronização de dados acadêmicos.
+
+## Documentação Dokka
+A documentação do código foi gerada utilizando a ferramenta Dokka. Para acessar a documentação, abra o arquivo `index.html` localizado na pasta `docs/dokka`.
+Caso deseje gerar a documentação novamente, execute o comando:
+```sh 
+./gradlew dokka
+```
+
 
 ## Licença
 Este projeto está licenciado sob a Licença MIT. Veja o arquivo `LICENSE` para mais detalhes.

@@ -38,7 +38,7 @@ android {
 
 tasks.dokkaHtml {
     //outputDirectory.set(layout.buildDirectory.dir("dokka"))
-    outputDirectory.set(file("docs/custom-dokka-output"))
+    outputDirectory.set(file("docs/dokka"))
     dokkaSourceSets {
         create("main") {  // Modificado de "named" para "create"
             sourceRoots.from(file("src/main/java"))
