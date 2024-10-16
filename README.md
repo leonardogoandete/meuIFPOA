@@ -26,8 +26,8 @@ O objetivo é facilitar o acesso a informações e serviços para a comunidade d
 4. Execute o aplicativo.
 
 ## APIs
-Link para a API REST: [meuIFPOA-API](https://app.poa.ifrs.edu.br/meuifpoa/q/swagger-ui/)
-Link para o repositório da API: [meuIFPOA-API](https://github.com/leonardogoandete/meuifpoa-back/tree/okhttp3)
+Link para a API REST: [meuifpoa-back](https://app.poa.ifrs.edu.br/meuifpoa/q/swagger-ui/)
+Link para o repositório da API: [meuifpoa-back](https://github.com/leonardogoandete/meuifpoa-back/tree/okhttp3)
 
 O aplicativo consome uma API RESTful desenvolvida em Java. As rotas disponíveis são:
 - `GET /noticias` - Retorna todas as notícias cadastradas.
@@ -41,6 +41,12 @@ Caso deseje gerar a documentação novamente, execute o comando:
 ```sh 
 ./gradlew dokka
 ```
+
+## Documentação
+- **Documentação do Firebase**: [https://firebase.google.com/docs](https://firebase.google.com/docs)
+- **Documentação do Android**: [https://developer.android.com/docs](https://developer.android.com/docs)
+- **Documentação do Retrofit**: [https://square.github.io/retrofit/](https://square.github.io/retrofit/)
+- **Documentação do MPAndroidChart**: [https://weeklycoding.com/mpandroidchart/](https://weeklycoding.com/mpandroidchart/)
 
 
 ## Licença
