@@ -1,7 +1,9 @@
-// app/build.gradle.kts
+import java.net.URL
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
+    id("org.jetbrains.dokka") version "1.9.20"
 }
 
 android {
@@ -32,6 +34,19 @@ android {
         viewBinding = true
     }
     buildToolsVersion = "35.0.0"
+}
+
+tasks.dokkaHtml {
+    //outputDirectory.set(layout.buildDirectory.dir("dokka"))
+    outputDirectory.set(file("docs/custom-dokka-output"))
+    dokkaSourceSets {
+        create("main") {  // Modificado de "named" para "create"
+            sourceRoots.from(file("src/main/java"))
+            externalDocumentationLink {
+                url.set(URL("https://developer.android.com/reference/"))
+            }
+        }
+    }
 }
 
 dependencies {
