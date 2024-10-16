@@ -3,7 +3,7 @@ import java.net.URL
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
-    id("org.jetbrains.dokka") version "1.9.20"
+    id("org.jetbrains.dokka") version "1.8.10"
 }
 
 android {
@@ -26,22 +26,25 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_21  // Atualizado para Java 21
+        targetCompatibility = JavaVersion.VERSION_21
     }
+
     buildFeatures {
         viewBinding = true
     }
+
     buildToolsVersion = "35.0.0"
 }
 
 tasks.dokkaHtml {
-    //outputDirectory.set(layout.buildDirectory.dir("dokka"))
     outputDirectory.set(file("../docs/"))
     dokkaSourceSets {
-        create("main") {  // Modificado de "named" para "create"
+        create("main") {
             sourceRoots.from(file("src/main/java"))
+
             externalDocumentationLink {
                 url.set(URL("https://developer.android.com/reference/"))
             }
@@ -49,6 +52,7 @@ tasks.dokkaHtml {
     }
 }
 
+// Adicione o plugin "kotlin-as-java-plugin"
 dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -64,11 +68,17 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // Dependências do Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.4.0"))
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database")
     implementation("com.google.firebase:firebase-storage")
+
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation("br.com.caelum.stella:caelum-stella-core:2.1.6")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    // Adiciona o plugin kotlin-as-java para que a documentação seja em Java
+    dokkaHtmlPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.7.20")
 }
