@@ -24,6 +24,7 @@ public class PasswordDialog {
     private Button positiveButton;
     private LinearLayout progressBarContainer;
     private TextInputLayout senhaSigaa;
+    private TextInputLayout cpfSigaa;
 
     /**
      * Construtor da classe PasswordDialog.
@@ -43,6 +44,7 @@ public class PasswordDialog {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.dialog_sync_sigaa, null);
         senhaSigaa = view.findViewById(R.id.textInputSenhaSyncSigaa);
+        cpfSigaa = view.findViewById(R.id.textInputCpfSyncSigaa);
         progressBarContainer = view.findViewById(R.id.containerProgressBarSync);
         ProgressBar progressBar = view.findViewById(R.id.progressBarSync);
 
@@ -77,10 +79,12 @@ public class PasswordDialog {
         if (carregando) {
             progressBarContainer.setVisibility(View.VISIBLE);
             senhaSigaa.setVisibility(View.GONE);
+            cpfSigaa.setVisibility(View.GONE);
             positiveButton.setEnabled(false);
         } else {
             progressBarContainer.setVisibility(View.GONE);
             senhaSigaa.setVisibility(View.VISIBLE);
+            cpfSigaa.setVisibility(View.VISIBLE);
             positiveButton.setEnabled(true);
         }
     }
