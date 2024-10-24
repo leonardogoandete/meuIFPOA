@@ -1,6 +1,18 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
 $dokka.location:br.com.ifrs.meuifpoa.adapter.recycler////PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/index.html
+$dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaEditaisAdapter.EditaisViewHolder///PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-editais-adapter/-editais-view-holder/index.html
+$dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaEditaisAdapter.EditaisViewHolder/LinhaEditaisAdapter.EditaisViewHolder/#View/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-editais-adapter/-editais-view-holder/-linha-editais-adapter.-editais-view-holder.html
+$dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaEditaisAdapter.OnClickListener///PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-editais-adapter/-on-click-listener/index.html
+$dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaEditaisAdapter.OnClickListener/onClick/#int#br.com.ifrs.meuifpoa.model.Edital/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-editais-adapter/-on-click-listener/on-click.html
+$dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaEditaisAdapter///PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-editais-adapter/index.html
+$dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaEditaisAdapter/LinhaEditaisAdapter/#java.util.List<br.com.ifrs.meuifpoa.model.Edital>/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-editais-adapter/-linha-editais-adapter.html
+$dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaEditaisAdapter/getFilter/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-editais-adapter/get-filter.html
+$dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaEditaisAdapter/getItemCount/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-editais-adapter/get-item-count.html
+$dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaEditaisAdapter/onBindViewHolder/#br.com.ifrs.meuifpoa.adapter.recycler.LinhaEditaisAdapter.EditaisViewHolder#int/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-editais-adapter/on-bind-view-holder.html
+$dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaEditaisAdapter/onCreateViewHolder/#ViewGroup#int/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-editais-adapter/on-create-view-holder.html
+$dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaEditaisAdapter/setOnClickListener/#br.com.ifrs.meuifpoa.adapter.recycler.LinhaEditaisAdapter.OnClickListener/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-editais-adapter/set-on-click-listener.html
+$dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaEditaisAdapter/updateEditais/#java.util.List<br.com.ifrs.meuifpoa.model.Edital>/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-editais-adapter/update-editais.html
 $dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaNotasAdapter.NotasViewHolder///PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-notas-adapter/-notas-view-holder/index.html
 $dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaNotasAdapter.NotasViewHolder/LinhaNotasAdapter.NotasViewHolder/#View/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-notas-adapter/-notas-view-holder/-linha-notas-adapter.-notas-view-holder.html
 $dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaNotasAdapter///PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-notas-adapter/index.html
@@ -47,6 +59,16 @@ $dokka.location:br.com.ifrs.meuifpoa.model.login/LoginResponse/LoginResponse/#ja
 $dokka.location:br.com.ifrs.meuifpoa.model.login/LoginResponse/getToken/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model.login/-login-response/get-token.html
 $dokka.location:br.com.ifrs.meuifpoa.model.login/LoginResponse/setToken/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model.login/-login-response/set-token.html
 $dokka.location:br.com.ifrs.meuifpoa.model////PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/index.html
+$dokka.location:br.com.ifrs.meuifpoa.model/Edital///PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/index.html
+$dokka.location:br.com.ifrs.meuifpoa.model/Edital/Edital/#java.lang.String#java.lang.String#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/-edital.html
+$dokka.location:br.com.ifrs.meuifpoa.model/Edital/getDataPublicacao/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/get-data-publicacao.html
+$dokka.location:br.com.ifrs.meuifpoa.model/Edital/getId/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/get-id.html
+$dokka.location:br.com.ifrs.meuifpoa.model/Edital/getLink/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/get-link.html
+$dokka.location:br.com.ifrs.meuifpoa.model/Edital/getTitulo/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/get-titulo.html
+$dokka.location:br.com.ifrs.meuifpoa.model/Edital/setDataPublicacao/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/set-data-publicacao.html
+$dokka.location:br.com.ifrs.meuifpoa.model/Edital/setId/#int/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/set-id.html
+$dokka.location:br.com.ifrs.meuifpoa.model/Edital/setLink/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/set-link.html
+$dokka.location:br.com.ifrs.meuifpoa.model/Edital/setTitulo/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/set-titulo.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Nota///PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/index.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Nota/Nota/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/-nota.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Nota/Nota/#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/-nota.html
@@ -129,6 +151,8 @@ $dokka.location:br.com.ifrs.meuifpoa.model/SyncResponse/setErro/#java.lang.Strin
 $dokka.location:br.com.ifrs.meuifpoa.retrofit.service////PointingToDeclaration/app/br.com.ifrs.meuifpoa.retrofit.service/index.html
 $dokka.location:br.com.ifrs.meuifpoa.retrofit.service/DocumentoService///PointingToDeclaration/app/br.com.ifrs.meuifpoa.retrofit.service/-documento-service/index.html
 $dokka.location:br.com.ifrs.meuifpoa.retrofit.service/DocumentoService/obterDocumento/#java.lang.String#br.com.ifrs.meuifpoa.model.Documento.DocumentoRequest/PointingToDeclaration/app/br.com.ifrs.meuifpoa.retrofit.service/-documento-service/obter-documento.html
+$dokka.location:br.com.ifrs.meuifpoa.retrofit.service/EditaisService///PointingToDeclaration/app/br.com.ifrs.meuifpoa.retrofit.service/-editais-service/index.html
+$dokka.location:br.com.ifrs.meuifpoa.retrofit.service/EditaisService/listarEditais/#java.lang.String#int/PointingToDeclaration/app/br.com.ifrs.meuifpoa.retrofit.service/-editais-service/listar-editais.html
 $dokka.location:br.com.ifrs.meuifpoa.retrofit.service/NoticiasService///PointingToDeclaration/app/br.com.ifrs.meuifpoa.retrofit.service/-noticias-service/index.html
 $dokka.location:br.com.ifrs.meuifpoa.retrofit.service/NoticiasService/listarNoticias/#java.lang.String#int/PointingToDeclaration/app/br.com.ifrs.meuifpoa.retrofit.service/-noticias-service/listar-noticias.html
 $dokka.location:br.com.ifrs.meuifpoa.retrofit.service/SyncService///PointingToDeclaration/app/br.com.ifrs.meuifpoa.retrofit.service/-sync-service/index.html
@@ -137,6 +161,9 @@ $dokka.location:br.com.ifrs.meuifpoa.retrofit////PointingToDeclaration/app/br.c
 $dokka.location:br.com.ifrs.meuifpoa.retrofit/DocumentoRetrofit///PointingToDeclaration/app/br.com.ifrs.meuifpoa.retrofit/-documento-retrofit/index.html
 $dokka.location:br.com.ifrs.meuifpoa.retrofit/DocumentoRetrofit/DocumentoRetrofit/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.retrofit/-documento-retrofit/-documento-retrofit.html
 $dokka.location:br.com.ifrs.meuifpoa.retrofit/DocumentoRetrofit/getDocumentoService/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.retrofit/-documento-retrofit/get-documento-service.html
+$dokka.location:br.com.ifrs.meuifpoa.retrofit/EditaisRetrofit///PointingToDeclaration/app/br.com.ifrs.meuifpoa.retrofit/-editais-retrofit/index.html
+$dokka.location:br.com.ifrs.meuifpoa.retrofit/EditaisRetrofit/EditaisRetrofit/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.retrofit/-editais-retrofit/-editais-retrofit.html
+$dokka.location:br.com.ifrs.meuifpoa.retrofit/EditaisRetrofit/getEditaisService/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.retrofit/-editais-retrofit/get-editais-service.html
 $dokka.location:br.com.ifrs.meuifpoa.retrofit/NoticiasRetrofit///PointingToDeclaration/app/br.com.ifrs.meuifpoa.retrofit/-noticias-retrofit/index.html
 $dokka.location:br.com.ifrs.meuifpoa.retrofit/NoticiasRetrofit/NoticiasRetrofit/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.retrofit/-noticias-retrofit/-noticias-retrofit.html
 $dokka.location:br.com.ifrs.meuifpoa.retrofit/NoticiasRetrofit/getNoticiasService/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.retrofit/-noticias-retrofit/get-noticias-service.html
@@ -151,8 +178,6 @@ $dokka.location:br.com.ifrs.meuifpoa.ui.activity/MainActivity/MainActivity/#/Poi
 $dokka.location:br.com.ifrs.meuifpoa.ui.activity/MainActivity/onCreateOptionsMenu/#Menu/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.activity/-main-activity/on-create-options-menu.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.activity/MainActivity/onOptionsItemSelected/#MenuItem/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.activity/-main-activity/on-options-item-selected.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.activity/MainActivity/onSupportNavigateUp/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.activity/-main-activity/on-support-navigate-up.html
-$dokka.location:br.com.ifrs.meuifpoa.ui.activity/RegistroActivity///PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.activity/-registro-activity/index.html
-$dokka.location:br.com.ifrs.meuifpoa.ui.activity/RegistroActivity/RegistroActivity/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.activity/-registro-activity/-registro-activity.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.activity/SplashActivity///PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.activity/-splash-activity/index.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.activity/SplashActivity/SplashActivity/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.activity/-splash-activity/-splash-activity.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.custom////PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.custom/index.html
@@ -164,7 +189,7 @@ $dokka.location:br.com.ifrs.meuifpoa.ui.custom/ProgressButtonActivity/onCreate/#
 $dokka.location:br.com.ifrs.meuifpoa.ui.custom/ProgressButtonActivity/showLoading/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.custom/-progress-button-activity/show-loading.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.dialog////PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.dialog/index.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.dialog/PasswordDialog.OnPasswordEnteredListener///PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.dialog/-password-dialog/-on-password-entered-listener/index.html
-$dokka.location:br.com.ifrs.meuifpoa.ui.dialog/PasswordDialog.OnPasswordEnteredListener/onPasswordEntered/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.dialog/-password-dialog/-on-password-entered-listener/on-password-entered.html
+$dokka.location:br.com.ifrs.meuifpoa.ui.dialog/PasswordDialog.OnPasswordEnteredListener/onCpfEPasswordEntered/#java.lang.String#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.dialog/-password-dialog/-on-password-entered-listener/on-cpf-e-password-entered.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.dialog/PasswordDialog///PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.dialog/-password-dialog/index.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.dialog/PasswordDialog/PasswordDialog/#Context#br.com.ifrs.meuifpoa.ui.dialog.PasswordDialog.OnPasswordEnteredListener/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.dialog/-password-dialog/-password-dialog.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.dialog/PasswordDialog/show/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.dialog/-password-dialog/show.html
@@ -182,6 +207,7 @@ $dokka.location:br.com.ifrs.meuifpoa.ui.fragment/NotasFragment/onDestroyView/#/P
 $dokka.location:br.com.ifrs.meuifpoa.ui.fragment/NotasFragment/onViewCreated/#View#Bundle/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.fragment/-notas-fragment/on-view-created.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.fragment/NoticiasFragment///PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.fragment/-noticias-fragment/index.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.fragment/NoticiasFragment/NoticiasFragment/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.fragment/-noticias-fragment/-noticias-fragment.html
+$dokka.location:br.com.ifrs.meuifpoa.ui.fragment/NoticiasFragment/onClick/#int#br.com.ifrs.meuifpoa.model.Edital/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.fragment/-noticias-fragment/on-click.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.fragment/NoticiasFragment/onClick/#int#br.com.ifrs.meuifpoa.model.Noticia/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.fragment/-noticias-fragment/on-click.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.fragment/NoticiasFragment/onCreateView/#LayoutInflater#ViewGroup#Bundle/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.fragment/-noticias-fragment/on-create-view.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.fragment/NoticiasFragment/onDestroyView/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.fragment/-noticias-fragment/on-destroy-view.html
@@ -192,6 +218,9 @@ $dokka.location:br.com.ifrs.meuifpoa.ui.fragment/PerfilFragment/onCreateView/#La
 $dokka.location:br.com.ifrs.meuifpoa.ui.fragment/PerfilFragment/onDestroyView/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.fragment/-perfil-fragment/on-destroy-view.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.fragment/PerfilFragment/onViewCreated/#View#Bundle/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.fragment/-perfil-fragment/on-view-created.html
 $dokka.location:br.com.ifrs.meuifpoa.utils////PointingToDeclaration/app/br.com.ifrs.meuifpoa.utils/index.html
+$dokka.location:br.com.ifrs.meuifpoa.utils/CPFValidador///PointingToDeclaration/app/br.com.ifrs.meuifpoa.utils/-c-p-f-validador/index.html
+$dokka.location:br.com.ifrs.meuifpoa.utils/CPFValidador/CPFValidador/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.utils/-c-p-f-validador/-c-p-f-validador.html
+$dokka.location:br.com.ifrs.meuifpoa.utils/CPFValidador/validarCpf/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.utils/-c-p-f-validador/validar-cpf.html
 $dokka.location:br.com.ifrs.meuifpoa.utils/Constants///PointingToDeclaration/app/br.com.ifrs.meuifpoa.utils/-constants/index.html
 $dokka.location:br.com.ifrs.meuifpoa.utils/Constants/Constants/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.utils/-constants/-constants.html
 $dokka.location:br.com.ifrs.meuifpoa.utils/GerenciadorSinc///PointingToDeclaration/app/br.com.ifrs.meuifpoa.utils/-gerenciador-sinc/index.html
