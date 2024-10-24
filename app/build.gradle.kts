@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.firebase.firestore)
     implementation(libs.glide)
+    implementation(libs.play.services.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -74,7 +75,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database")
     implementation("com.google.firebase:firebase-storage")
-
+    implementation("androidx.credentials:credentials:1.1.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation("br.com.caelum.stella:caelum-stella-core:2.1.6")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")

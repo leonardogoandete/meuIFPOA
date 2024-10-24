@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>GerenciadorSinc</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>app</span>
+            </a>
+    </div>
+    <div>
+    </div>
+    <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":app:dokkaHtml/main">main</button>
+        </div>
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="app::br.com.ifrs.meuifpoa.utils/GerenciadorSinc///PointingToDeclaration//1745091852">
+  <div class="breadcrumbs"><a href="../../../index.html">app</a><span class="delimiter">/</span><a href="../index.html">br.com.ifrs.meuifpoa.utils</a><span class="delimiter">/</span><span class="current">GerenciadorSinc</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Gerenciador</span><wbr></wbr><span><span>Sinc</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">class </span><a href="index.html">GerenciadorSinc</a></div><p class="paragraph">A classe `GerenciadorSinc` é responsável por gerenciar a sincronização de dados do aplicativo. Ela verifica a necessidade de sincronização, solicita a senha do usuário e realiza a sincronização com o servidor.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,FUNCTION,PROPERTY">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="-681732253%2FConstructors%2F1745091852" anchor-label="GerenciadorSinc" id="-681732253%2FConstructors%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-gerenciador-sinc.html"><span>Gerenciador</span><wbr></wbr><span><span>Sinc</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-681732253%2FConstructors%2F1745091852"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span>void <a href="-gerenciador-sinc.html"><span class="token function">GerenciadorSinc</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="1648289313%2FFunctions%2F1745091852" anchor-label="limpar" id="1648289313%2FFunctions%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="limpar.html"><span><span>limpar</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1648289313%2FFunctions%2F1745091852"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">static </span>void <a href="limpar.html"><span class="token function">limpar</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span>Context contexto</span></span><span class="token punctuation">)</span></div><div class="brief ">Limpa os dados de sincronização e login.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1485919903%2FFunctions%2F1745091852" anchor-label="obterDataUltimaSincronizacao" id="1485919903%2FFunctions%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="obter-data-ultima-sincronizacao.html"><span>obter</span><wbr></wbr><span>Data</span><wbr></wbr><span>Ultima</span><wbr></wbr><span><span>Sincronizacao</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1485919903%2FFunctions%2F1745091852"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">static </span>long <a href="obter-data-ultima-sincronizacao.html"><span class="token function">obterDataUltimaSincronizacao</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span>Context contexto</span></span><span class="token punctuation">)</span></div><div class="brief ">Obtém a data da última sincronização.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1479687853%2FFunctions%2F1745091852" anchor-label="salvarDataUltimaSincronizacao" id="-1479687853%2FFunctions%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="salvar-data-ultima-sincronizacao.html"><span>salvar</span><wbr></wbr><span>Data</span><wbr></wbr><span>Ultima</span><wbr></wbr><span><span>Sincronizacao</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1479687853%2FFunctions%2F1745091852"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">static </span>void <a href="salvar-data-ultima-sincronizacao.html"><span class="token function">salvarDataUltimaSincronizacao</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span>Context contexto<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span>long timestamp</span></span><span class="token punctuation">)</span></div><div class="brief ">Salva a data da última sincronização.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-979653740%2FFunctions%2F1745091852" anchor-label="verificarERequisitarSenha" id="-979653740%2FFunctions%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="verificar-e-requisitar-senha.html"><span>verificar</span><wbr></wbr><span>ERequisitar</span><wbr></wbr><span><span>Senha</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-979653740%2FFunctions%2F1745091852"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword">static </span>void <a href="verificar-e-requisitar-senha.html"><span class="token function">verificarERequisitarSenha</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span>Context contexto<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/java/lang/Runnable.html">Runnable</a> aoSucesso</span></span><span class="token punctuation">)</span></div><div class="brief ">Verifica se a sincronização é necessária e solicita a senha do usuário, se necessário.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>

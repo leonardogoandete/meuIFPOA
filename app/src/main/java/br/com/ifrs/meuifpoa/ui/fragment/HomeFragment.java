@@ -267,7 +267,7 @@ public class HomeFragment extends Fragment {
      * @param perfil O perfil do usuário.
      */
     private void atualizarInterfacePerfil(Perfil perfil) {
-        String primeiroNome = obterPrimeiroNome(perfil.getNomeDocente());
+        String primeiroNome = obterPrimeiroNome(mAuth.getCurrentUser().getDisplayName());
         StringBuffer mensagem = new StringBuffer();
         mensagem.append(getString(R.string.msgBemVindo)).append(primeiroNome).append("!");
         binding.txtBemVindo.setText(mensagem);
@@ -301,6 +301,11 @@ public class HomeFragment extends Fragment {
      */
     private void esconderComponentesInterface() {
         if (binding == null) return;
+
+        String nome = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getDisplayName() : "usuário";
+        StringBuffer mensagem = new StringBuffer();
+        mensagem.append(getString(R.string.msgBemVindo)).append(nome).append("!");
+        binding.txtBemVindo.setText(mensagem);
         binding.containerIntegralizacoes.setVisibility(View.GONE);
     }
 

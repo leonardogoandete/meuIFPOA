@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "534867621443",
+    "firebase_url": "https://ifrspoa-d9f18-default-rtdb.firebaseio.com",
+    "project_id": "ifrspoa-d9f18",
+    "storage_bucket": "ifrspoa-d9f18.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534867621443:android:644e89f6228d2dbaaac6f6",
+        "android_client_info": {
+          "package_name": "br.com.ifrs.meuifpoa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3pzSk9rgTSgLN6lfCyQNCGzdtGs8QnYw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534867621443:android:33a5d10c25b72c43aac6f6",
+        "android_client_info": {
+          "package_name": "br.com.ifrspoa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3pzSk9rgTSgLN6lfCyQNCGzdtGs8QnYw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

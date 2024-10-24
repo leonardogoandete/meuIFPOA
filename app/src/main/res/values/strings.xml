@@ -64,6 +64,8 @@
     <string name="txtViewChOptativaPendente">CH Optativa\nPendente</string>
     <string name="txtViewChTotalCurriculo">CH Total\nCurrículo</string>
     <string name="msgIntegralizado">Integralizado\n</string>
+    <string name="default_web_client_id">534867621443-beq935q91ehg2lr2vr83ebrqe0bgthkn.apps.googleusercontent.com</string>
+    <string name="txtInputCpfSigaa">Digite o CPF</string>
 
     <string-array name="limites_noticias">
         <item>Nº noticias</item>

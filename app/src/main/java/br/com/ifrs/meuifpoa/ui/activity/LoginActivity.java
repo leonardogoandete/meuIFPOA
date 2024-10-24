@@ -3,190 +3,205 @@ package br.com.ifrs.meuifpoa.ui.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.util.Log;
 
-import androidx.appcompat.app.AlertDialog;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.IntentSenderRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.auth.api.identity.BeginSignInRequest;
+import com.google.android.gms.auth.api.identity.Identity;
+import com.google.android.gms.auth.api.identity.SignInClient;
+import com.google.android.gms.auth.api.identity.SignInCredential;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.databinding.ActivityLoginBinding;
+import br.com.ifrs.meuifpoa.model.Perfil;
+import br.com.ifrs.meuifpoa.utils.Constants;
 
 /**
- * A atividade de login do aplicativo.
+ * A classe `LoginActivity` é responsável por gerenciar a tela de login do aplicativo.
+ * Ela permite que o usuário faça login com sua conta do Google e salva o token de autenticação
+ * para uso posterior.
  */
 public class LoginActivity extends AppCompatActivity {
 
+    /** Binding para a Activity. */
     private ActivityLoginBinding binding;
+    /** Instância do Firebase Auth. */
     private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
-    /**
-     * Método chamado quando a atividade é criada.
-     *
-     * @param savedInstanceState O estado salvo da instância.
-     */
+    /** Cliente para o login com Google. */
+    private SignInClient oneTapClient;
+    /** Requisição para o login com Google. */
+    private BeginSignInRequest signInRequest;
+
+    // Launcher para o resultado do login com Google
+    private final ActivityResultLauncher<IntentSenderRequest> signInLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartIntentSenderForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    handleGoogleSignInResult(result.getData());
+                } else {
+                    mostrarMensagemErro("Falha no login do Google.");
+                }
+            });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        configurarListeners();
+
+        configurarGoogleSignIn();
+        binding.btnGoogleLogin.setOnClickListener(v -> iniciarGoogleSignIn());
     }
 
-    /**
-     * Método chamado quando a atividade é destruída.
-     */
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        binding = null;
+    // Configurações para o Google Sign-In
+    /** Configura o Google Sign-In. */
+    private void configurarGoogleSignIn() {
+        signInRequest = BeginSignInRequest.builder()
+                .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                        .setSupported(true)
+                        .setServerClientId(getString(R.string.default_web_client_id))
+                        .setFilterByAuthorizedAccounts(false) // Permite escolha de conta
+                        .build())
+                .setAutoSelectEnabled(true)
+                .build();
+
+        oneTapClient = Identity.getSignInClient(this);
     }
 
-    /**
-     * Configura os listeners para os botões e textos da interface.
-     */
-    private void configurarListeners() {
-        binding.btnLogin.setOnClickListener(v -> {
-            String email = binding.etCpf.getText().toString().trim();
-            String senha = binding.etSenha.getText().toString().trim();
-
-            if (validarEntrada(email, senha)) {
-                realizarLogin(email, senha);
-            }
-        });
-
-        binding.textNaoTemConta.setOnClickListener(v -> {
-            Intent intent = new Intent(this, RegistroActivity.class);
-            startActivity(intent);
-            finish();
-        });
-
-        binding.textEsqueciSenha.setOnClickListener(v -> mostrarDialogoEsqueciSenha());
-    }
-
-    /**
-     * Valida a entrada do usuário.
-     *
-     * @param email O e-mail inserido pelo usuário.
-     * @param senha A senha inserida pelo usuário.
-     * @return true se a entrada for válida, false caso contrário.
-     */
-    private boolean validarEntrada(String email, String senha) {
-        boolean valido = true;
-
-        if (email.isEmpty()) {
-            binding.etCpf.setError("Digite seu e-mail");
-            valido = false;
-        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.etCpf.setError("E-mail inválido");
-            valido = false;
-        }
-
-        if (senha.isEmpty()) {
-            binding.etSenha.setError("Digite sua senha");
-            valido = false;
-        }
-
-        return valido;
-    }
-
-
-
-    /**
-     * Realiza o login do usuário.
-     *
-     * @param email O e-mail do usuário.
-     * @param senha A senha do usuário.
-     */
-    private void realizarLogin(String email, String senha) {
-        binding.progressBar.setVisibility(View.VISIBLE);
-
-        mAuth.signInWithEmailAndPassword(email, senha)
-                .addOnCompleteListener(this, tarefa -> {
-                    binding.progressBar.setVisibility(View.GONE);
-
-                    if (tarefa.isSuccessful()) {
-                        tratarLoginBemSucedido();
-                    } else {
-                        Snackbar.make(binding.getRoot(), R.string.msg_login_error, Snackbar.LENGTH_SHORT).show();
+    // Iniciar login com Google
+    /** Metodo para iniciar o login com Google. */
+    private void iniciarGoogleSignIn() {
+        oneTapClient.beginSignIn(signInRequest)
+                .addOnSuccessListener(this, result -> {
+                    try {
+                        IntentSenderRequest intentSenderRequest = new IntentSenderRequest.Builder(
+                                result.getPendingIntent().getIntentSender()).build();
+                        signInLauncher.launch(intentSenderRequest);
+                    } catch (Exception e) {
+                        mostrarMensagemErro("Erro ao iniciar o sign-in do Google.");
                     }
-                });
+                })
+                .addOnFailureListener(this, e -> mostrarMensagemErro("Falha ao iniciar o Google Sign-In."));
     }
 
 
-    /**
-     * Trata o login bem-sucedido do usuário.
-     */
-    private void tratarLoginBemSucedido() {
+    // Resultado do login com Google
+    /** Método para tratar o resultado do login com Google.
+        * @param data Intent com os dados do login. */
+    private void handleGoogleSignInResult(Intent data) {
+        try {
+            SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(data);
+            String idToken = credential.getGoogleIdToken();
+            String email = credential.getId();
+
+            // Verifica se o email é do domínio permitido
+            if (email.endsWith(Constants.DOMINIO_EMAIL)) {
+                if (idToken != null) {
+                    AuthCredential firebaseCredential = GoogleAuthProvider.getCredential(idToken, null);
+                    mAuth.signInWithCredential(firebaseCredential)
+                            .addOnCompleteListener(this, task -> {
+                                if (task.isSuccessful()) {
+                                    salvarDadosUsuario(mAuth.getUid());
+                                    obterTokenFirebase();
+                                } else {
+                                    mostrarMensagemErro("Falha na autenticação com o Google.");
+                                }
+                            });
+                } else {
+                    mostrarMensagemErro("Token de ID inválido.");
+                }
+            } else {
+                mostrarMensagemErro("Apenas contas do domínio @ifrs.edu.br são permitidas.");
+            }
+        } catch (Exception e) {
+            mostrarMensagemErro("Erro ao processar o resultado do sign-in.");
+        }
+    }
+
+    // Obter o token do Firebase após login
+    /** Método para obter o token de autenticação do Firebase após o login. */
+    private void obterTokenFirebase() {
         FirebaseUser usuario = mAuth.getCurrentUser();
         if (usuario != null) {
-            usuario.getIdToken(true).addOnCompleteListener(tarefaToken -> {
-                if (tarefaToken.isSuccessful()) {
-                    SharedPreferences preferencias = getSharedPreferences("loginSigaa", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = preferencias.edit();
-
-                    StringBuffer token = new StringBuffer("Bearer ");
-                    token.append(tarefaToken.getResult().getToken());
-                    editor.putString("token", token.toString());
-                    editor.apply();
-
-                    Intent intent = new Intent(this, MainActivity.class);
-                    intent.putExtra("selectedItemId", R.id.homeFragment); // ou qualquer outro ID
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Snackbar.make(binding.getRoot(), R.string.msg_login_error, Snackbar.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
-
-
-    /**
-     * Mostra o diálogo para recuperação de senha.
-     */
-    private void mostrarDialogoEsqueciSenha() {
-        LayoutInflater inflater = LayoutInflater.from(this);
-        final View viewDialogo = inflater.inflate(R.layout.dialog_esqueci_senha, null);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(viewDialogo)
-                .setPositiveButton(R.string.btnEnviarEmailRecuperarSenha, (dialog, which) -> {
-                    tratarRecuperacaoSenha(viewDialogo);
-                })
-                .setNegativeButton(R.string.btnCancelarEmailRecuperarSenha, (dialog, which) -> dialog.dismiss())
-                .create()
-                .show();
-    }
-
-
-    /**
-     * Trata a recuperação de senha do usuário.
-     *
-     * @param viewDialogo A view do diálogo de recuperação de senha.
-     */
-    private void tratarRecuperacaoSenha(View viewDialogo) {
-        TextInputLayout layoutEmail = viewDialogo.findViewById(R.id.textInputEmailRecuperacao);
-        String email = layoutEmail.getEditText().getText().toString().trim();
-
-        if (!email.isEmpty()) {
-            mAuth.sendPasswordResetEmail(email)
-                    .addOnCompleteListener(tarefa -> {
-                        if (tarefa.isSuccessful()) {
-                            Snackbar.make(binding.getRoot(), R.string.msg_email_recuperar_senha_sucesso, Snackbar.LENGTH_SHORT).show();
+            usuario.getIdToken(true)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            String firebaseToken = task.getResult().getToken();
+                            salvarToken(firebaseToken);
+                            tratarLoginBemSucedido();
                         } else {
-                            Snackbar.make(binding.getRoot(), R.string.msg_email_recuperar_senha_erro, Snackbar.LENGTH_SHORT).show();
+                            mostrarMensagemErro("Erro ao obter o token de autenticação do Firebase.");
                         }
                     });
-        } else {
-            Snackbar.make(binding.getRoot(), R.string.msg_email_recuperar_senha_erro, Snackbar.LENGTH_SHORT).show();
         }
+    }
+
+    // Salvar o token para uso posterior
+    /** Método para salvar o token de autenticação para uso posterior.
+        * @param token Token de autenticação a ser salvo. */
+    private void salvarToken(String token) {
+        SharedPreferences preferencias = getSharedPreferences("loginSigaa", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferencias.edit();
+        editor.putString("token", "Bearer " + token);
+        editor.apply();
+    }
+
+    // Tratar login bem-sucedido e iniciar nova atividade
+    /** Método para tratar o login bem-sucedido e iniciar a atividade principal. */
+    private void tratarLoginBemSucedido() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    //Salvar dados do Usuário no FireStore
+    /** Método para salvar os dados do usuário no Firestore.
+        * @param uid Identificador único do usuário. */
+    private void salvarDadosUsuario(String uid) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser usuario = mAuth.getCurrentUser();
+
+        if (usuario != null) {
+            // Referência para o documento do usuário
+            db.collection("usuarios").document(uid).get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            // Verifica se o documento já existe
+                            if (task.getResult().exists()) {
+                                Log.d("TAG", "Documento já existe para o usuário.");
+                            } else {
+                                // Se o documento não existir, cria um novo
+                                Perfil user = new Perfil(mAuth.getCurrentUser().getDisplayName(), null, null, null, null, null);
+                                db.collection("usuarios").document(uid).set(user)
+                                        .addOnSuccessListener(aVoid -> {
+                                            Log.d("TAG", "Documento criado com sucesso!");
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Log.w("TAG", "Erro ao criar o documento", e);
+                                        });
+                            }
+                        } else {
+                            Log.w("TAG", "Erro ao verificar o documento", task.getException());
+                        }
+                    });
+        }
+    }
+
+
+    // Exibir mensagens de erro
+    /** Método para exibir mensagens de erro.
+        * @param mensagem Mensagem de erro a ser exibida. */
+    private void mostrarMensagemErro(String mensagem) {
+        Snackbar.make(binding.getRoot(), mensagem, Snackbar.LENGTH_SHORT).show();
     }
 }

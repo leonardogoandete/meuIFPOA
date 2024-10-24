@@ -63,6 +63,7 @@
     <string name="txtViewChOptativaPendente">CH Optional Pending</string>
     <string name="txtViewChTotalCurriculo">CH Total Curriculum</string>
     <string name="msgIntegralizado">Integrated\n</string>
+    <string name="txtInputCpfSigaa">Digite o CPF</string>
 
     <string-array name="limites_noticias">
         <item>News count</item>

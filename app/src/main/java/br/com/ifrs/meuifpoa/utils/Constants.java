@@ -35,4 +35,9 @@ public class Constants {
       * A constante DOC_ATESTADO_MATRICULA, define o tipo de documento para o formulario.
      */
     public static final String DOC_ATESTADO_MATRICULA = "atestadoMatricula";
+
+    /**
+     * A constante DOMINIO_EMAIL, utilizada para definir o domínio dos emails dos alunos.
+     */
+    public static final String DOMINIO_EMAIL = "@aluno.poa.ifrs.edu.br";
 }
