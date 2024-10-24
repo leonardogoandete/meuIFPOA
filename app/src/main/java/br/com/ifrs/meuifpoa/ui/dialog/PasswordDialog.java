@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputLayout;
 
 import br.com.ifrs.meuifpoa.R;
+import br.com.ifrs.meuifpoa.utils.CPFValidador;
 
 /**
  * Classe responsável por exibir um diálogo para entrada de senha.
@@ -59,11 +60,18 @@ public class PasswordDialog {
         positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
         positiveButton.setOnClickListener(v -> {
             String senha = senhaSigaa.getEditText().getText().toString().trim();
-            if (!senha.isEmpty()) {
+            String cpf = cpfSigaa.getEditText().getText().toString().trim();
+
+
+            if (!senha.isEmpty() && !cpf.isEmpty() && CPFValidador.validarCpf(cpf)) {
                 // Mostra o ProgressBar e esconde o campo de senha
                 mostrarCarregando(true);
                 // Chama o listener para continuar com a sincronização
-                listener.onPasswordEntered(senha);
+                listener.onCpfEPasswordEntered(cpf, senha);
+            } else if (!CPFValidador.validarCpf(cpf)) {
+                Toast.makeText(context, "CPF inválido", Toast.LENGTH_SHORT).show();
+            } else if (cpf.isEmpty()) {
+                Toast.makeText(context, "Digite seu CPF", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(context, "Digite sua senha", Toast.LENGTH_SHORT).show();
             }
@@ -95,9 +103,9 @@ public class PasswordDialog {
     public interface OnPasswordEnteredListener {
         /**
          * Método chamado quando a senha for inserida.
-         *
+         * @param cpf o cpf inserido
          * @param senha a senha inserida
          */
-        void onPasswordEntered(String senha);
+        void onCpfEPasswordEntered(String cpf, String senha);
     }
 }
