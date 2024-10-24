@@ -105,6 +105,8 @@ public class LoginActivity extends AppCompatActivity {
             String email = credential.getId();
 
             // Verifica se o email é do domínio permitido
+            // Add Dialog loading ao logar:
+            // https://www.youtube.com/watch?v=oRiHBLsVQgA
             if (email.endsWith(Constants.DOMINIO_EMAIL)) {
                 if (idToken != null) {
                     AuthCredential firebaseCredential = GoogleAuthProvider.getCredential(idToken, null);
