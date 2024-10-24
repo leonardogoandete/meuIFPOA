@@ -6,18 +6,69 @@ import java.util.ArrayList;
  * A classe Perfil representa o perfil de um estudante ou docente.
  */
 public class Perfil {
+    /**
+     * O nome do docente.
+     */
     private String nomeDocente;
+
+    /**
+     * A matrícula.
+     */
     private String matricula;
+
+    /**
+     * O curso.
+     */
     private String curso;
+
+    /**
+     * O nível.
+     */
     private String nivel;
+
+    /**
+     * O status.
+     */
     private String status;
+
+    /**
+     * O ano de ingresso.
+     */
     private String anoIngresso;
+
+    /**
+     * A carga horária obrigatória pendente.
+     */
     private String chObrigatoriaPendente;
+
+    /**
+     * A carga horária optativa pendente.
+     */
     private String chOptativaPendente;
+
+    /**
+     * A carga horária total do currículo.
+     */
     private String chTotalCurriculo;
+
+    /**
+     * A carga horária complementar pendente.
+     */
     private String chComplementarPendente;
+
+    /**
+     * O status de integralização.
+     */
     private String integralizado;
+
+    /**
+     * A URL da imagem do perfil.
+     */
     private String imgPerfil;
+
+    /**
+     * A lista de notas.
+     */
     private ArrayList<Nota> notas;
 
     /**

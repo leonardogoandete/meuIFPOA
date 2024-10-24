@@ -4,6 +4,9 @@ package br.com.ifrs.meuifpoa.model;
  * Classe que representa a resposta de uma sincronização.
  */
 public class SyncResponse {
+    /**
+     * A mensagem de erro retornada pela sincronização.
+     */
     private String erro;
 
     /**

@@ -4,9 +4,24 @@ package br.com.ifrs.meuifpoa.model;
  * Classe que representa um registro.
  */
 public class Registro {
+    /**
+     * O identificador único.
+     */
     private String uid;
+
+    /**
+     * O nome do registro.
+     */
     private String nome;
+
+    /**
+     * O CPF do registro.
+     */
     private String cpf;
+
+    /**
+     * O email do registro.
+     */
     private String email;
 
     /**

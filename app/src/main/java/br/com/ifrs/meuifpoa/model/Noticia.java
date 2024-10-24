@@ -6,12 +6,34 @@ package br.com.ifrs.meuifpoa.model;
  */
 public class Noticia {
 
+    /**
+     * O ID da notícia.
+     */
     private int id;
 
+    /**
+     * O link da notícia.
+     */
     private String link;
+
+    /**
+     * O título da notícia.
+     */
     private String titulo;
+
+    /**
+     * O resumo da notícia.
+     */
     private String resumo;
+
+    /**
+     * A data de publicação da notícia.
+     */
     private String dataPublicacao;
+
+    /**
+     * A hora de publicação da notícia.
+     */
     private String horaPublicacao;
 
     /**

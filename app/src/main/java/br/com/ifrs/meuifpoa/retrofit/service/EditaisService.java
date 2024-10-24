@@ -15,9 +15,9 @@ public interface EditaisService {
     /**
      * Lista os editais do servidor com base no filtro e no limite fornecidos.
      *
-     * @param filter O filtro a ser aplicado na listagem de notícias.
-     * @param limit  O número máximo de notícias a serem retornadas.
-     * @return Call com a lista de notícias (List<Noticia>).
+     * @param filter O filtro a ser aplicado na listagem de editais.
+     * @param limit  O número máximo de editais a serem retornadas.
+     * @return Call com a lista de notícias (List<Edital>).
      */
     @POST("editais")
     Call<List<Edital>> listarEditais(

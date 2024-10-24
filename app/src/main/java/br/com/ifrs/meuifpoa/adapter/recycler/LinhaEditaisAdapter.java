@@ -22,8 +22,11 @@ import br.com.ifrs.meuifpoa.model.Noticia;
  */
 public class LinhaEditaisAdapter extends RecyclerView.Adapter<LinhaEditaisAdapter.EditaisViewHolder> implements Filterable {
 
+    /** Lista de editais. */
     private List<Edital> editais;
+    /** Lista de editais filtrados. */
     private List<Edital> editaisFiltrados;
+    /** Listener de clique nos itens da lista. */
     private OnClickListener onItemClickListener;
 
     /**

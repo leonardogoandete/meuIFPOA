@@ -56,11 +56,29 @@ import retrofit2.Response;
  */
 public class HomeFragment extends Fragment {
 
+    /**
+     * O serviço de documentos.
+     */
     private final DocumentoService documentoService = new DocumentoRetrofit().getDocumentoService();
+    /**
+     * O objeto de autenticação do Firebase.
+     */
     private FirebaseAuth mAuth;
+    /**
+     * O objeto de acesso ao Firestore.
+     */
     private FirebaseFirestore db;
+    /**
+     * O objeto de ligação com a interface.
+     */
     private FragmentHomeBinding binding;
+    /**
+     * A senha do usuário.
+     */
     private String minhaSenha;
+    /**
+     * O percentual integralizado.
+     */
     private String percentualIntegralizado;
 
     /**

@@ -21,8 +21,11 @@ import br.com.ifrs.meuifpoa.model.Noticia;
  */
 public class LinhaNoticiasAdapter extends RecyclerView.Adapter<LinhaNoticiasAdapter.NoticiasViewHolder> implements Filterable {
 
+    /** Lista de notícias. */
     private List<Noticia> noticias;
+    /** Lista de notícias filtradas. */
     private List<Noticia> noticiasFiltradas;
+    /** Listener de clique nos itens da lista. */
     private OnClickListener onItemClickListener;
 
     /**

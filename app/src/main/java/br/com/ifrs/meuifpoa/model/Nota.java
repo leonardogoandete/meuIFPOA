@@ -6,13 +6,44 @@ import java.io.Serializable;
  * Classe que representa uma Nota.
  */
 public class Nota implements Serializable{
+    /**
+     * O código da disciplina.
+     */
     private String codigoDisciplina;
+
+    /**
+     * O nome da disciplina.
+     */
     private String nomeDisciplina;
+
+    /**
+     * A nota da primeira unidade.
+     */
     private String primeiraUnidade;
+
+    /**
+     * A nota da segunda unidade.
+     */
     private String segundaUnidade;
+
+    /**
+     * A nota de recuperação.
+     */
     private String notaRecuperacao;
+
+    /**
+     * A nota final.
+     */
     private String notaFinal;
+
+    /**
+     * O número de faltas.
+     */
     private String numeroFaltas;
+
+    /**
+     * A situação.
+     */
     private String situacao;
 
     /**

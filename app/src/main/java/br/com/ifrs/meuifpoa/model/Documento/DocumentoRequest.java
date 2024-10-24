@@ -4,7 +4,14 @@ package br.com.ifrs.meuifpoa.model.Documento;
  * Classe que representa uma requisição de documento.
  */
 public class DocumentoRequest {
+    /**
+     * O tipo do documento.
+     * Tipos possíveis: "historico", "historicoEmentas", "atestadoMatricula", "declaracaoVinculo"
+     */
     private String tipo;
+    /**
+     * A senha do usuario no SIGAA.
+     */
     private String senha;
 
     /**

@@ -8,8 +8,17 @@ public class Edital {
 
     private int id;
 
+    /**
+     * O link da notícia.
+     */
     private String link;
+    /**
+     * O título da notícia.
+     */
     private String titulo;
+    /**
+     * A data de publicação da notícia.
+     */
     private String dataPublicacao;
 
     /**

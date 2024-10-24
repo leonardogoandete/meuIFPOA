@@ -4,6 +4,9 @@ package br.com.ifrs.meuifpoa.model.Documento;
  * Classe que representa a resposta de um documento.
  */
 public class DocumentoResponse {
+    /**
+     * O PDF codificado em base64.
+     */
     private String pdfbase64;
 
     /**

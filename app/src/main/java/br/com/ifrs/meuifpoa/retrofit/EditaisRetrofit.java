@@ -20,8 +20,8 @@ public class EditaisRetrofit {
     private final EditaisService editaisService;
 
     /**
-     * Construtor da classe `NoticiasRetrofit`.
-     * Configura o cliente HTTP e o Retrofit para o serviço de notícias.
+     * Construtor da classe `EditaisRetrofit`.
+     * Configura o cliente HTTP e o Retrofit para o serviço de editais.
      */
     public EditaisRetrofit() {
 
@@ -44,9 +44,9 @@ public class EditaisRetrofit {
     }
 
     /**
-     * Retorna a instância do serviço `NoticiasService`.
+     * Retorna a instância do serviço `EditaisService`.
      *
-     * @return Instância de `NoticiasService`.
+     * @return Instância de `EditaisService`.
      */
     public EditaisService getEditaisService() {
         return editaisService;
