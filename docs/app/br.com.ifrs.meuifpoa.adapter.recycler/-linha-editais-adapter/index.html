@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>LinhaEditaisAdapter</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>app</span>
+            </a>
+    </div>
+    <div>
+    </div>
+    <div class="pull-right d-flex">
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":app:dokkaHtml/main">main</button>
+        </div>
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
+        <div id="sideMenu"></div>
+    </div>
+    <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="app::br.com.ifrs.meuifpoa.adapter.recycler/LinhaEditaisAdapter///PointingToDeclaration//1745091852">
+  <div class="breadcrumbs"><a href="../../../index.html">app</a><span class="delimiter">/</span><a href="../index.html">br.com.ifrs.meuifpoa.adapter.recycler</a><span class="delimiter">/</span><span class="current">LinhaEditaisAdapter</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Linha</span><wbr></wbr><span>Editais</span><wbr></wbr><span><span>Adapter</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">class </span><a href="index.html">LinhaEditaisAdapter</a></div><p class="paragraph">Adaptador para exibir uma lista de notícias em um RecyclerView.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,FUNCTION,PROPERTY">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="890171029%2FConstructors%2F1745091852" anchor-label="LinhaEditaisAdapter" id="890171029%2FConstructors%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-linha-editais-adapter.html"><span>Linha</span><wbr></wbr><span>Editais</span><wbr></wbr><span><span>Adapter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="890171029%2FConstructors%2F1745091852"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span>void <a href="-linha-editais-adapter.html"><span class="token function">LinhaEditaisAdapter</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/java/util/List.html">List</a><span class="token operator">&lt;</span><a href="../../br.com.ifrs.meuifpoa.model/-edital/index.html">Edital</a><span class="token operator">&gt;</span> editais</span></span><span class="token punctuation">)</span></div><div class="brief ">Construtor do adaptador LinhaNoticiasAdapter.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-455842459%2FClasslikes%2F1745091852" anchor-label="EditaisViewHolder" id="-455842459%2FClasslikes%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-editais-view-holder/index.html"><span>Editais</span><wbr></wbr><span>View</span><wbr></wbr><span><span>Holder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-455842459%2FClasslikes%2F1745091852"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">class </span><a href="-editais-view-holder/index.html">EditaisViewHolder</a></div><div class="brief ">ViewHolder para os itens da lista de editais.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2034268902%2FClasslikes%2F1745091852" anchor-label="OnClickListener" id="-2034268902%2FClasslikes%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-on-click-listener/index.html"><span>On</span><wbr></wbr><span>Click</span><wbr></wbr><span><span>Listener</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2034268902%2FClasslikes%2F1745091852"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">public </span><span class="token keyword">interface </span><a href="-on-click-listener/index.html">OnClickListener</a></div><div class="brief ">Interface para o listener de clique nos itens da lista.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1961228234%2FFunctions%2F1745091852" anchor-label="getFilter" id="-1961228234%2FFunctions%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-filter.html"><span>get</span><wbr></wbr><span><span>Filter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1961228234%2FFunctions%2F1745091852"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span>Filter <a href="get-filter.html"><span class="token function">getFilter</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief ">Retorna o filtro para a lista de notícias.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1896895760%2FFunctions%2F1745091852" anchor-label="getItemCount" id="-1896895760%2FFunctions%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-item-count.html"><span>get</span><wbr></wbr><span>Item</span><wbr></wbr><span><span>Count</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1896895760%2FFunctions%2F1745091852"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span>int <a href="get-item-count.html"><span class="token function">getItemCount</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief ">Retorna o número de itens na lista de notícias.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1740171744%2FFunctions%2F1745091852" anchor-label="onBindViewHolder" id="-1740171744%2FFunctions%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-bind-view-holder.html"><span>on</span><wbr></wbr><span>Bind</span><wbr></wbr><span>View</span><wbr></wbr><span><span>Holder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1740171744%2FFunctions%2F1745091852"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span>void <a href="on-bind-view-holder.html"><span class="token function">onBindViewHolder</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><a href="-editais-view-holder/index.html">LinhaEditaisAdapter.EditaisViewHolder</a> holder<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span>int position</span></span><span class="token punctuation">)</span></div><div class="brief ">Vincula os dados da notícia ao ViewHolder.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-674861006%2FFunctions%2F1745091852" anchor-label="onCreateViewHolder" id="-674861006%2FFunctions%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="on-create-view-holder.html"><span>on</span><wbr></wbr><span>Create</span><wbr></wbr><span>View</span><wbr></wbr><span><span>Holder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-674861006%2FFunctions%2F1745091852"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span><a href="-editais-view-holder/index.html">LinhaEditaisAdapter.EditaisViewHolder</a> <a href="on-create-view-holder.html"><span class="token function">onCreateViewHolder</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span>ViewGroup parent<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword"></span>int viewType</span></span><span class="token punctuation">)</span></div><div class="brief ">Cria um novo ViewHolder para a linha de notícias.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="589692143%2FFunctions%2F1745091852" anchor-label="setOnClickListener" id="589692143%2FFunctions%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-on-click-listener.html"><span>set</span><wbr></wbr><span>On</span><wbr></wbr><span>Click</span><wbr></wbr><span><span>Listener</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="589692143%2FFunctions%2F1745091852"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span>void <a href="set-on-click-listener.html"><span class="token function">setOnClickListener</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><a href="-on-click-listener/index.html">LinhaEditaisAdapter.OnClickListener</a> onClickListener</span></span><span class="token punctuation">)</span></div><div class="brief ">Define o listener de clique para os itens da lista.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1960180853%2FFunctions%2F1745091852" anchor-label="updateEditais" id="1960180853%2FFunctions%2F1745091852" data-filterable-set=":app:dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":app:dokkaHtml/main" data-filterable-set=":app:dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="update-editais.html"><span>update</span><wbr></wbr><span><span>Editais</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1960180853%2FFunctions%2F1745091852"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":app:dokkaHtml/main"><div class="symbol monospace block"><span class="token keyword">public </span><span class="token keyword"></span>void <a href="update-editais.html"><span class="token function">updateEditais</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/java/util/List.html">List</a><span class="token operator">&lt;</span><a href="../../br.com.ifrs.meuifpoa.model/-edital/index.html">Edital</a><span class="token operator">&gt;</span> novosEditais</span></span><span class="token punctuation">)</span></div><div class="brief ">Atualiza a lista de editais exibida no RecyclerView.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
+</html>
