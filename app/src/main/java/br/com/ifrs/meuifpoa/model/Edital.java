@@ -6,103 +6,83 @@ package br.com.ifrs.meuifpoa.model;
  */
 public class Edital {
 
-    private int id;
-
     /**
-     * O link da notícia.
+     * O link do edital.
      */
     private String link;
     /**
-     * O título da notícia.
+     * O título do edital.
      */
     private String titulo;
     /**
-     * A data de publicação da notícia.
+     * A data de publicação do edital.
      */
-    private String dataPublicacao;
+    private String dataPublicacaoEdital;
 
     /**
-     * Instancia uma nova Noticia.
+     * Instancia um novo Edital.
      *
-     * @param link           o link da notícia
-     * @param titulo         o título da notícia
-     * @param dataPublicacao a data de publicação da notícia
+     * @param link           o link do edital.
+     * @param titulo         o título do edital.
+     * @param dataPublicacaoEdital a data de publicação do edital.
      */
-    public Edital(String link, String titulo, String dataPublicacao) {
+    public Edital(String link, String titulo, String dataPublicacaoEdital) {
         this.link = link;
         this.titulo = titulo;
-        this.dataPublicacao = dataPublicacao;
+        this.dataPublicacaoEdital = dataPublicacaoEdital;
     }
 
     /**
-     * Retorna o ID da notícia.
+     * Retorna o link do edital.
      *
-     * @return o ID da notícia
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * Retorna o link da notícia.
-     *
-     * @return o link da notícia
+     * @return o link do edital.
      */
     public String getLink() {
         return link;
     }
 
     /**
-     * Retorna o título da notícia.
+     * Retorna o título do edital.
      *
-     * @return o título da notícia
+     * @return o título do edital.
      */
     public String getTitulo() {
         return titulo;
     }
 
     /**
-     * Retorna a data de publicação da notícia.
+     * Retorna a data de publicação do edital.
      *
-     * @return a data de publicação da notícia
+     * @return a data de publicação do edital.
      */
     public String getDataPublicacao() {
-        return dataPublicacao;
+        return dataPublicacaoEdital;
     }
 
     /**
-     * Define o ID da notícia.
+     * Define o link do edital.
      *
-     * @param id o novo ID da notícia
-     */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    /**
-     * Define o link da notícia.
-     *
-     * @param link o novo link da notícia
+     * @param link o novo link do edital.
      */
     public void setLink(String link) {
         this.link = link;
     }
 
     /**
-     * Define o título da notícia.
+     * Define o título do edital.
      *
-     * @param titulo o novo título da notícia
+     * @param titulo o novo título do edital.
      */
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
 
     /**
-     * Define a data de publicação da notícia.
+     * Define a data de publicação do edital.
      *
-     * @param dataPublicacao a nova data de publicação da notícia
+     * @param dataPublicacaoEdital a nova data de publicação do edital.
      */
-    public void setDataPublicacao(String dataPublicacao) {
-        this.dataPublicacao = dataPublicacao;
+    public void setDataPublicacao(String dataPublicacaoEdital) {
+        this.dataPublicacaoEdital = dataPublicacaoEdital;
     }
 }
