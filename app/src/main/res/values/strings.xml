@@ -66,9 +66,11 @@
     <string name="msgIntegralizado">Integralizado\n</string>
     <string name="default_web_client_id">534867621443-beq935q91ehg2lr2vr83ebrqe0bgthkn.apps.googleusercontent.com</string>
     <string name="txtInputCpfSigaa">Digite o CPF</string>
+    <string name="erro_obter_dados_noticias">Erro ao obter dados!</string>
+    <string name="erro_obter_dados_editais">Erro ao obter editais!</string>
 
     <string-array name="limites_noticias">
-        <item>Nº noticias</item>
+        <item>Limite</item>
         <item>0</item>
         <item>5</item>
         <item>10</item>
