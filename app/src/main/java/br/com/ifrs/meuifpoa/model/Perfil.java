@@ -12,6 +12,11 @@ public class Perfil {
     private String nomeDocente;
 
     /**
+     * O email do docente.
+     */
+    private String email;
+
+    /**
      * A matrícula.
      */
     private String matricula;
@@ -98,6 +103,26 @@ public class Perfil {
     /**
      * Instancia um novo Perfil.
      *
+     * @param nomeDocente o nome do docente
+     * @param matricula   a matrícula
+     * @param curso       o curso
+     * @param nivel       o nível
+     * @param status      o status
+     * @param anoIngresso o ano de ingresso
+     */
+    public Perfil(String nomeDocente, String email, String matricula, String curso, String nivel, String status, String anoIngresso) {
+        this.nomeDocente = nomeDocente;
+        this.email = email;
+        this.matricula = matricula;
+        this.curso = curso;
+        this.nivel = nivel;
+        this.status = status;
+        this.anoIngresso = anoIngresso;
+    }
+
+    /**
+     * Instancia um novo Perfil.
+     *
      * @param nomeDocente            o nome do docente
      * @param matricula              a matrícula
      * @param cpf                    o CPF
@@ -145,6 +170,23 @@ public class Perfil {
      */
     public void setNomeDocente(String nomeDocente) {
         this.nomeDocente = nomeDocente;
+    }
+
+    /**
+     * Retorna o email.
+     * @return o email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Define o email.
+     *
+     * @param email o novo email
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /**

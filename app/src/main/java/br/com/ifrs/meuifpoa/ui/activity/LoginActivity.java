@@ -183,7 +183,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.d("TAG", "Documento já existe para o usuário.");
                             } else {
                                 // Se o documento não existir, cria um novo
-                                Perfil user = new Perfil(mAuth.getCurrentUser().getDisplayName(), null, null, null, null, null);
+                                Perfil user = new Perfil(mAuth.getCurrentUser().getDisplayName(), mAuth.getCurrentUser().getEmail(),null, null, null, null, null);
                                 db.collection("usuarios").document(uid).set(user)
                                         .addOnSuccessListener(aVoid -> {
                                             Log.d("TAG", "Documento criado com sucesso!");
