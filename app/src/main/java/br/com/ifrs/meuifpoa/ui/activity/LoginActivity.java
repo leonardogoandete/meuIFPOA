@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.IntentSenderRequest;
@@ -48,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     handleGoogleSignInResult(result.getData());
                 } else {
+                    esconderProgressBar();
                     mostrarMensagemErro(getString(R.string.erro_login_google));
                 }
             });
@@ -81,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
     // Iniciar login com Google
     /** Metodo para iniciar o login com Google. */
     private void iniciarGoogleSignIn() {
+        mostrarProgressBar();
         oneTapClient.beginSignIn(signInRequest)
                 .addOnSuccessListener(this, result -> {
                     try {
@@ -88,10 +91,14 @@ public class LoginActivity extends AppCompatActivity {
                                 result.getPendingIntent().getIntentSender()).build();
                         signInLauncher.launch(intentSenderRequest);
                     } catch (Exception e) {
+                        esconderProgressBar();
                         mostrarMensagemErro(getString(R.string.erro_login_google));
                     }
                 })
-                .addOnFailureListener(this, e -> mostrarMensagemErro(getString(R.string.erro_login_google)));
+                .addOnFailureListener(this, e -> {
+                    esconderProgressBar();
+                    mostrarMensagemErro(getString(R.string.erro_login_google));
+                });
     }
 
 
@@ -116,16 +123,20 @@ public class LoginActivity extends AppCompatActivity {
                                     salvarDadosUsuario(mAuth.getUid());
                                     obterTokenFirebase();
                                 } else {
+                                    esconderProgressBar();
                                     mostrarMensagemErro(getString(R.string.erro_login_google));
                                 }
                             });
                 } else {
+                    esconderProgressBar();
                     mostrarMensagemErro(getString(R.string.erro_login_google));
                 }
             } else {
+                esconderProgressBar();
                 mostrarMensagemErro(getString(R.string.erro_email_invalido));
             }
         } catch (Exception e) {
+            esconderProgressBar();
             mostrarMensagemErro(getString(R.string.erro_login_google));
         }
     }
@@ -137,6 +148,7 @@ public class LoginActivity extends AppCompatActivity {
         if (usuario != null) {
             usuario.getIdToken(true)
                     .addOnCompleteListener(task -> {
+                        esconderProgressBar();
                         if (task.isSuccessful()) {
                             String firebaseToken = task.getResult().getToken();
                             salvarToken(firebaseToken);
@@ -145,6 +157,8 @@ public class LoginActivity extends AppCompatActivity {
                             mostrarMensagemErro(getString(R.string.erro_obter_token_firebase));
                         }
                     });
+        }else {
+            esconderProgressBar();
         }
     }
 
@@ -197,6 +211,18 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    /** Método para exibir a barra de progresso. */
+    private void mostrarProgressBar() {
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.btnGoogleLogin.setEnabled(false);
+    }
+
+    /** Método para esconder a barra de progresso. */
+    private void esconderProgressBar() {
+        binding.progressBar.setVisibility(View.GONE);
+        binding.btnGoogleLogin.setEnabled(true);
     }
 
     // Exibir mensagens de erro
