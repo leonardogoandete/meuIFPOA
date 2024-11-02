@@ -88,6 +88,7 @@
     <string name="btnOk">OK</string>
     <string name="btnCancelar">Cancelar</string>
     <string name="titulo_dialog_senha">Contraseña SIGAA</string>
+    <string name="todos">Todas</string>
 
     <string-array name="limites_noticias">
         <item>Límite</item>

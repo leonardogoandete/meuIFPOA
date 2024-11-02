@@ -451,6 +451,9 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
                     } else {
                         textView.setTextColor(Color.BLACK);
                     }
+                    if (position == 1) {
+                        textView.setText(getString(R.string.todos));
+                    }
                     return view;
                 }
             };
