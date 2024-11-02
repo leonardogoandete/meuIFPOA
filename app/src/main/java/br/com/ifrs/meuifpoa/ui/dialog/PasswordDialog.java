@@ -45,7 +45,6 @@ public class PasswordDialog {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.dialog_sync_sigaa, null);
         senhaSigaa = view.findViewById(R.id.textInputSenhaSyncSigaa);
-        cpfSigaa = view.findViewById(R.id.textInputCpfSyncSigaa);
         progressBarContainer = view.findViewById(R.id.containerProgressBarSync);
         ProgressBar progressBar = view.findViewById(R.id.progressBarSync);
 
@@ -60,18 +59,11 @@ public class PasswordDialog {
         positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
         positiveButton.setOnClickListener(v -> {
             String senha = senhaSigaa.getEditText().getText().toString().trim();
-            String cpf = cpfSigaa.getEditText().getText().toString().trim();
-
-
-            if (!senha.isEmpty() && !cpf.isEmpty() && CPFValidador.validarCpf(cpf)) {
+            if (!senha.isEmpty()) {
                 // Mostra o ProgressBar e esconde o campo de senha
                 mostrarCarregando(true);
                 // Chama o listener para continuar com a sincronização
-                listener.onCpfEPasswordEntered(cpf, senha);
-            } else if (!CPFValidador.validarCpf(cpf)) {
-                Toast.makeText(context, "CPF inválido", Toast.LENGTH_SHORT).show();
-            } else if (cpf.isEmpty()) {
-                Toast.makeText(context, "Digite seu CPF", Toast.LENGTH_SHORT).show();
+                listener.onPasswordEntered(senha);
             } else {
                 Toast.makeText(context, "Digite sua senha", Toast.LENGTH_SHORT).show();
             }
@@ -103,9 +95,8 @@ public class PasswordDialog {
     public interface OnPasswordEnteredListener {
         /**
          * Método chamado quando a senha for inserida.
-         * @param cpf o cpf inserido
          * @param senha a senha inserida
          */
-        void onCpfEPasswordEntered(String cpf, String senha);
+        void onPasswordEntered(String senha);
     }
 }

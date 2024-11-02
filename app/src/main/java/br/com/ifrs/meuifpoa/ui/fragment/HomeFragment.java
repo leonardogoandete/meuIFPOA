@@ -528,7 +528,6 @@ public class HomeFragment extends Fragment {
 
         // Referenciando o TextInputLayout para obter a senha digitada
         TextInputLayout senhaInput = dialogView.findViewById(R.id.textInputSenhaSyncSigaa);
-        TextInputLayout cpfInput = dialogView.findViewById(R.id.textInputCpfSyncSigaa);
         TextView titulo = dialogView.findViewById(R.id.textViewTitulo);
         titulo.setText("Senha SIGA");
         builder.setView(dialogView)
@@ -543,23 +542,14 @@ public class HomeFragment extends Fragment {
             okButton.setOnClickListener(v -> {
                 // Capturar a senha
                 String senhaDigitada = senhaInput.getEditText().getText().toString().trim();
-                String cpfDigitado = cpfInput.getEditText().getText().toString().trim();
 
 
-                if(senhaDigitada.isEmpty() || cpfDigitado.isEmpty()){
+                if(senhaDigitada.isEmpty()){
                     if(senhaDigitada.isEmpty()){
                         senhaInput.setError("Senha não pode ser vazia");
                     }
-                    if(cpfDigitado.isEmpty()){
-                        cpfInput.setError("CPF não pode ser vazio");
-                    }
                     return;
                 }
-                if (!CPFValidador.validarCpf(cpfDigitado)){
-                    cpfInput.setError("CPF inválido");
-                    return;
-                }
-
 
                 // Armazena a senha e executa o callback
                 minhaSenha = senhaDigitada;

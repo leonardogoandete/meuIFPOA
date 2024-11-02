@@ -21,26 +21,6 @@
 
     <!-- Campo de senha -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputCpfSyncSigaa"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/txtInputCpfSigaa"
-        android:layout_marginTop="8dp"
-        app:boxBackgroundMode="outline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewTitulo">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextCpfSigaa"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Campo de senha -->
-    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputSenhaSyncSigaa"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
@@ -51,7 +31,7 @@
         app:passwordToggleEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textInputCpfSyncSigaa">
+        app:layout_constraintTop_toBottomOf="@id/textViewTitulo">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextSenhaSigaa"

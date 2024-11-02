@@ -54,7 +54,6 @@ public class GerenciadorSinc {
                 LayoutInflater inflater = LayoutInflater.from(contexto);
                 View dialogView = inflater.inflate(R.layout.dialog_sync_sigaa, null);
                 TextInputLayout senhaInput = dialogView.findViewById(R.id.textInputSenhaSyncSigaa);
-                TextInputLayout cpfInput = dialogView.findViewById(R.id.textInputCpfSyncSigaa);
                 LinearLayout progressBarContainer = dialogView.findViewById(R.id.containerProgressBarSync);
 
                 builder.setView(dialogView)
@@ -68,32 +67,14 @@ public class GerenciadorSinc {
                     Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
 
                     positiveButton.setOnClickListener(v -> {
-                        String cpf = cpfInput.getEditText().getText().toString().trim();
                         String senha = senhaInput.getEditText().getText().toString().trim();
 
 
                         if (senha.isEmpty()) {
                             senhaInput.setError("Senha não pode ser vazia");
                         }
-                        if(!CPFValidador.validarCpf(cpf) || cpf.isEmpty()){
-                            cpfInput.setError("CPF vazio ou inválido");
-                        }
 
-                        iniciarSincronizacao(contexto, cpf, senha, dialogView, dialog, progressBarContainer, aoSucesso, positiveButton);
-
-//                        if (!senha.isEmpty() && !cpf.isEmpty() && CPFValidador.validarCpf(cpf)) {
-//                            iniciarSincronizacao(contexto, cpf, senha, dialogView, dialog, progressBarContainer, aoSucesso, positiveButton);
-//                        } else {
-//                            cpfInput.setError("CPF não pode ser vazio");
-//                            senhaInput.setError("Senha não pode ser vazia");
-//                        }
-
-
-//                        if (!senha.isEmpty()) {
-//                            iniciarSincronizacao(contexto, senha, dialogView, dialog, progressBarContainer, aoSucesso, positiveButton);
-//                        } else {
-//                            senhaInput.setError("Senha não pode ser vazia");
-//                        }
+                        iniciarSincronizacao(contexto, senha, dialogView, dialog, progressBarContainer, aoSucesso, positiveButton);
                     });
 
                     negativeButton.setOnClickListener(v -> dialog.dismiss());
@@ -113,7 +94,6 @@ public class GerenciadorSinc {
      * Inicia o processo de sincronização com o servidor.
      *
      * @param contexto             O contexto da aplicação.
-     * @param cpf                  O CPF do usuário.
      * @param senha                A senha do usuário.
      * @param dialogView           A view do diálogo.
      * @param dialog               O diálogo de sincronização.
@@ -121,12 +101,10 @@ public class GerenciadorSinc {
      * @param aoSucesso            Runnable a ser executado em caso de sucesso.
      * @param positiveButton       O botão positivo do diálogo.
      */
-    private static void iniciarSincronizacao(Context contexto, String cpf, String senha, View dialogView, AlertDialog dialog, LinearLayout progressBarContainer, Runnable aoSucesso, Button positiveButton) {
+    private static void iniciarSincronizacao(Context contexto, String senha, View dialogView, AlertDialog dialog, LinearLayout progressBarContainer, Runnable aoSucesso, Button positiveButton) {
         TextInputLayout senhaSigaa = dialogView.findViewById(R.id.textInputSenhaSyncSigaa);
-        TextInputLayout cpfSigaa = dialogView.findViewById(R.id.textInputCpfSyncSigaa);
         progressBarContainer.setVisibility(View.VISIBLE);
         senhaSigaa.setVisibility(View.GONE);
-        cpfSigaa.setVisibility(View.GONE);
 
         SharedPreferences preferencias = contexto.getSharedPreferences("loginSigaa", Context.MODE_PRIVATE);
         String token = preferencias.getString("token", "");
@@ -146,13 +124,13 @@ public class GerenciadorSinc {
                     aoSucesso.run();
                 } else {
                     Log.e(TAG, "Erro ao sincronizar dados: " + resposta.message());
-                    tratarErroSincronizacao(contexto, progressBarContainer, cpfSigaa, senhaSigaa, positiveButton, "Erro ao sincronizar dados, tente novamente!" + resposta.message());
+                    tratarErroSincronizacao(contexto, progressBarContainer, senhaSigaa, positiveButton, "Erro ao sincronizar dados, tente novamente!" + resposta.message());
                 }
             }
 
             @Override
             public void onFailure(Call<SyncResponse> chamada, Throwable t) {
-                tratarErroSincronizacao(contexto, progressBarContainer, cpfSigaa, senhaSigaa, positiveButton, "Falha na conexão: " + t.getMessage());
+                tratarErroSincronizacao(contexto, progressBarContainer, senhaSigaa, positiveButton, "Falha na conexão: " + t.getMessage());
             }
         });
     }
@@ -162,17 +140,15 @@ public class GerenciadorSinc {
      *
      * @param contexto             O contexto da aplicação.
      * @param progressBarContainer O container da barra de progresso.
-     * @param cpfSigaa             O campo de entrada do CPF.
      * @param senhaSigaa           O campo de entrada da senha.
      * @param positiveButton       O botão positivo do diálogo.
      * @param mensagemErro         A mensagem de erro a ser exibida.
      */
-    private static void tratarErroSincronizacao(Context contexto, LinearLayout progressBarContainer, TextInputLayout cpfSigaa, TextInputLayout senhaSigaa, Button positiveButton, String mensagemErro) {
+    private static void tratarErroSincronizacao(Context contexto, LinearLayout progressBarContainer, TextInputLayout senhaSigaa, Button positiveButton, String mensagemErro) {
         exibirMensagem(contexto, mensagemErro);
         Log.e(TAG, mensagemErro);
         progressBarContainer.setVisibility(View.GONE);
         senhaSigaa.setVisibility(View.VISIBLE);
-        cpfSigaa.setVisibility(View.VISIBLE);
         positiveButton.setEnabled(true);  // Reabilita o botão para tentar novamente
     }
 

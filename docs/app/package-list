@@ -164,7 +164,7 @@ $dokka.location:br.com.ifrs.meuifpoa.ui.custom/ProgressButtonActivity/onCreate/#
 $dokka.location:br.com.ifrs.meuifpoa.ui.custom/ProgressButtonActivity/showLoading/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.custom/-progress-button-activity/show-loading.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.dialog////PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.dialog/index.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.dialog/PasswordDialog.OnPasswordEnteredListener///PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.dialog/-password-dialog/-on-password-entered-listener/index.html
-$dokka.location:br.com.ifrs.meuifpoa.ui.dialog/PasswordDialog.OnPasswordEnteredListener/onCpfEPasswordEntered/#java.lang.String#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.dialog/-password-dialog/-on-password-entered-listener/on-cpf-e-password-entered.html
+$dokka.location:br.com.ifrs.meuifpoa.ui.dialog/PasswordDialog.OnPasswordEnteredListener/onPasswordEntered/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.dialog/-password-dialog/-on-password-entered-listener/on-password-entered.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.dialog/PasswordDialog///PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.dialog/-password-dialog/index.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.dialog/PasswordDialog/PasswordDialog/#Context#br.com.ifrs.meuifpoa.ui.dialog.PasswordDialog.OnPasswordEnteredListener/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.dialog/-password-dialog/-password-dialog.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.dialog/PasswordDialog/show/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.dialog/-password-dialog/show.html
