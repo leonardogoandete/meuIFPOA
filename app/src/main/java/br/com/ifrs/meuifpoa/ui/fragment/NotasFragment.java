@@ -17,6 +17,7 @@ import com.google.firebase.firestore.Source;
 
 import java.util.List;
 
+import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.adapter.recycler.LinhaNotasAdapter;
 import br.com.ifrs.meuifpoa.databinding.FragmentNotasBinding;
 import br.com.ifrs.meuifpoa.model.Nota;
@@ -82,7 +83,7 @@ public class NotasFragment extends Fragment {
         mostrarCarregamento(true);
 
         if (mAuth.getUid() == null) {
-            exibirMensagemErro("Você deve estar logado.");
+            exibirMensagemErro(getString(R.string.msg_deve_estar_logado));
             mostrarCarregamento(false);
             return;
         }
@@ -102,19 +103,19 @@ public class NotasFragment extends Fragment {
                                 LinhaNotasAdapter notasAdapter = new LinhaNotasAdapter(notasServidor);
                                 binding.listViewNotas.setAdapter(notasAdapter);
                             }else {
-                                exibirMensagemErro("Sem notas disponíveis");
+                                exibirMensagemErro(getString(R.string.msg_nao_ha_notas));
                             }
                         } else {
-                            exibirMensagemErro("Perfil não encontrado");
+                            exibirMensagemErro(getString(R.string.msg_perfil_nao_encontrado));
                         }
                     } else {
-                        exibirMensagemErro("Erro ao obter notas do servidor");
+                        exibirMensagemErro(getString(R.string.erro_sync_conexao));
                     }
                 })
                 .addOnFailureListener(e -> {
                     // Oculta o ProgressBar ao ocorrer uma falha
                     mostrarCarregamento(false);
-                    exibirMensagemErro("Falha na conexão");
+                    exibirMensagemErro(getString(R.string.erro_sync_conexao));
                 });
     }
 

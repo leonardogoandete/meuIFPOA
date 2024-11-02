@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="txtViewTituloEmail">E-mail</string>
+    <string name="erro_obter_token_firebase">Erro ao obter o token de autenticação do Firebase.</string>
+    <string name="erro_email_invalido">\"Apenas contas do domínio @ifrs.edu.br são permitidas.\"</string>
+    <string name="erro_login_google">\"Erro ao processar o resultado do sign-in.\"</string>
+    <string name="erro_sync_dados">\"Erro ao sincronizar dados, tente novamente!\"</string>
+    <string name="erro_sync_conexao">\"Falha na conexão: \"</string>
+    <string name="usuario_not_logged">Usuário não autenticado</string>
+    <string name="erro_senha_vazia">Senha não pode ser vazia</string>
+    <string name="perfil_nao_disponivel_servidor">Perfil não encontrado no servidor</string>
+    <string name="documento_nao_encontrado_servidor">Documento não encontrado no servidor</string>
+    <string name="erro_obter_perfil_servidor">Erro ao obter perfil do servidor</string>
+    <string name="perfil_nao_disponivel_cache">Perfil não encontrado no cache</string>
+    <string name="documento_nao_encontrado_cache">Documento não encontrado no cache</string>
+    <string name="erro_obter_perfil_cache">Erro ao obter perfil do cache</string>
+    <string name="url_noticia_nao_disponivel">URL da notícia não disponível</string>
+    <string name="url_edital_nao_disponivel">URL do edital não disponível</string>
+    <string name="msg_nao_ha_notas">Sem notas disponíveis</string>
+    <string name="msg_perfil_nao_encontrado">Perfil não encontrado</string>
+    <string name="btnOk">OK</string>
+    <string name="btnCancelar">Cancelar</string>
+    <string name="titulo_dialog_senha">Senha SIGAA</string>
 </resources>

@@ -46,7 +46,6 @@ import br.com.ifrs.meuifpoa.model.Documento.DocumentoResponse;
 import br.com.ifrs.meuifpoa.model.Perfil;
 import br.com.ifrs.meuifpoa.retrofit.DocumentoRetrofit;
 import br.com.ifrs.meuifpoa.retrofit.service.DocumentoService;
-import br.com.ifrs.meuifpoa.utils.CPFValidador;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -529,10 +528,10 @@ public class HomeFragment extends Fragment {
         // Referenciando o TextInputLayout para obter a senha digitada
         TextInputLayout senhaInput = dialogView.findViewById(R.id.textInputSenhaSyncSigaa);
         TextView titulo = dialogView.findViewById(R.id.textViewTitulo);
-        titulo.setText("Senha SIGA");
+        titulo.setText(getString(R.string.titulo_dialog_senha));
         builder.setView(dialogView)
-                .setPositiveButton("OK", null)  // Não fechar o diálogo automaticamente
-                .setNegativeButton("Cancelar", (dialogInterface, which) -> dialogInterface.dismiss());
+                .setPositiveButton(getString(R.string.btnOk), null)  // Não fechar o diálogo automaticamente
+                .setNegativeButton(getString(R.string.btnCancelar), (dialogInterface, which) -> dialogInterface.dismiss());
 
         AlertDialog dialog = builder.create();
 
@@ -546,7 +545,7 @@ public class HomeFragment extends Fragment {
 
                 if(senhaDigitada.isEmpty()){
                     if(senhaDigitada.isEmpty()){
-                        senhaInput.setError("Senha não pode ser vazia");
+                        senhaInput.setError(getText(R.string.erro_senha_vazia));
                     }
                     return;
                 }

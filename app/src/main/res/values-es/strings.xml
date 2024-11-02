@@ -1,37 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name" translatable="false">meuIFPOA</string>
     <string name="notas_bar">Notas</string>
     <string name="noticias_bar">Noticias</string>
     <string name="perfil_bar">Perfil</string>
     <string name="sobre_bar">Acerca de</string>
-    <string name="msg_login_error">Error al iniciar sesión</string>
+    <string name="msg_login_error">Error de inicio de sesión</string>
     <string name="msg_titulo_esqueci_senha">Olvidé mi contraseña</string>
     <string name="btnEnviarEmailRecuperarSenha">Enviar</string>
     <string name="btnCancelarEmailRecuperarSenha">Cancelar</string>
-    <string name="msg_email_recuperar_senha_sucesso">¡Si el correo electrónico existe, recibirás un enlace para restablecer tu contraseña!</string>
-    <string name="msg_email_recuperar_senha_erro">Error al enviar el correo de restablecimiento de contraseña. ¡Verifique la dirección de correo electrónico!</string>
-    <string name="msg_deve_estar_logado">Debe iniciar sesión para acceder a esta funcionalidad</string>
+    <string name="msg_email_recuperar_senha_sucesso">Si el correo electrónico existe, recibirá un enlace para restablecer la contraseña.</string>
+    <string name="msg_email_recuperar_senha_erro">Error al enviar correo electrónico de restablecimiento de contraseña. ¡Verifique la dirección de correo electrónico!</string>
+    <string name="msg_deve_estar_logado">Debe iniciar sesión para acceder a esta función</string>
     <string name="msg_titulo_deve_estar_logado">Autenticación requerida</string>
     <string name="msg_titulo_sobre">Acerca de</string>
     <string name="msg_sobre">Nombre: Leonardo Goandete\nAsignatura: Programación Web III\nObjetivo: La aplicación tiene como objetivo mejorar la comunicación y el acceso a la información de los estudiantes del IFRS - Campus Porto Alegre.</string>
-    <string name="msg_url_noticia_vazia">Enlace de noticias no disponible</string>
+    <string name="msg_url_noticia_vazia">Enlace de noticia no disponible</string>
     <string name="txtViewTituloNome">Nombre</string>
     <string name="btnSairPerfilText">SALIR</string>
     <string name="txtViewUnidade1">UNIDAD 1</string>
     <string name="txtViewUnidade2">UNIDAD 2</string>
     <string name="txtViewRecuperacao">RECUPERACIÓN</string>
     <string name="txtViewResultado">RESULTADO</string>
-    <string name="txtViewFaltas">AUSENCIAS:</string>
+    <string name="txtViewFaltas">FALTAS:</string>
     <string name="txtViewSituacao">ESTADO:</string>
-    <string name="txtViewEmail">CORREO ELECTRÓNICO</string>
+    <string name="txtViewEmail">CORREO</string>
     <string name="txtViewSenha">CONTRASEÑA</string>
     <string name="btnEntrarText">INICIAR SESIÓN</string>
-    <string name="btnCadastrarText">¿No tienes una cuenta? Regístrate</string>
+    <string name="btnCadastrarText">¿No tiene cuenta? Regístrese</string>
     <string name="txtViewNomeCadastro">Nombre:</string>
     <string name="txtViewCpfCadastro">CPF:</string>
-    <string name="txtViewEmailCadastro">Correo electrónico:</string>
+    <string name="txtViewEmailCadastro">Correo:</string>
     <string name="txtViewSenhaCadastro">Contraseña:</string>
-    <string name="btnRegistrarCadastro">Registrarse</string>
+    <string name="btnRegistrarCadastro">Registrar</string>
     <string name="hello_blank_fragment">Hola fragmento en blanco</string>
     <string name="txtViewTituloMatricula">Matrícula</string>
     <string name="txtViewTituloCurso">Curso</string>
@@ -39,35 +39,58 @@
     <string name="txtViewTituloSituacao">Estado</string>
     <string name="txtViewTituloIngresso">Ingreso</string>
     <string name="titulo_cadastro">Registro</string>
-    <string name="txtInputEmail">Ingresa tu correo electrónico</string>
+    <string name="txtInputEmail">Ingrese su correo</string>
     <string name="txtTituloRecuperacaoSenha">Recuperación de Contraseña</string>
-    <string name="txtInputSenhaSigaa">Ingrese la contraseña de Sigaa</string>
+    <string name="txtInputSenhaSigaa">Ingrese la contraseña de SIGAA</string>
     <string name="txtTituloSyncSigaa">Sincronizar con SIGAA</string>
     <string name="msg_sync_sucesso">Sincronización realizada con éxito</string>
-    <string name="msg_sync_erro">Error al sincronizar los datos</string>
+    <string name="msg_sync_erro">Error al sincronizar datos</string>
     <string name="hint_pesq_noticias">Buscar noticias</string>
     <string name="msgCarregando">Cargando…</string>
     <string name="msgBuscarNoticias">Buscar noticias</string>
     <string name="msgNaoTemNoticias">No hay noticias disponibles</string>
     <string name="msgBtnEmitirHistorico">Emitir Historial</string>
-    <string name="msgBtnEmitirHistoricoEmentas">Emitir Historial con Descripciones de Cursos</string>
-    <string name="msgBtnEmitirDeclaracaoVinculo">Emitir Declaración de Afiliación</string>
-    <string name="msgBtnEmitirAtestadoMatricula">Emitir Certificado de Matrícula</string>
+    <string name="msgBtnEmitirHistoricoEmentas">Emitir\nHistorial con\nTemarios</string>
+    <string name="msgBtnEmitirDeclaracaoVinculo">Emitir\nDeclaración de\nVinculación</string>
+    <string name="msgBtnEmitirAtestadoMatricula">Emitir\nCertificado de\nMatrícula</string>
     <string name="msgBemVindoUsuario">¡Bienvenido usuario!</string>
     <string name="txtViewTituloIntegralizacoes">Progreso</string>
     <string name="dado_nao_disponivel">No disponible</string>
     <string name="msgSincronizando">Sincronizando...</string>
-    <string name="msgBemVindo">Bienvenido</string>
-    <string name="txtViewChObrigatoriaPendente">CH Obrigatória Pendente</string>
-    <string name="txtViewChComplementarPendente">CH complementario Pendiente</string>
-    <string name="txtViewChOptativaPendente">CH Opcional Pendiente</string>
-    <string name="txtViewChTotalCurriculo">CH CV total</string>
-    <string name="msgIntegralizado">Pagado\n</string>
-    <string name="txtInputCpfSigaa">Digite o CPF</string>
-    <string name="txtViewTituloEmail">E-mail</string>
+    <string name="msgBemVindo">"Bienvenido "</string>
+    <string name="txtViewChObrigatoriaPendente">Créditos Obligatorios\nPendientes</string>
+    <string name="txtViewChComplementarPendente">Créditos Complementarios\nPendientes</string>
+    <string name="txtViewChOptativaPendente">Créditos Optativos\nPendientes</string>
+    <string name="txtViewChTotalCurriculo">Total Créditos\nCurrículo</string>
+    <string name="msgIntegralizado">Completado\n</string>
+    <string name="default_web_client_id">534867621443-beq935q91ehg2lr2vr83ebrqe0bgthkn.apps.googleusercontent.com</string>
+    <string name="txtInputCpfSigaa">Ingrese el CPF</string>
+    <string name="erro_obter_dados_noticias">¡Error al obtener datos!</string>
+    <string name="erro_obter_dados_editais">Error al obtener convocatorias!</string>
+    <string name="txtViewTituloEmail">Correo</string>
+    <string name="erro_obter_token_firebase">Error al obtener el token de autenticación de Firebase.</string>
+    <string name="erro_email_invalido">"Solo se permiten cuentas del dominio @ifrs.edu.br."</string>
+    <string name="erro_login_google">"Error al procesar el resultado del inicio de sesión."</string>
+    <string name="erro_sync_dados">"Error al sincronizar datos, ¡intente de nuevo!"</string>
+    <string name="erro_sync_conexao">"Error de conexión: "</string>
+    <string name="usuario_not_logged">Usuario no autenticado</string>
+    <string name="erro_senha_vazia">La contraseña no puede estar vacía</string>
+    <string name="perfil_nao_disponivel_servidor">Perfil no encontrado en el servidor</string>
+    <string name="documento_nao_encontrado_servidor">Documento no encontrado en el servidor</string>
+    <string name="erro_obter_perfil_servidor">Error al obtener el perfil del servidor</string>
+    <string name="perfil_nao_disponivel_cache">Perfil no encontrado en la caché</string>
+    <string name="documento_nao_encontrado_cache">Documento no encontrado en la caché</string>
+    <string name="erro_obter_perfil_cache">Error al obtener el perfil de la caché</string>
+    <string name="url_noticia_nao_disponivel">URL de noticia no disponible</string>
+    <string name="url_edital_nao_disponivel">URL de convocatoria no disponible</string>
+    <string name="msg_nao_ha_notas">No hay notas disponibles</string>
+    <string name="msg_perfil_nao_encontrado">Perfil no encontrado</string>
+    <string name="btnOk">OK</string>
+    <string name="btnCancelar">Cancelar</string>
+    <string name="titulo_dialog_senha">Contraseña SIGAA</string>
 
     <string-array name="limites_noticias">
-        <item>Cantidad de noticias</item>
+        <item>Límite</item>
         <item>0</item>
         <item>5</item>
         <item>10</item>
@@ -77,5 +100,4 @@
         <item>100</item>
         <item>500</item>
     </string-array>
-
 </resources>

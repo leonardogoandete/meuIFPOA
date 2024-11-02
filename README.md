@@ -12,6 +12,7 @@ O objetivo é facilitar o acesso a informações e serviços para a comunidade d
 ## Funcionalidades
 - Download de documentos em PDF
 - Visualização de notícias
+- Visualização de editais
 - Visualização de notas
 - Visualização de dados acadêmicos
 - Visualização de cargas horárias
@@ -32,6 +33,8 @@ Link para o repositório da API: [meuifpoa-back](https://github.com/leonardogoan
 O aplicativo consome uma API RESTful desenvolvida em Java. As rotas disponíveis são:
 - `GET /noticias` - Retorna todas as notícias cadastradas.
 - `POST /noticias` - Retorna noticias com base no filtro ou quantidade de resultados.
+- `GET /editais` - Retorna todos os editais cadastrados.
+- `POST /editais` - Retorna editais com base no filtro ou quantidade de resultados.
 - `GET /documento` - Retorna um documento em PDF codificado em base64.
 - `POST /sync` - Realiza a sincronização de dados acadêmicos.
 

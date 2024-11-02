@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     handleGoogleSignInResult(result.getData());
                 } else {
-                    mostrarMensagemErro("Falha no login do Google.");
+                    mostrarMensagemErro(getString(R.string.erro_login_google));
                 }
             });
 
@@ -88,10 +88,10 @@ public class LoginActivity extends AppCompatActivity {
                                 result.getPendingIntent().getIntentSender()).build();
                         signInLauncher.launch(intentSenderRequest);
                     } catch (Exception e) {
-                        mostrarMensagemErro("Erro ao iniciar o sign-in do Google.");
+                        mostrarMensagemErro(getString(R.string.erro_login_google));
                     }
                 })
-                .addOnFailureListener(this, e -> mostrarMensagemErro("Falha ao iniciar o Google Sign-In."));
+                .addOnFailureListener(this, e -> mostrarMensagemErro(getString(R.string.erro_login_google)));
     }
 
 
@@ -116,17 +116,17 @@ public class LoginActivity extends AppCompatActivity {
                                     salvarDadosUsuario(mAuth.getUid());
                                     obterTokenFirebase();
                                 } else {
-                                    mostrarMensagemErro("Falha na autenticação com o Google.");
+                                    mostrarMensagemErro(getString(R.string.erro_login_google));
                                 }
                             });
                 } else {
-                    mostrarMensagemErro("Token de ID inválido.");
+                    mostrarMensagemErro(getString(R.string.erro_login_google));
                 }
             } else {
-                mostrarMensagemErro("Apenas contas do domínio @ifrs.edu.br são permitidas.");
+                mostrarMensagemErro(getString(R.string.erro_email_invalido));
             }
         } catch (Exception e) {
-            mostrarMensagemErro("Erro ao processar o resultado do sign-in.");
+            mostrarMensagemErro(getString(R.string.erro_login_google));
         }
     }
 
@@ -142,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
                             salvarToken(firebaseToken);
                             tratarLoginBemSucedido();
                         } else {
-                            mostrarMensagemErro("Erro ao obter o token de autenticação do Firebase.");
+                            mostrarMensagemErro(getString(R.string.erro_obter_token_firebase));
                         }
                     });
         }

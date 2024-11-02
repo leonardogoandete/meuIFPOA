@@ -394,7 +394,7 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(BASE_URL_NOTICIA + url));
             startActivity(intent);
         } else {
-            mostrarMensagemErro("URL da notícia não disponível");
+            mostrarMensagemErro(getString(R.string.url_noticia_nao_disponivel));
         }
     }
 
@@ -411,7 +411,7 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(BASE_URL_NOTICIA + url));
             startActivity(intent);
         } else {
-            mostrarMensagemErro("URL do edital não disponível");
+            mostrarMensagemErro(getString(R.string.url_edital_nao_disponivel));
         }
     }
 

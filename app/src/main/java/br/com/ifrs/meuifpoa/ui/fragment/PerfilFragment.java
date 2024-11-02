@@ -118,13 +118,13 @@ public class PerfilFragment extends Fragment {
                                 configurarPerfil(perfil);
                                 carregarFotoPerfil(perfil);  // Tenta carregar a foto do cache local também
                             } else {
-                                mostrarErro("Perfil não encontrado no cache");
+                                mostrarErro(getString(R.string.perfil_nao_disponivel_cache));
                             }
                         } else {
-                            mostrarErro("Documento não encontrado no cache");
+                            mostrarErro(getString(R.string.documento_nao_encontrado_cache));
                         }
                     } else {
-                        mostrarErro("Erro ao obter perfil do cache");
+                        mostrarErro(getString(R.string.erro_obter_perfil_cache));
                     }
                 });
     }
@@ -152,18 +152,18 @@ public class PerfilFragment extends Fragment {
                                 configurarPerfil(perfil);  // Atualiza os dados com os do servidor
                                 carregarFotoPerfil(perfil);
                             } else {
-                                mostrarErro("Perfil não encontrado no servidor");
+                                mostrarErro(getString(R.string.perfil_nao_disponivel_servidor));
                             }
                         } else {
-                            mostrarErro("Documento não encontrado no servidor");
+                            mostrarErro(getString(R.string.documento_nao_encontrado_servidor));
                         }
                     } else {
-                        mostrarErro("Erro ao obter perfil do servidor");
+                        mostrarErro(getString(R.string.erro_obter_perfil_servidor));
                     }
                 })
                 .addOnFailureListener(e -> {
                     if (binding != null) {
-                        mostrarErro("Falha na conexão com o servidor: " + e.getMessage());
+                        mostrarErro(getString(R.string.erro_sync_conexao) + e.getMessage());
                     }
                 });
     }

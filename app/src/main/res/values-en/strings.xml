@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name" translatable="false">meuIFPOA</string>
     <string name="notas_bar">Grades</string>
     <string name="noticias_bar">News</string>
     <string name="perfil_bar">Profile</string>
@@ -13,7 +13,7 @@
     <string name="msg_deve_estar_logado">You must be logged in to access this feature</string>
     <string name="msg_titulo_deve_estar_logado">Authentication required</string>
     <string name="msg_titulo_sobre">About</string>
-    <string name="msg_sobre">Name: Leonardo Goandete\nSubject: Web Programming III\nObjective: The application aims to improve communication and access to information for students of IFRS - Porto Alegre Campus.</string>
+    <string name="msg_sobre">Name: Leonardo Goandete\nSubject: Web Programming III\nGoal: The App aims to improve communication and access to information for IFRS - Porto Alegre Campus students.</string>
     <string name="msg_url_noticia_vazia">News link unavailable</string>
     <string name="txtViewTituloNome">Name</string>
     <string name="btnSairPerfilText">LOGOUT</string>
@@ -26,14 +26,14 @@
     <string name="txtViewEmail">EMAIL</string>
     <string name="txtViewSenha">PASSWORD</string>
     <string name="btnEntrarText">LOGIN</string>
-    <string name="btnCadastrarText">Don\'t have an account? Sign up</string>
+    <string name="btnCadastrarText">Don\\\'t have an account? Sign up</string>
     <string name="txtViewNomeCadastro">Name:</string>
     <string name="txtViewCpfCadastro">CPF:</string>
     <string name="txtViewEmailCadastro">Email:</string>
     <string name="txtViewSenhaCadastro">Password:</string>
-    <string name="btnRegistrarCadastro">Sign up</string>
+    <string name="btnRegistrarCadastro">Register</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="txtViewTituloMatricula">Registration</string>
+    <string name="txtViewTituloMatricula">Enrollment</string>
     <string name="txtViewTituloCurso">Course</string>
     <string name="txtViewTituloNivel">Level</string>
     <string name="txtViewTituloSituacao">Status</string>
@@ -41,33 +41,56 @@
     <string name="titulo_cadastro">Sign Up</string>
     <string name="txtInputEmail">Enter your email</string>
     <string name="txtTituloRecuperacaoSenha">Password Recovery</string>
-    <string name="txtInputSenhaSigaa">Enter your Sigaa password</string>
+    <string name="txtInputSenhaSigaa">Enter SIGAA password</string>
     <string name="txtTituloSyncSigaa">Sync with SIGAA</string>
-    <string name="msg_sync_sucesso">Sync completed successfully</string>
+    <string name="msg_sync_sucesso">Sync successful</string>
     <string name="msg_sync_erro">Error syncing data</string>
     <string name="hint_pesq_noticias">Search news</string>
     <string name="msgCarregando">Loading…</string>
     <string name="msgBuscarNoticias">Search news</string>
     <string name="msgNaoTemNoticias">No news available</string>
     <string name="msgBtnEmitirHistorico">Issue Transcript</string>
-    <string name="msgBtnEmitirHistoricoEmentas">Issue Transcript with Course Descriptions</string>
-    <string name="msgBtnEmitirDeclaracaoVinculo">Issue Affiliation Statement</string>
-    <string name="msgBtnEmitirAtestadoMatricula">Issue Enrollment Certificate</string>
+    <string name="msgBtnEmitirHistoricoEmentas">Issue\nTranscript with\nSyllabi</string>
+    <string name="msgBtnEmitirDeclaracaoVinculo">Issue\nEnrollment\nDeclaration</string>
+    <string name="msgBtnEmitirAtestadoMatricula">Issue\nEnrollment\nCertificate</string>
     <string name="msgBemVindoUsuario">Welcome user!</string>
     <string name="txtViewTituloIntegralizacoes">Progress</string>
     <string name="dado_nao_disponivel">Not available</string>
-    <string name="msgSincronizando">Synchronizing...</string>
+    <string name="msgSincronizando">Syncing...</string>
     <string name="msgBemVindo">"Welcome "</string>
-    <string name="txtViewChObrigatoriaPendente">Mandatory CH Pending</string>
-    <string name="txtViewChComplementarPendente">Pending Complementary CH</string>
-    <string name="txtViewChOptativaPendente">CH Optional Pending</string>
-    <string name="txtViewChTotalCurriculo">CH Total Curriculum</string>
-    <string name="msgIntegralizado">Integrated\n</string>
-    <string name="txtInputCpfSigaa">Digite o CPF</string>
-    <string name="txtViewTituloEmail">E-mail</string>
+    <string name="txtViewChObrigatoriaPendente">Pending Required\nCredits</string>
+    <string name="txtViewChComplementarPendente">Pending Elective\nCredits</string>
+    <string name="txtViewChOptativaPendente">Pending Optional\nCredits</string>
+    <string name="txtViewChTotalCurriculo">Total Curriculum\nCredits</string>
+    <string name="msgIntegralizado">Completed\n</string>
+    <string name="default_web_client_id">534867621443-beq935q91ehg2lr2vr83ebrqe0bgthkn.apps.googleusercontent.com</string>
+    <string name="txtInputCpfSigaa">Enter CPF</string>
+    <string name="erro_obter_dados_noticias">Error obtaining data!</string>
+    <string name="erro_obter_dados_editais">Error obtaining announcements!</string>
+    <string name="txtViewTituloEmail">Email</string>
+    <string name="erro_obter_token_firebase">Error obtaining Firebase authentication token.</string>
+    <string name="erro_email_invalido">"Only @ifrs.edu.br domain accounts are allowed."</string>
+    <string name="erro_login_google">"Error processing sign-in result."</string>
+    <string name="erro_sync_dados">"Error syncing data, please try again!"</string>
+    <string name="erro_sync_conexao">"Connection failure: "</string>
+    <string name="usuario_not_logged">User not logged in</string>
+    <string name="erro_senha_vazia">Password cannot be empty</string>
+    <string name="perfil_nao_disponivel_servidor">Profile not found on server</string>
+    <string name="documento_nao_encontrado_servidor">Document not found on server</string>
+    <string name="erro_obter_perfil_servidor">Error obtaining profile from server</string>
+    <string name="perfil_nao_disponivel_cache">Profile not found in cache</string>
+    <string name="documento_nao_encontrado_cache">Document not found in cache</string>
+    <string name="erro_obter_perfil_cache">Error obtaining profile from cache</string>
+    <string name="url_noticia_nao_disponivel">News URL not available</string>
+    <string name="url_edital_nao_disponivel">Announcement URL not available</string>
+    <string name="msg_nao_ha_notas">No grades available</string>
+    <string name="msg_perfil_nao_encontrado">Profile not found</string>
+    <string name="btnOk">OK</string>
+    <string name="btnCancelar">Cancel</string>
+    <string name="titulo_dialog_senha">SIGAA Password</string>
 
     <string-array name="limites_noticias">
-        <item>News count</item>
+        <item>Limit</item>
         <item>0</item>
         <item>5</item>
         <item>10</item>
@@ -77,5 +100,4 @@
         <item>100</item>
         <item>500</item>
     </string-array>
-
 </resources>

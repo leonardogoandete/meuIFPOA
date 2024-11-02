@@ -12,7 +12,6 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputLayout;
 
 import br.com.ifrs.meuifpoa.R;
-import br.com.ifrs.meuifpoa.utils.CPFValidador;
 
 /**
  * Classe responsável por exibir um diálogo para entrada de senha.

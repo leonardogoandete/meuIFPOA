@@ -71,7 +71,7 @@ public class GerenciadorSinc {
 
 
                         if (senha.isEmpty()) {
-                            senhaInput.setError("Senha não pode ser vazia");
+                            senhaInput.setError(contexto.getString(R.string.erro_senha_vazia));
                         }
 
                         iniciarSincronizacao(contexto, senha, dialogView, dialog, progressBarContainer, aoSucesso, positiveButton);
@@ -86,7 +86,7 @@ public class GerenciadorSinc {
                 aoSucesso.run();
             }
         } else {
-            exibirMensagem(contexto, "Usuário não autenticado");
+            exibirMensagem(contexto, contexto.getString(R.string.usuario_not_logged));
         }
     }
 
@@ -124,13 +124,13 @@ public class GerenciadorSinc {
                     aoSucesso.run();
                 } else {
                     Log.e(TAG, "Erro ao sincronizar dados: " + resposta.message());
-                    tratarErroSincronizacao(contexto, progressBarContainer, senhaSigaa, positiveButton, "Erro ao sincronizar dados, tente novamente!" + resposta.message());
+                    tratarErroSincronizacao(contexto, progressBarContainer, senhaSigaa, positiveButton, contexto.getString(R.string.erro_sync_dados) + resposta.message());
                 }
             }
 
             @Override
             public void onFailure(Call<SyncResponse> chamada, Throwable t) {
-                tratarErroSincronizacao(contexto, progressBarContainer, senhaSigaa, positiveButton, "Falha na conexão: " + t.getMessage());
+                tratarErroSincronizacao(contexto, progressBarContainer, senhaSigaa, positiveButton, contexto.getString(R.string.erro_sync_conexao) + t.getMessage());
             }
         });
     }
