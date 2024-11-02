@@ -12,140 +12,46 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".ui.activity.LoginActivity">
 
+    <!-- Logo -->
+
+    <!-- Botão de Login com Google -->
+
+    <!-- ProgressBar para carregamento -->
 
     <ImageView
         android:id="@+id/imgLogoIfrs"
         android:layout_width="238dp"
         android:layout_height="303dp"
+        android:layout_marginTop="108dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ifrs_logo" />
-
-
-    <TextView
-        android:id="@+id/textViewEmailLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/txtViewEmail"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgLogoIfrs" />
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutCpf"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:hintEnabled="true"
-        app:layout_constraintTop_toBottomOf="@+id/textViewEmailLogin">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etCpf"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/textViewSenhaLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="@string/txtViewSenha"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.054"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutCpf" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutSenha"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:hintEnabled="true"
-        app:passwordToggleEnabled="true"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSenhaLogin">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etSenha"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="343dp"
-        android:layout_height="50dp"
-        android:layout_gravity="start"
-        android:layout_marginTop="14dp"
-        android:layout_marginBottom="8dp"
-        android:backgroundTint="#2F9E41"
-        android:enabled="true"
-        android:text="@string/btnEntrarText"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutSenha" />
-
-    <TextView
-        android:id="@+id/textNaoTemConta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btnCadastrarText"
-        android:textColor="#2F9E41"
-        android:layout_marginTop="14dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
-
-    <TextView
-        android:id="@+id/textEsqueciSenha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/msg_titulo_esqueci_senha"
-        android:textColor="#2F9E41"
-        android:layout_marginTop="14dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textNaoTemConta" />
 
     <Button
         android:id="@+id/btnGoogleLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:backgroundTint="@color/colorPrimary"
         android:text="Login com Google"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
-
+        app:layout_constraintTop_toBottomOf="@+id/imgLogoIfrs" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:indeterminate="true"
         android:visibility="gone"
+        android:indeterminateTint="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:indeterminateTint="@color/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@+id/textEsqueciSenha" />
-
-
+        app:layout_constraintTop_toBottomOf="@+id/btnGoogleLogin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

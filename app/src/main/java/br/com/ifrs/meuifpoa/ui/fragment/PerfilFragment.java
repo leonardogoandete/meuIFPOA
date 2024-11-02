@@ -184,6 +184,7 @@ public class PerfilFragment extends Fragment {
         binding.txtViewValorNivel.setText(perfil.getNivel() != null ? perfil.getNivel() : getString(R.string.dado_nao_disponivel));
         binding.txtViewValorSituacao.setText(perfil.getStatus() != null ? perfil.getStatus() : getString(R.string.dado_nao_disponivel));
         binding.txtViewValorIngresso.setText(perfil.getAnoIngresso() != null ? perfil.getAnoIngresso() : getString(R.string.dado_nao_disponivel));
+        binding.txtViewValorEmail.setText(perfil.getEmail() != null ? perfil.getEmail() : getString(R.string.dado_nao_disponivel));
         exibirElementosPerfil(true);
     }
 
@@ -211,6 +212,7 @@ public class PerfilFragment extends Fragment {
         binding.txtViewValorNivel.setText("");
         binding.txtViewValorSituacao.setText("");
         binding.txtViewValorIngresso.setText("");
+        binding.txtViewValorEmail.setText("");
         binding.imgPerfil.setImageResource(R.drawable.ifrs_poa_logo);
         exibirElementosPerfil(false);
     }

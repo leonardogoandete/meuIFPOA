@@ -68,6 +68,7 @@
     <string name="txtInputCpfSigaa">Digite o CPF</string>
     <string name="erro_obter_dados_noticias">Erro ao obter dados!</string>
     <string name="erro_obter_dados_editais">Erro ao obter editais!</string>
+    <string name="txtViewTituloEmail">E-mail</string>
 
     <string-array name="limites_noticias">
         <item>Limite</item>

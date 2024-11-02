@@ -104,6 +104,7 @@ public class Perfil {
      * Instancia um novo Perfil.
      *
      * @param nomeDocente o nome do docente
+     * @param email       o email
      * @param matricula   a matrícula
      * @param curso       o curso
      * @param nivel       o nível

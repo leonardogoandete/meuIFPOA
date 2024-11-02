@@ -199,7 +199,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
     // Exibir mensagens de erro
     /** Método para exibir mensagens de erro.
         * @param mensagem Mensagem de erro a ser exibida. */

@@ -37,12 +37,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
-            app:itemTextColor="@color/selector_bottom_bar"
             app:itemIconTint="@color/selector_bottom_bar"
-            app:menu="@menu/menu"
+            app:itemTextColor="@color/selector_bottom_bar"
+            app:itemActiveIndicatorStyle="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:menu="@menu/menu" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.drawerlayout.widget.DrawerLayout>
