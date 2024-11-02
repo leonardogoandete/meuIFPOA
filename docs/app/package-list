@@ -43,30 +43,13 @@ $dokka.location:br.com.ifrs.meuifpoa.model.Documento/DocumentoResponse///Pointin
 $dokka.location:br.com.ifrs.meuifpoa.model.Documento/DocumentoResponse/DocumentoResponse/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model.Documento/-documento-response/-documento-response.html
 $dokka.location:br.com.ifrs.meuifpoa.model.Documento/DocumentoResponse/getPdfbase64/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model.Documento/-documento-response/get-pdfbase64.html
 $dokka.location:br.com.ifrs.meuifpoa.model.Documento/DocumentoResponse/setPdfbase64/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model.Documento/-documento-response/set-pdfbase64.html
-$dokka.location:br.com.ifrs.meuifpoa.model.login////PointingToDeclaration/app/br.com.ifrs.meuifpoa.model.login/index.html
-$dokka.location:br.com.ifrs.meuifpoa.model.login/Login///PointingToDeclaration/app/br.com.ifrs.meuifpoa.model.login/-login/index.html
-$dokka.location:br.com.ifrs.meuifpoa.model.login/Login/Login/#java.lang.String#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model.login/-login/-login.html
-$dokka.location:br.com.ifrs.meuifpoa.model.login/Login/getLogin/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model.login/-login/get-login.html
-$dokka.location:br.com.ifrs.meuifpoa.model.login/Login/getSenha/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model.login/-login/get-senha.html
-$dokka.location:br.com.ifrs.meuifpoa.model.login/Login/setLogin/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model.login/-login/set-login.html
-$dokka.location:br.com.ifrs.meuifpoa.model.login/Login/setSenha/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model.login/-login/set-senha.html
-$dokka.location:br.com.ifrs.meuifpoa.model.login/LoginRequest///PointingToDeclaration/app/br.com.ifrs.meuifpoa.model.login/-login-request/index.html
-$dokka.location:br.com.ifrs.meuifpoa.model.login/LoginRequest/LoginRequest/#java.lang.String#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model.login/-login-request/-login-request.html
-$dokka.location:br.com.ifrs.meuifpoa.model.login/LoginRequest/getCpf/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model.login/-login-request/get-cpf.html
-$dokka.location:br.com.ifrs.meuifpoa.model.login/LoginRequest/getSenha/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model.login/-login-request/get-senha.html
-$dokka.location:br.com.ifrs.meuifpoa.model.login/LoginResponse///PointingToDeclaration/app/br.com.ifrs.meuifpoa.model.login/-login-response/index.html
-$dokka.location:br.com.ifrs.meuifpoa.model.login/LoginResponse/LoginResponse/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model.login/-login-response/-login-response.html
-$dokka.location:br.com.ifrs.meuifpoa.model.login/LoginResponse/getToken/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model.login/-login-response/get-token.html
-$dokka.location:br.com.ifrs.meuifpoa.model.login/LoginResponse/setToken/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model.login/-login-response/set-token.html
 $dokka.location:br.com.ifrs.meuifpoa.model////PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/index.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Edital///PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/index.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Edital/Edital/#java.lang.String#java.lang.String#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/-edital.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Edital/getDataPublicacao/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/get-data-publicacao.html
-$dokka.location:br.com.ifrs.meuifpoa.model/Edital/getId/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/get-id.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Edital/getLink/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/get-link.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Edital/getTitulo/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/get-titulo.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Edital/setDataPublicacao/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/set-data-publicacao.html
-$dokka.location:br.com.ifrs.meuifpoa.model/Edital/setId/#int/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/set-id.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Edital/setLink/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/set-link.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Edital/setTitulo/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/set-titulo.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Nota///PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/index.html
@@ -106,6 +89,7 @@ $dokka.location:br.com.ifrs.meuifpoa.model/Noticia/setTitulo/#java.lang.String/P
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil///PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/index.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/Perfil/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/-perfil.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/Perfil/#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.util.ArrayList<br.com.ifrs.meuifpoa.model.Nota>/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/-perfil.html
+$dokka.location:br.com.ifrs.meuifpoa.model/Perfil/Perfil/#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/-perfil.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/Perfil/#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/-perfil.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/getAnoIngresso/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/get-ano-ingresso.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/getChComplementarPendente/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/get-ch-complementar-pendente.html
@@ -113,6 +97,7 @@ $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/getChObrigatoriaPendente/#/Poi
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/getChOptativaPendente/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/get-ch-optativa-pendente.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/getChTotalCurriculo/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/get-ch-total-curriculo.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/getCurso/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/get-curso.html
+$dokka.location:br.com.ifrs.meuifpoa.model/Perfil/getEmail/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/get-email.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/getImgPerfil/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/get-img-perfil.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/getIntegralizado/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/get-integralizado.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/getMatricula/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/get-matricula.html
@@ -126,6 +111,7 @@ $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/setChObrigatoriaPendente/#java
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/setChOptativaPendente/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/set-ch-optativa-pendente.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/setChTotalCurriculo/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/set-ch-total-curriculo.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/setCurso/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/set-curso.html
+$dokka.location:br.com.ifrs.meuifpoa.model/Perfil/setEmail/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/set-email.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/setImgPerfil/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/set-img-perfil.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/setIntegralizado/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/set-integralizado.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/setMatricula/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/set-matricula.html
@@ -133,17 +119,6 @@ $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/setNivel/#java.lang.String/Poi
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/setNomeDocente/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/set-nome-docente.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/setNotas/#java.util.ArrayList<br.com.ifrs.meuifpoa.model.Nota>/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/set-notas.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/setStatus/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/set-status.html
-$dokka.location:br.com.ifrs.meuifpoa.model/Registro///PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-registro/index.html
-$dokka.location:br.com.ifrs.meuifpoa.model/Registro/Registro/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-registro/-registro.html
-$dokka.location:br.com.ifrs.meuifpoa.model/Registro/Registro/#java.lang.String#java.lang.String#java.lang.String#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-registro/-registro.html
-$dokka.location:br.com.ifrs.meuifpoa.model/Registro/getCpf/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-registro/get-cpf.html
-$dokka.location:br.com.ifrs.meuifpoa.model/Registro/getEmail/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-registro/get-email.html
-$dokka.location:br.com.ifrs.meuifpoa.model/Registro/getNome/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-registro/get-nome.html
-$dokka.location:br.com.ifrs.meuifpoa.model/Registro/getUid/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-registro/get-uid.html
-$dokka.location:br.com.ifrs.meuifpoa.model/Registro/setCpf/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-registro/set-cpf.html
-$dokka.location:br.com.ifrs.meuifpoa.model/Registro/setEmail/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-registro/set-email.html
-$dokka.location:br.com.ifrs.meuifpoa.model/Registro/setNome/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-registro/set-nome.html
-$dokka.location:br.com.ifrs.meuifpoa.model/Registro/setUid/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-registro/set-uid.html
 $dokka.location:br.com.ifrs.meuifpoa.model/SyncResponse///PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-sync-response/index.html
 $dokka.location:br.com.ifrs.meuifpoa.model/SyncResponse/SyncResponse/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-sync-response/-sync-response.html
 $dokka.location:br.com.ifrs.meuifpoa.model/SyncResponse/getErro/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-sync-response/get-erro.html
@@ -232,7 +207,6 @@ $dokka.location:br.com.ifrs.meuifpoa.utils/GerenciadorSinc/verificarERequisitarS
 br.com.ifrs.meuifpoa.adapter.recycler
 br.com.ifrs.meuifpoa.model
 br.com.ifrs.meuifpoa.model.Documento
-br.com.ifrs.meuifpoa.model.login
 br.com.ifrs.meuifpoa.retrofit
 br.com.ifrs.meuifpoa.retrofit.service
 br.com.ifrs.meuifpoa.ui.activity
