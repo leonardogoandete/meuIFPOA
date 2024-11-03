@@ -91,6 +91,8 @@
     <string name="todos">Todas</string>
     <string name="digite_senha">Introduce tu contraseña</string>
     <string name="buscar_noticias_editais">Buscar</string>
+    <string name="txtBtnNoticias">Noticias</string>
+    <string name="txtbtnEditais">Avisos</string>
 
     <string-array name="limites_noticias">
         <item>Límite</item>

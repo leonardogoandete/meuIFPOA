@@ -23,4 +23,6 @@
     <string name="titulo_dialog_senha">Senha SIGAA</string>
     <string name="todos">Todos</string>
     <string name="buscar_noticias_editais">Buscar</string>
+    <string name="txtBtnNoticias">Noticias</string>
+    <string name="txtbtnEditais">Editais</string>
 </resources>
