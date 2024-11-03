@@ -143,7 +143,7 @@ public class NoticiasFragment extends Fragment implements LinhaNoticiasAdapter.O
     private void setupSearchView() {
         if (binding != null) {
             binding.searchViewNoticias.setIconified(false);
-            binding.searchViewNoticias.setQueryHint("Buscar");
+            binding.searchViewNoticias.setQueryHint(getString(R.string.buscar_noticias_editais));
             binding.searchViewNoticias.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {

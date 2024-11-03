@@ -90,6 +90,8 @@
     <string name="btnCancelar">Cancelar</string>
     <string name="titulo_dialog_senha">Senha SIGAA</string>
     <string name="todos">Todos</string>
+    <string name="digite_senha">Digite sua senha</string>
+    <string name="buscar_noticias_editais">Buscar</string>
 
     <string-array name="limites_noticias">
         <item>Limite</item>

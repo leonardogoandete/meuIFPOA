@@ -49,8 +49,8 @@ public class PasswordDialog {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(view)
-                .setPositiveButton("OK", null)  // Vamos configurar o clique do botão manualmente mais tarde
-                .setNegativeButton("Cancelar", (dialog, which) -> dialog.cancel());
+                .setPositiveButton(context.getString(R.string.btnOk), null)  // Vamos configurar o clique do botão manualmente mais tarde
+                .setNegativeButton(context.getString(R.string.btnCancelar), (dialog, which) -> dialog.cancel());
 
         dialog = builder.create();
         dialog.show();
@@ -64,7 +64,7 @@ public class PasswordDialog {
                 // Chama o listener para continuar com a sincronização
                 listener.onPasswordEntered(senha);
             } else {
-                Toast.makeText(context, "Digite sua senha", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.digite_senha), Toast.LENGTH_SHORT).show();
             }
         });
     }

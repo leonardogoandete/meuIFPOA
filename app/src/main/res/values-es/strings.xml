@@ -89,6 +89,8 @@
     <string name="btnCancelar">Cancelar</string>
     <string name="titulo_dialog_senha">Contraseña SIGAA</string>
     <string name="todos">Todas</string>
+    <string name="digite_senha">Introduce tu contraseña</string>
+    <string name="buscar_noticias_editais">Buscar</string>
 
     <string-array name="limites_noticias">
         <item>Límite</item>
