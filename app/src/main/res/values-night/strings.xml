@@ -25,4 +25,5 @@
     <string name="buscar_noticias_editais">Buscar</string>
     <string name="txtBtnNoticias">Noticias</string>
     <string name="txtbtnEditais">Editais</string>
+    <string name="home_bar">Inicio</string>
 </resources>

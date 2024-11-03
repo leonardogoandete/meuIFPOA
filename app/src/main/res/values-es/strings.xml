@@ -93,6 +93,7 @@
     <string name="buscar_noticias_editais">Buscar</string>
     <string name="txtBtnNoticias">Noticias</string>
     <string name="txtbtnEditais">Avisos</string>
+    <string name="home_bar">Inicio</string>
 
     <string-array name="limites_noticias">
         <item>Límite</item>
