@@ -31,6 +31,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Source;
@@ -118,14 +119,14 @@ public class HomeFragment extends Fragment {
 
         configurarFirestore();
 
-        SharedPreferences preferencias = getContext().getSharedPreferences("loginSigaa", Context.MODE_PRIVATE);
-        String token = preferencias.getString("token", "");
+//        SharedPreferences preferencias = getContext().getSharedPreferences("loginSigaa", Context.MODE_PRIVATE);
+//        String token = preferencias.getString("token", "");
 
 
         if (mAuth.getUid() != null) {
             setupSemiCircularChart(0);
             binding.containerIntegralizacoes.setVisibility(View.VISIBLE);
-            configurarBotoes(token);
+            configurarBotoes();
             checkUserAuthentication();
         }
 
@@ -146,58 +147,54 @@ public class HomeFragment extends Fragment {
      *
      * @param token O token de autenticação.
      */
-    private void configurarBotoes(String token) {
-        configurarBotaoHistorico(token);
-        configurarBotaoHistoricoEmentas(token);
-        configurarBotaoDeclaracaoVinculo(token);
-        configurarBotaoAtestadoMatricula(token);
+    private void configurarBotoes() {
+        configurarBotaoHistorico();
+        configurarBotaoHistoricoEmentas();
+        configurarBotaoDeclaracaoVinculo();
+        configurarBotaoAtestadoMatricula();
     }
 
     /**
      * Configura o botão de emissão de histórico.
      *
-     * @param token O token de autenticação.
      */
-    private void configurarBotaoHistorico(String token) {
+    private void configurarBotaoHistorico() {
         binding.btnEmitirHistorico.txtBtnProgress.setText(R.string.msgBtnEmitirHistorico);
         binding.btnEmitirHistorico.progressButtonLayout.setOnClickListener(v -> {
-            solicitarSenha(() -> emitirDocumento(token, DOC_HISTORICO, binding.btnEmitirHistorico.progressButtonLayout));
+            solicitarSenha(() -> emitirDocumentoComRefresh(DOC_HISTORICO, binding.btnEmitirHistorico.progressButtonLayout));
         });
     }
 
     /**
      * Configura o botão de emissão de histórico com ementas.
      *
-     * @param token O token de autenticação.
      */
-    private void configurarBotaoHistoricoEmentas(String token) {
+    private void configurarBotaoHistoricoEmentas() {
         binding.btnEmitirHistoricoEmentas.txtBtnProgress.setText(R.string.msgBtnEmitirHistoricoEmentas);
         binding.btnEmitirHistoricoEmentas.progressButtonLayout.setOnClickListener(v -> {
-            solicitarSenha(() -> emitirDocumento(token, DOC_HISTORICO_EMENTAS, binding.btnEmitirHistoricoEmentas.progressButtonLayout));
+            solicitarSenha(() -> emitirDocumentoComRefresh(DOC_HISTORICO_EMENTAS, binding.btnEmitirHistoricoEmentas.progressButtonLayout));
         });
     }
 
     /**
      * Configura o botão de emissão de declaração de vínculo.
      *
-     * @param token O token de autenticação.
      */
-    private void configurarBotaoDeclaracaoVinculo(String token) {
+    private void configurarBotaoDeclaracaoVinculo() {
         binding.btnEmitirDeclaracaoVinculo.txtBtnProgress.setText(R.string.msgBtnEmitirDeclaracaoVinculo);
         binding.btnEmitirDeclaracaoVinculo.progressButtonLayout.setOnClickListener(v -> {
-            solicitarSenha(() -> emitirDocumento(token, DOC_DECLARACAO_VINCULO, binding.btnEmitirDeclaracaoVinculo.progressButtonLayout));
+            solicitarSenha(() -> emitirDocumentoComRefresh(DOC_DECLARACAO_VINCULO, binding.btnEmitirDeclaracaoVinculo.progressButtonLayout));
         });
     }
 
     /**
      * Configura o botão de emissão de atestado de matrícula.
      *
-     * @param token O token de autenticação.
      */
-    private void configurarBotaoAtestadoMatricula(String token) {
+    private void configurarBotaoAtestadoMatricula() {
         binding.btnEmitirAtestadoMatricula.txtBtnProgress.setText(R.string.msgBtnEmitirAtestadoMatricula);
         binding.btnEmitirAtestadoMatricula.progressButtonLayout.setOnClickListener(v -> {
-            solicitarSenha(() -> emitirDocumento(token, DOC_ATESTADO_MATRICULA, binding.btnEmitirAtestadoMatricula.progressButtonLayout));
+            solicitarSenha(() -> emitirDocumentoComRefresh(DOC_ATESTADO_MATRICULA, binding.btnEmitirAtestadoMatricula.progressButtonLayout));
         });
     }
 
@@ -543,15 +540,9 @@ public class HomeFragment extends Fragment {
             okButton.setOnClickListener(v -> {
                 // Capturar a senha
                 String senhaDigitada = senhaInput.getEditText().getText().toString().trim();
-
-
-                if(senhaDigitada.isEmpty()){
                     if(senhaDigitada.isEmpty()){
                         senhaInput.setError(getText(R.string.erro_senha_vazia));
                     }
-                    return;
-                }
-
                 // Armazena a senha e executa o callback
                 minhaSenha = senhaDigitada;
                 onSuccess.run();  // Executa a ação após inserir a senha
@@ -561,4 +552,43 @@ public class HomeFragment extends Fragment {
 
         dialog.show();  // Exibe o diálogo
     }
+
+    /**
+     * Método para emitir um documento com renovação automática do token, se necessário.
+     * @param tipoDocumento O tipo de documento a ser emitido.
+     * @param buttonLayout O layout do botão que foi clicado.
+     */
+    private void emitirDocumentoComRefresh(String tipoDocumento, View buttonLayout) {
+        FirebaseUser usuario = mAuth.getCurrentUser();
+        if (usuario == null) {
+            exibirErro("Usuário não autenticado.");
+            return;
+        }
+
+        usuario.getIdToken(true).addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                String token = task.getResult().getToken();
+                if (token != null) {
+                    // Emite o documento com o novo token
+                    emitirDocumento("Bearer "+ token, tipoDocumento, buttonLayout);
+                } else {
+                    exibirErro("Falha ao obter novo token.");
+                }
+            } else {
+                exibirErro("Erro ao renovar o token.");
+            }
+        });
+    }
+
+    /**
+     * Método para salvar o token de autenticação para uso posterior.
+     * @param token Token de autenticação a ser salvo.
+     */
+    private void salvarToken(String token) {
+        SharedPreferences preferencias = requireContext().getSharedPreferences("loginSigaa", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferencias.edit();
+        editor.putString("token", "Bearer " + token);
+        editor.apply();
+    }
+
 }

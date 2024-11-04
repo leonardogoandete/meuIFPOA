@@ -2,6 +2,7 @@ package br.com.ifrs.meuifpoa.ui.fragment;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Source;
 
@@ -29,6 +31,7 @@ import br.com.ifrs.meuifpoa.utils.GerenciadorSinc;
  */
 public class NotasFragment extends Fragment {
 
+    private static final String TAG = "NotasFragment";
     private FragmentNotasBinding binding;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -61,9 +64,28 @@ public class NotasFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        // Usando GerenciadorSinc para verificar e requisitar a senha
-        GerenciadorSinc GerenciadorSinc = new GerenciadorSinc();
-        GerenciadorSinc.verificarERequisitarSenha(getContext(), this::obterNotasDoFirestore);
+
+        FirebaseUser usuario = mAuth.getCurrentUser();
+        if (usuario == null) {
+            //exibirErro("Usuário não autenticado.");
+            return;
+        }
+
+        usuario.getIdToken(true).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                String token = task.getResult().getToken();
+                if (token != null) {
+                    // Sincronização opcional com o servidor após verificar a senha
+                    GerenciadorSinc GerenciadorSinc = new GerenciadorSinc();
+                    GerenciadorSinc.verificarERequisitarSenha(getContext(), this::obterNotasDoFirestore);
+                    Log.d(TAG, "Token de autenticação obtido com sucesso.");
+                } else {
+                    Log.e(TAG, "Token de autenticação nulo.");
+                }
+            } else {
+                Log.e(TAG, "Erro ao obter token de autenticação.", task.getException());
+            }
+        });
 
         // Configurar o RecyclerView
         binding.listViewNotas.setHasFixedSize(true);

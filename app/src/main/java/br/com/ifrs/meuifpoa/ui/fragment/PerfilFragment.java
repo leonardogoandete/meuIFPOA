@@ -1,6 +1,7 @@
 package br.com.ifrs.meuifpoa.ui.fragment;
 
-import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -66,9 +67,27 @@ public class PerfilFragment extends Fragment {
         // Primeiramente, exibe os dados do cache
         obterDadosDoCache();
 
-        // Sincronização opcional com o servidor após verificar a senha
-        GerenciadorSinc GerenciadorSinc = new GerenciadorSinc();
-        GerenciadorSinc.verificarERequisitarSenha(getContext(), this::sincronizarComServidor);
+        FirebaseUser usuario = mAuth.getCurrentUser();
+
+        if (usuario == null) {
+            //exibirErro("Usuário não autenticado.");
+            return;
+        }
+
+        usuario.getIdToken(true).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                String token = task.getResult().getToken();
+                if (token != null) {
+                    GerenciadorSinc GerenciadorSinc = new GerenciadorSinc();
+                    GerenciadorSinc.verificarERequisitarSenha(getContext(), this::sincronizarComServidor);
+                    Log.d(TAG, "Token de autenticação obtido com sucesso.");
+                } else {
+                    Log.e(TAG, "Token de autenticação nulo.");
+                }
+            } else {
+                Log.e(TAG, "Erro ao obter token de autenticação.", task.getException());
+            }
+        });
 
         binding.btnSairPerfil.setOnClickListener(v -> {
             mAuth.signOut();
@@ -250,21 +269,19 @@ public class PerfilFragment extends Fragment {
         }
     }
 
-
-
-/**
- * Exibe ou oculta os elementos do perfil na interface do usuário.
- *
- * @param exibir Se true, exibe os elementos; caso contrário, oculta-os.
- */
-    private void exibirElementosPerfil(boolean exibir) {
-        if (binding == null) {
-            return;
+    /**
+     * Exibe ou oculta os elementos do perfil na interface do usuário.
+     *
+     * @param exibir Se true, exibe os elementos; caso contrário, oculta-os.
+     */
+        private void exibirElementosPerfil(boolean exibir) {
+            if (binding == null) {
+                return;
+            }
+            int visibilidade = exibir ? View.VISIBLE : View.GONE;
+            binding.imgPerfil.setVisibility(visibilidade);
+            binding.containerPerfil.setVisibility(visibilidade);
+            binding.btnSairPerfil.setVisibility(visibilidade);
         }
-        int visibilidade = exibir ? View.VISIBLE : View.GONE;
-        binding.imgPerfil.setVisibility(visibilidade);
-        binding.containerPerfil.setVisibility(visibilidade);
-        binding.btnSairPerfil.setVisibility(visibilidade);
-    }
 
 }

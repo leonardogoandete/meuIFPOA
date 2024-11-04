@@ -63,10 +63,13 @@ public class LoginActivity extends AppCompatActivity {
 
         configurarGoogleSignIn();
         binding.btnGoogleLogin.setOnClickListener(v -> iniciarGoogleSignIn());
+
+        checkAndRefreshToken(); // Verifica e renova o token no início, se necessário
     }
 
-    // Configurações para o Google Sign-In
-    /** Configura o Google Sign-In. */
+    /**
+     * Configura o Google Sign-In.
+     */
     private void configurarGoogleSignIn() {
         signInRequest = BeginSignInRequest.builder()
                 .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
@@ -80,8 +83,9 @@ public class LoginActivity extends AppCompatActivity {
         oneTapClient = Identity.getSignInClient(this);
     }
 
-    // Iniciar login com Google
-    /** Metodo para iniciar o login com Google. */
+    /**
+     * Método para iniciar o login com Google.
+     */
     private void iniciarGoogleSignIn() {
         mostrarProgressBar();
         oneTapClient.beginSignIn(signInRequest)
@@ -101,19 +105,17 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-
-    // Resultado do login com Google
-    /** Método para tratar o resultado do login com Google.
-        * @param data Intent com os dados do login. */
+    /**
+     * Método para tratar o resultado do login com Google.
+     *
+     * @param data Intent com os dados do login.
+     */
     private void handleGoogleSignInResult(Intent data) {
         try {
             SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(data);
             String idToken = credential.getGoogleIdToken();
             String email = credential.getId();
 
-            // Verifica se o email é do domínio permitido
-            // Add Dialog loading ao logar:
-            // https://www.youtube.com/watch?v=oRiHBLsVQgA
             if (email.endsWith(Constants.DOMINIO_EMAIL)) {
                 if (idToken != null) {
                     AuthCredential firebaseCredential = GoogleAuthProvider.getCredential(idToken, null);
@@ -141,8 +143,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    // Obter o token do Firebase após login
-    /** Método para obter o token de autenticação do Firebase após o login. */
+    /**
+     * Método para obter o token de autenticação do Firebase após o login.
+     */
     private void obterTokenFirebase() {
         FirebaseUser usuario = mAuth.getCurrentUser();
         if (usuario != null) {
@@ -157,14 +160,16 @@ public class LoginActivity extends AppCompatActivity {
                             mostrarMensagemErro(getString(R.string.erro_obter_token_firebase));
                         }
                     });
-        }else {
+        } else {
             esconderProgressBar();
         }
     }
 
-    // Salvar o token para uso posterior
-    /** Método para salvar o token de autenticação para uso posterior.
-        * @param token Token de autenticação a ser salvo. */
+    /**
+     * Método para salvar o token de autenticação para uso posterior.
+     *
+     * @param token Token de autenticação a ser salvo.
+     */
     private void salvarToken(String token) {
         SharedPreferences preferencias = getSharedPreferences("loginSigaa", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferencias.edit();
@@ -172,31 +177,31 @@ public class LoginActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    // Tratar login bem-sucedido e iniciar nova atividade
-    /** Método para tratar o login bem-sucedido e iniciar a atividade principal. */
+    /**
+     * Método para tratar o login bem-sucedido e iniciar a atividade principal.
+     */
     private void tratarLoginBemSucedido() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }
 
-    //Salvar dados do Usuário no FireStore
-    /** Método para salvar os dados do usuário no Firestore.
-        * @param uid Identificador único do usuário. */
+    /**
+     * Método para salvar os dados do usuário no Firestore.
+     *
+     * @param uid Identificador único do usuário.
+     */
     private void salvarDadosUsuario(String uid) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseUser usuario = mAuth.getCurrentUser();
 
         if (usuario != null) {
-            // Referência para o documento do usuário
             db.collection("usuarios").document(uid).get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            // Verifica se o documento já existe
                             if (task.getResult().exists()) {
                                 Log.d("TAG", "Documento já existe para o usuário.");
                             } else {
-                                // Se o documento não existir, cria um novo
                                 Perfil user = new Perfil(mAuth.getCurrentUser().getDisplayName(), mAuth.getCurrentUser().getEmail(),null, null, null, null, null);
                                 db.collection("usuarios").document(uid).set(user)
                                         .addOnSuccessListener(aVoid -> {
@@ -213,6 +218,58 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /** Launcher para o resultado do login silencioso com Google. */
+    private final ActivityResultLauncher<IntentSenderRequest> silentSignInLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartIntentSenderForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    handleGoogleSignInResult(result.getData());
+                } else {
+                    mostrarMensagemErro(getString(R.string.erro_login_google));
+                }
+            });
+
+    /**
+     * Realiza um login silencioso usando o Google Sign-In para renovar o token de autenticação.
+     * Caso o token de ID não seja renovado automaticamente, esse método tenta obter um novo token sem interação do usuário.
+     * Se falhar, redireciona o usuário para um novo login completo.
+     */
+    private void silentSignIn() {
+        oneTapClient.beginSignIn(signInRequest)
+                .addOnSuccessListener(this, result -> {
+                    try {
+                        IntentSenderRequest intentSenderRequest = new IntentSenderRequest.Builder(result.getPendingIntent().getIntentSender()).build();
+                        silentSignInLauncher.launch(intentSenderRequest);
+                    } catch (Exception e) {
+                        mostrarMensagemErro(getString(R.string.erro_login_google));
+                    }
+                })
+                .addOnFailureListener(this, e -> iniciarGoogleSignIn());
+    }
+
+    /**
+     * Verifica se o token de autenticação é válido e, se necessário, tenta renová-lo usando silent sign-in.
+     */
+    private void checkAndRefreshToken() {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            // O usuário está autenticado; podemos tentar obter o token atualizado
+            currentUser.getIdToken(true).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    // Token atualizado com sucesso
+                    String updatedToken = task.getResult().getToken();
+                    salvarToken(updatedToken);
+                } else {
+                    // Falha ao obter token; tenta silent sign-in
+                    silentSignIn();
+                }
+            });
+        } else {
+            // Usuário não autenticado, tenta silent sign-in para revalidar o token
+            silentSignIn();
+        }
+    }
+
+
     /** Método para exibir a barra de progresso. */
     private void mostrarProgressBar() {
         binding.progressBar.setVisibility(View.VISIBLE);
@@ -225,9 +282,11 @@ public class LoginActivity extends AppCompatActivity {
         binding.btnGoogleLogin.setEnabled(true);
     }
 
-    // Exibir mensagens de erro
-    /** Método para exibir mensagens de erro.
-        * @param mensagem Mensagem de erro a ser exibida. */
+    /**
+     * Método para exibir mensagens de erro.
+     *
+     * @param mensagem Mensagem de erro a ser exibida.
+     */
     private void mostrarMensagemErro(String mensagem) {
         Snackbar.make(binding.getRoot(), mensagem, Snackbar.LENGTH_SHORT).show();
     }
