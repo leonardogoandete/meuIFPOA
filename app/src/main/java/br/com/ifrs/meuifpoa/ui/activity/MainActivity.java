@@ -48,18 +48,6 @@ public class MainActivity extends AppCompatActivity {
         configNavegacao();
         configBottomNavigationView();
 
-        // Configura a cor do ícone de navegação
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-            // Altera a cor do ícone de navegação para branco
-            Drawable navigationIcon = toolbar.getNavigationIcon();
-            if (navigationIcon != null) {
-                DrawableCompat.setTint(navigationIcon, getResources().getColor(R.color.white));
-                toolbar.setNavigationIcon(navigationIcon);
-            }
-        }
-
         Intent intent = getIntent();
         if (intent != null) {
             int selectedItemId = intent.getIntExtra("selectedItemId", R.id.homeFragment);
