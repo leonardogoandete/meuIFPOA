@@ -79,6 +79,8 @@ dependencies {
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation("br.com.caelum.stella:caelum-stella-core:2.1.6")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("com.google.android.material:material:1.9.0")
+
 
     // Adiciona o plugin kotlin-as-java para que a documentação seja em Java
     dokkaHtmlPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.7.20")

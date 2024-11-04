@@ -13,12 +13,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- App Bar no topo -->
-        <androidx.appcompat.widget.Toolbar
+        <!-- App Bar no topo com MaterialToolbar -->
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            app:titleTextColor="@color/white"
+            app:navigationIconTint="@color/white"
+            app:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -44,7 +47,6 @@
             android:background="?attr/colorPrimary"
             app:itemIconTint="@color/selector_bottom_bar"
             app:itemTextColor="@color/selector_bottom_bar"
-            app:itemActiveIndicatorStyle="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

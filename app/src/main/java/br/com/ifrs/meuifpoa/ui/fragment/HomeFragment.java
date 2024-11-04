@@ -9,11 +9,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -380,7 +382,7 @@ public class HomeFragment extends Fragment {
 
         // Configura o furo central para cobrir quase toda a área interna
         binding.semiCircularChart.setHoleRadius(80f); // Deixa apenas 10% da área visível como borda externa
-
+        binding.semiCircularChart.setHoleColor(Color.TRANSPARENT);
         // Desabilita o clique no gráfico
         binding.semiCircularChart.setTouchEnabled(false);
 

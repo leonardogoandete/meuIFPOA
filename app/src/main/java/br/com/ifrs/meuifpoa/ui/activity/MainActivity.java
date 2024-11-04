@@ -1,19 +1,21 @@
 package br.com.ifrs.meuifpoa.ui.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toolbar;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,10 +39,26 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseApp.initializeApp(this);
 
-        setSupportActionBar(binding.toolbar);
+        // Configura a MaterialToolbar como ActionBar
+        MaterialToolbar toolbar = binding.toolbar;
+        setSupportActionBar(toolbar);
+
+        // Configura Firebase, Navegação e BottomNavigationView
         configFirebaseAuth();
         configNavegacao();
         configBottomNavigationView();
+
+        // Configura a cor do ícone de navegação
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+            // Altera a cor do ícone de navegação para branco
+            Drawable navigationIcon = toolbar.getNavigationIcon();
+            if (navigationIcon != null) {
+                DrawableCompat.setTint(navigationIcon, getResources().getColor(R.color.white));
+                toolbar.setNavigationIcon(navigationIcon);
+            }
+        }
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -49,16 +67,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Configura a autenticação do Firebase.
-     */
     private void configFirebaseAuth() {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    /**
-     * Configura a navegação da aplicação.
-     */
     private void configNavegacao() {
         mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment).build();
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -70,9 +82,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Configura a BottomNavigationView da aplicação.
-     */
     private void configBottomNavigationView() {
         binding.bottomNav.getMenu().removeItem(R.id.Sobre);
         NavigationUI.setupWithNavController(binding.bottomNav, navController);
@@ -150,28 +159,16 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
     }
 
-    /**
-     * Verifica se o usuário está autenticado.
-     *
-     * @return true se o usuário estiver autenticado, false caso contrário.
-     */
     private boolean isUsuarioAutenticado() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         return currentUser != null;
     }
 
-
-    /**
-     * Inicia a LoginActivity.
-     */
     private void startIntentLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 
-    /**
-     * Exibe o diálogo "Sobre".
-     */
     private void showSobreDialog() {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.msg_titulo_sobre)
@@ -181,4 +178,3 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 }
-
