@@ -29,5 +29,5 @@
         android:id="@+id/Sobre"
         android:title="@string/sobre_bar"
         android:icon="@drawable/ic_info"
-        />
+        app:showAsAction="always" />
 </menu>
