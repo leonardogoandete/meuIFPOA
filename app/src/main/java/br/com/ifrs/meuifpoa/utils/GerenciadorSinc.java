@@ -43,48 +43,56 @@ public class GerenciadorSinc {
         FirebaseUser usuario = mAuth.getCurrentUser();
 
         if (usuario != null) {
-            long dataUltimaSincronizacao = obterDataUltimaSincronizacao(contexto);
-            long tempoAtual = System.currentTimeMillis();
+            usuario.getIdToken(true).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    String token  = task.getResult().getToken();
+                    long dataUltimaSincronizacao = obterDataUltimaSincronizacao(contexto);
+                    long tempoAtual = System.currentTimeMillis();
+                    Log.d(TAG, "Tempo desde última sincronização: " + (tempoAtual - dataUltimaSincronizacao));
+                    if (tempoAtual - dataUltimaSincronizacao >= QUINZE_DIAS_EM_MILLIS) {
+                        Log.d(TAG, "Tempo desde última sincronização excede 15 dias, solicitando senha.");
 
-            Log.d(TAG, "Tempo desde última sincronização: " + (tempoAtual - dataUltimaSincronizacao));
-            if (tempoAtual - dataUltimaSincronizacao >= QUINZE_DIAS_EM_MILLIS) {
-                Log.d(TAG, "Tempo desde última sincronização excede 15 dias, solicitando senha.");
+                        AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
+                        LayoutInflater inflater = LayoutInflater.from(contexto);
+                        View dialogView = inflater.inflate(R.layout.dialog_sync_sigaa, null);
+                        TextInputLayout senhaInput = dialogView.findViewById(R.id.textInputSenhaSyncSigaa);
+                        LinearLayout progressBarContainer = dialogView.findViewById(R.id.containerProgressBarSync);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
-                LayoutInflater inflater = LayoutInflater.from(contexto);
-                View dialogView = inflater.inflate(R.layout.dialog_sync_sigaa, null);
-                TextInputLayout senhaInput = dialogView.findViewById(R.id.textInputSenhaSyncSigaa);
-                LinearLayout progressBarContainer = dialogView.findViewById(R.id.containerProgressBarSync);
+                        builder.setView(dialogView)
+                                .setPositiveButton("OK", null)  // Não fechar o diálogo automaticamente
+                                .setNegativeButton("Cancelar", (dialogInterface, which) -> dialogInterface.dismiss());
 
-                builder.setView(dialogView)
-                        .setPositiveButton("OK", null)  // Não fechar o diálogo automaticamente
-                        .setNegativeButton("Cancelar", (dialogInterface, which) -> dialogInterface.dismiss());
+                        AlertDialog dialog = builder.create();
 
-                AlertDialog dialog = builder.create();
+                        dialog.setOnShowListener(dialogInterface -> {
+                            Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                            Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
 
-                dialog.setOnShowListener(dialogInterface -> {
-                    Button positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                    Button negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-
-                    positiveButton.setOnClickListener(v -> {
-                        String senha = senhaInput.getEditText().getText().toString().trim();
+                            positiveButton.setOnClickListener(v -> {
+                                String senha = senhaInput.getEditText().getText().toString().trim();
 
 
-                        if (senha.isEmpty()) {
-                            senhaInput.setError(contexto.getString(R.string.erro_senha_vazia));
-                        }
+                                if (senha.isEmpty()) {
+                                    senhaInput.setError(contexto.getString(R.string.erro_senha_vazia));
+                                }
 
-                        iniciarSincronizacao(contexto, senha, dialogView, dialog, progressBarContainer, aoSucesso, positiveButton);
-                    });
+                                iniciarSincronizacao(contexto, token, senha, dialogView, dialog, progressBarContainer, aoSucesso, positiveButton);
+                            });
 
-                    negativeButton.setOnClickListener(v -> dialog.dismiss());
-                });
+                            negativeButton.setOnClickListener(v -> dialog.dismiss());
+                        });
 
-                dialog.show();
-            } else {
-                Log.d(TAG, "Sincronização recente, prosseguindo sem solicitar senha.");
-                aoSucesso.run();
-            }
+                        dialog.show();
+                    } else {
+                        Log.d(TAG, "Sincronização recente, prosseguindo sem solicitar senha.");
+                        aoSucesso.run();
+                    }
+
+                    Log.d(TAG, "Token obtido com sucesso: " + token);
+                } else {
+                    Log.e(TAG, "Erro ao obter token: " + task.getException().getMessage());
+                }
+            });
         } else {
             exibirMensagem(contexto, contexto.getString(R.string.usuario_not_logged));
         }
@@ -101,16 +109,16 @@ public class GerenciadorSinc {
      * @param aoSucesso            Runnable a ser executado em caso de sucesso.
      * @param positiveButton       O botão positivo do diálogo.
      */
-    private static void iniciarSincronizacao(Context contexto, String senha, View dialogView, AlertDialog dialog, LinearLayout progressBarContainer, Runnable aoSucesso, Button positiveButton) {
+    private static void iniciarSincronizacao(Context contexto, String token, String senha, View dialogView, AlertDialog dialog, LinearLayout progressBarContainer, Runnable aoSucesso, Button positiveButton) {
         TextInputLayout senhaSigaa = dialogView.findViewById(R.id.textInputSenhaSyncSigaa);
         progressBarContainer.setVisibility(View.VISIBLE);
         senhaSigaa.setVisibility(View.GONE);
 
-        SharedPreferences preferencias = contexto.getSharedPreferences("loginSigaa", Context.MODE_PRIVATE);
-        String token = preferencias.getString("token", "");
+//        SharedPreferences preferencias = contexto.getSharedPreferences("loginSigaa", Context.MODE_PRIVATE);
+//        String token = preferencias.getString("token", "");
         SyncService syncService = new SyncRetrofit().getSyncService();
 
-        Log.d(TAG, "Iniciando sincronização com token: " + token);
+        //Log.d(TAG, "Iniciando sincronização com token: " + token);
         Call<SyncResponse> chamada = syncService.sincronizar(token, senha);
 
         chamada.enqueue(new Callback<SyncResponse>() {
