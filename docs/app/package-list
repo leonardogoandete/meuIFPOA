@@ -96,6 +96,7 @@ $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/getChComplementarPendente/#/Po
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/getChObrigatoriaPendente/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/get-ch-obrigatoria-pendente.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/getChOptativaPendente/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/get-ch-optativa-pendente.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/getChTotalCurriculo/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/get-ch-total-curriculo.html
+$dokka.location:br.com.ifrs.meuifpoa.model/Perfil/getCpf/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/get-cpf.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/getCurso/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/get-curso.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/getEmail/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/get-email.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/getImgPerfil/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/get-img-perfil.html
@@ -110,6 +111,7 @@ $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/setChComplementarPendente/#jav
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/setChObrigatoriaPendente/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/set-ch-obrigatoria-pendente.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/setChOptativaPendente/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/set-ch-optativa-pendente.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/setChTotalCurriculo/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/set-ch-total-curriculo.html
+$dokka.location:br.com.ifrs.meuifpoa.model/Perfil/setCpf/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/set-cpf.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/setCurso/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/set-curso.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/setEmail/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/set-email.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Perfil/setImgPerfil/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-perfil/set-img-perfil.html
@@ -193,9 +195,6 @@ $dokka.location:br.com.ifrs.meuifpoa.ui.fragment/PerfilFragment/onCreateView/#La
 $dokka.location:br.com.ifrs.meuifpoa.ui.fragment/PerfilFragment/onDestroyView/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.fragment/-perfil-fragment/on-destroy-view.html
 $dokka.location:br.com.ifrs.meuifpoa.ui.fragment/PerfilFragment/onViewCreated/#View#Bundle/PointingToDeclaration/app/br.com.ifrs.meuifpoa.ui.fragment/-perfil-fragment/on-view-created.html
 $dokka.location:br.com.ifrs.meuifpoa.utils////PointingToDeclaration/app/br.com.ifrs.meuifpoa.utils/index.html
-$dokka.location:br.com.ifrs.meuifpoa.utils/CPFValidador///PointingToDeclaration/app/br.com.ifrs.meuifpoa.utils/-c-p-f-validador/index.html
-$dokka.location:br.com.ifrs.meuifpoa.utils/CPFValidador/CPFValidador/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.utils/-c-p-f-validador/-c-p-f-validador.html
-$dokka.location:br.com.ifrs.meuifpoa.utils/CPFValidador/validarCpf/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.utils/-c-p-f-validador/validar-cpf.html
 $dokka.location:br.com.ifrs.meuifpoa.utils/Constants///PointingToDeclaration/app/br.com.ifrs.meuifpoa.utils/-constants/index.html
 $dokka.location:br.com.ifrs.meuifpoa.utils/Constants/Constants/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.utils/-constants/-constants.html
 $dokka.location:br.com.ifrs.meuifpoa.utils/GerenciadorSinc///PointingToDeclaration/app/br.com.ifrs.meuifpoa.utils/-gerenciador-sinc/index.html

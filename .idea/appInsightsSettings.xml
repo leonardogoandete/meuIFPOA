@@ -9,10 +9,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="br.com.ifrs.meuifpoa" />
+                  <option name="mobileSdkAppId" value="1:534867621443:android:644e89f6228d2dbaaac6f6" />
+                  <option name="projectId" value="ifrspoa-d9f18" />
+                  <option name="projectNumber" value="534867621443" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

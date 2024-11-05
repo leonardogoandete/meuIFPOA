@@ -71,15 +71,15 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     // Dependências do Firebase
-    implementation(platform("com.google.firebase:firebase-bom:33.4.0"))
-    implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.firebase:firebase-database")
-    implementation("com.google.firebase:firebase-storage")
-    implementation("androidx.credentials:credentials:1.1.0")
+    implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
+    implementation("com.google.firebase:firebase-auth:23.1.0")
+    implementation("com.google.firebase:firebase-database:21.0.0")
+    implementation("com.google.firebase:firebase-storage:21.0.1")
+    implementation("androidx.credentials:credentials:1.3.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation("br.com.caelum.stella:caelum-stella-core:2.1.6")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
-    implementation("com.google.android.material:material:1.9.0")
+    implementation("com.google.android.material:material:1.12.0")
 
 
     // Adiciona o plugin kotlin-as-java para que a documentação seja em Java
