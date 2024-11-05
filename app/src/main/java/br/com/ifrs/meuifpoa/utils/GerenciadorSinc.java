@@ -119,7 +119,7 @@ public class GerenciadorSinc {
         SyncService syncService = new SyncRetrofit().getSyncService();
 
         //Log.d(TAG, "Iniciando sincronização com token: " + token);
-        Call<SyncResponse> chamada = syncService.sincronizar(token, senha);
+        Call<SyncResponse> chamada = syncService.sincronizar("Bearer "+ token, senha);
 
         chamada.enqueue(new Callback<SyncResponse>() {
             @Override
