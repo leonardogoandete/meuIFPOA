@@ -91,9 +91,6 @@ public class NotasFragment extends Fragment {
         binding.listViewNotas.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.listViewNotas.setLayoutManager(layoutManager);
-
-        // Obter notas do Firestore
-        obterNotasDoFirestore();
     }
 
     /**

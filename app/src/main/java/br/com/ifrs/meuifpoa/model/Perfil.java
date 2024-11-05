@@ -12,6 +12,11 @@ public class Perfil {
     private String nomeDocente;
 
     /**
+     * CPF do docente.
+     */
+    private String cpf;
+
+    /**
      * O email do docente.
      */
     private String email;
@@ -171,6 +176,24 @@ public class Perfil {
      */
     public void setNomeDocente(String nomeDocente) {
         this.nomeDocente = nomeDocente;
+    }
+
+    /**
+     * Retorna o CPF.
+     *
+     * @return o CPF
+     */
+    public String getCpf() {
+        return cpf;
+    }
+
+    /**
+     * Define o CPF.
+     *
+     * @param cpf o novo CPF
+     */
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     /**
