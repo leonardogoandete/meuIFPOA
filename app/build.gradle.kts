@@ -2,7 +2,7 @@ import java.net.URL
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.google.gms.google.services)
+
     id("org.jetbrains.dokka") version "1.8.10"
 }
 
@@ -74,7 +74,6 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
     implementation("com.google.firebase:firebase-auth:23.1.0")
     implementation("com.google.firebase:firebase-database:21.0.0")
-    implementation("com.google.firebase:firebase-storage:21.0.1")
     implementation("androidx.credentials:credentials:1.3.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation("br.com.caelum.stella:caelum-stella-core:2.1.6")
