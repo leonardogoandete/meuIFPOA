@@ -43,16 +43,18 @@ public class LoginActivity extends AppCompatActivity {
     /** Requisição para o login com Google. */
     private BeginSignInRequest signInRequest;
 
-    // Launcher para o resultado do login com Google
-    private final ActivityResultLauncher<IntentSenderRequest> signInLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartIntentSenderForResult(), result -> {
-                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    handleGoogleSignInResult(result.getData());
-                } else {
-                    esconderProgressBar();
-                    mostrarMensagemErro(getString(R.string.erro_login_google));
-                }
-            });
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        mAuth = FirebaseAuth.getInstance();
+//        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+//        setContentView(binding.getRoot());
+//
+//        configurarGoogleSignIn();
+//        binding.btnGoogleLogin.setOnClickListener(v -> iniciarGoogleSignIn());
+//
+//        checkAndRefreshToken(); // Verifica e renova o token no início, se necessário
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +65,8 @@ public class LoginActivity extends AppCompatActivity {
 
         configurarGoogleSignIn();
         binding.btnGoogleLogin.setOnClickListener(v -> iniciarGoogleSignIn());
-
-        checkAndRefreshToken(); // Verifica e renova o token no início, se necessário
     }
+
 
     /**
      * Configura o Google Sign-In.
@@ -75,10 +76,11 @@ public class LoginActivity extends AppCompatActivity {
                 .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                         .setSupported(true)
                         .setServerClientId(getString(R.string.default_web_client_id))
-                        .setFilterByAuthorizedAccounts(false) // Permite escolha de conta
+                        .setFilterByAuthorizedAccounts(true) // Permite escolha de conta
                         .build())
-                .setAutoSelectEnabled(true)
+                .setAutoSelectEnabled(false)
                 .build();
+        mostrarProgressBar();
 
         oneTapClient = Identity.getSignInClient(this);
     }
@@ -87,7 +89,13 @@ public class LoginActivity extends AppCompatActivity {
      * Método para iniciar o login com Google.
      */
     private void iniciarGoogleSignIn() {
+        if (mAuth.getCurrentUser() != null) {
+            tratarLoginBemSucedido();
+            return;
+        }
         mostrarProgressBar();
+        binding.btnGoogleLogin.setEnabled(false); // Desativa o botão
+
         oneTapClient.beginSignIn(signInRequest)
                 .addOnSuccessListener(this, result -> {
                     try {
@@ -95,15 +103,36 @@ public class LoginActivity extends AppCompatActivity {
                                 result.getPendingIntent().getIntentSender()).build();
                         signInLauncher.launch(intentSenderRequest);
                     } catch (Exception e) {
+                        Log.e("LoginActivity", "Erro ao iniciar IntentSenderRequest", e);
                         esconderProgressBar();
+                        binding.btnGoogleLogin.setEnabled(true); // Reativa o botão
                         mostrarMensagemErro(getString(R.string.erro_login_google));
                     }
                 })
                 .addOnFailureListener(this, e -> {
+                    Log.e("LoginActivity", "Falha ao iniciar o Sign-In", e);
                     esconderProgressBar();
+                    binding.btnGoogleLogin.setEnabled(true); // Reativa o botão
                     mostrarMensagemErro(getString(R.string.erro_login_google));
                 });
     }
+
+    // Launcher para o resultado do login com Google
+    private final ActivityResultLauncher<IntentSenderRequest> signInLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartIntentSenderForResult(), result -> {
+                // Oculta a ProgressBar e reativa o botão ao retornar
+                esconderProgressBar();
+                binding.btnGoogleLogin.setEnabled(true);
+
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    handleGoogleSignInResult(result.getData());
+                } else {
+                    // Caso de cancelamento ou falha
+                    mostrarMensagemErro(getString(R.string.erro_login_google));
+                }
+            });
+
+
 
     /**
      * Método para tratar o resultado do login com Google.
@@ -126,22 +155,27 @@ public class LoginActivity extends AppCompatActivity {
                                     obterTokenFirebase();
                                 } else {
                                     esconderProgressBar();
+                                    binding.btnGoogleLogin.setEnabled(true); // Reativa o botão em caso de falha
                                     mostrarMensagemErro(getString(R.string.erro_login_google));
                                 }
                             });
                 } else {
                     esconderProgressBar();
+                    binding.btnGoogleLogin.setEnabled(true); // Reativa o botão
                     mostrarMensagemErro(getString(R.string.erro_login_google));
                 }
             } else {
                 esconderProgressBar();
+                binding.btnGoogleLogin.setEnabled(true); // Reativa o botão
                 mostrarMensagemErro(getString(R.string.erro_email_invalido));
             }
         } catch (Exception e) {
             esconderProgressBar();
+            binding.btnGoogleLogin.setEnabled(true); // Reativa o botão
             mostrarMensagemErro(getString(R.string.erro_login_google));
         }
     }
+
 
     /**
      * Método para obter o token de autenticação do Firebase após o login.
@@ -154,7 +188,7 @@ public class LoginActivity extends AppCompatActivity {
                         esconderProgressBar();
                         if (task.isSuccessful()) {
                             String firebaseToken = task.getResult().getToken();
-                            salvarToken(firebaseToken);
+                            //salvarToken(firebaseToken);
                             tratarLoginBemSucedido();
                         } else {
                             mostrarMensagemErro(getString(R.string.erro_obter_token_firebase));
@@ -165,17 +199,17 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Método para salvar o token de autenticação para uso posterior.
-     *
-     * @param token Token de autenticação a ser salvo.
-     */
-    private void salvarToken(String token) {
-        SharedPreferences preferencias = getSharedPreferences("loginSigaa", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferencias.edit();
-        editor.putString("token", "Bearer " + token);
-        editor.apply();
-    }
+//    /**
+//     * Método para salvar o token de autenticação para uso posterior.
+//     *
+//     * @param token Token de autenticação a ser salvo.
+//     */
+//    private void salvarToken(String token) {
+//        SharedPreferences preferencias = getSharedPreferences("loginSigaa", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = preferencias.edit();
+//        editor.putString("token", "Bearer " + token);
+//        editor.apply();
+//    }
 
     /**
      * Método para tratar o login bem-sucedido e iniciar a atividade principal.
@@ -218,56 +252,56 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    /** Launcher para o resultado do login silencioso com Google. */
-    private final ActivityResultLauncher<IntentSenderRequest> silentSignInLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartIntentSenderForResult(), result -> {
-                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    handleGoogleSignInResult(result.getData());
-                } else {
-                    mostrarMensagemErro(getString(R.string.erro_login_google));
-                }
-            });
+//    /** Launcher para o resultado do login silencioso com Google. */
+//    private final ActivityResultLauncher<IntentSenderRequest> silentSignInLauncher =
+//            registerForActivityResult(new ActivityResultContracts.StartIntentSenderForResult(), result -> {
+//                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+//                    handleGoogleSignInResult(result.getData());
+//                } else {
+//                    mostrarMensagemErro(getString(R.string.erro_login_google));
+//                }
+//            });
 
-    /**
-     * Realiza um login silencioso usando o Google Sign-In para renovar o token de autenticação.
-     * Caso o token de ID não seja renovado automaticamente, esse método tenta obter um novo token sem interação do usuário.
-     * Se falhar, redireciona o usuário para um novo login completo.
-     */
-    private void silentSignIn() {
-        oneTapClient.beginSignIn(signInRequest)
-                .addOnSuccessListener(this, result -> {
-                    try {
-                        IntentSenderRequest intentSenderRequest = new IntentSenderRequest.Builder(result.getPendingIntent().getIntentSender()).build();
-                        silentSignInLauncher.launch(intentSenderRequest);
-                    } catch (Exception e) {
-                        mostrarMensagemErro(getString(R.string.erro_login_google));
-                    }
-                })
-                .addOnFailureListener(this, e -> iniciarGoogleSignIn());
-    }
+//    /**
+//     * Realiza um login silencioso usando o Google Sign-In para renovar o token de autenticação.
+//     * Caso o token de ID não seja renovado automaticamente, esse método tenta obter um novo token sem interação do usuário.
+//     * Se falhar, redireciona o usuário para um novo login completo.
+//     */
+//    private void silentSignIn() {
+//        oneTapClient.beginSignIn(signInRequest)
+//                .addOnSuccessListener(this, result -> {
+//                    try {
+//                        IntentSenderRequest intentSenderRequest = new IntentSenderRequest.Builder(result.getPendingIntent().getIntentSender()).build();
+//                        silentSignInLauncher.launch(intentSenderRequest);
+//                    } catch (Exception e) {
+//                        mostrarMensagemErro(getString(R.string.erro_login_google));
+//                    }
+//                })
+//                .addOnFailureListener(this, e -> iniciarGoogleSignIn());
+//    }
 
-    /**
-     * Verifica se o token de autenticação é válido e, se necessário, tenta renová-lo usando silent sign-in.
-     */
-    private void checkAndRefreshToken() {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            // O usuário está autenticado; podemos tentar obter o token atualizado
-            currentUser.getIdToken(true).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    // Token atualizado com sucesso
-                    String updatedToken = task.getResult().getToken();
-                    salvarToken(updatedToken);
-                } else {
-                    // Falha ao obter token; tenta silent sign-in
-                    silentSignIn();
-                }
-            });
-        } else {
-            // Usuário não autenticado, tenta silent sign-in para revalidar o token
-            silentSignIn();
-        }
-    }
+//    /**
+//     * Verifica se o token de autenticação é válido e, se necessário, tenta renová-lo usando silent sign-in.
+//     */
+//    private void checkAndRefreshToken() {
+//        FirebaseUser currentUser = mAuth.getCurrentUser();
+//        if (currentUser != null) {
+//            // O usuário está autenticado; podemos tentar obter o token atualizado
+//            currentUser.getIdToken(true).addOnCompleteListener(task -> {
+//                if (task.isSuccessful()) {
+//                    // Token atualizado com sucesso
+//                    String updatedToken = task.getResult().getToken();
+//                    //salvarToken(updatedToken);
+//                } else {
+//                    // Falha ao obter token; tenta silent sign-in
+//                    silentSignIn();
+//                }
+//            });
+//        } else {
+//            // Usuário não autenticado, tenta silent sign-in para revalidar o token
+//            silentSignIn();
+//        }
+//    }
 
 
     /** Método para exibir a barra de progresso. */

@@ -2,7 +2,7 @@ import java.net.URL
 
 plugins {
     alias(libs.plugins.android.application)
-
+    alias(libs.plugins.google.gms.google.services)
     id("org.jetbrains.dokka") version "1.8.10"
 }
 
