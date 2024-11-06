@@ -92,7 +92,6 @@ public class LoginActivity extends AppCompatActivity {
     /** Launcher para o resultado do login com Google. */
     private final ActivityResultLauncher<IntentSenderRequest> signInLauncher =
             registerForActivityResult(new ActivityResultContracts.StartIntentSenderForResult(), result -> {
-                esconderProgressBar();
                 binding.btnGoogleLogin.setEnabled(true);
 
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
