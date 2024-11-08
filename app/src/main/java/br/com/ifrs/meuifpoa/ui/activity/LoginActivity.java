@@ -4,213 +4,167 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.IntentSenderRequest;
-import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.gms.auth.api.identity.BeginSignInRequest;
-import com.google.android.gms.auth.api.identity.Identity;
-import com.google.android.gms.auth.api.identity.SignInClient;
-import com.google.android.gms.auth.api.identity.SignInCredential;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.firestore.FirebaseFirestore;
-
 import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.databinding.ActivityLoginBinding;
-import br.com.ifrs.meuifpoa.model.Perfil;
 import br.com.ifrs.meuifpoa.utils.Constants;
 
+/**
+ * A classe LoginActivity é responsável por gerenciar o fluxo de login do usuário com Google Sign-In
+ * e autenticação no Firebase.
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
+    private static final int RC_SIGN_IN = 9001; // Código de solicitação para o Sign-In do Google
 
-    /** Binding para a Activity. */
     private ActivityLoginBinding binding;
-    /** Instância do Firebase Auth. */
     private FirebaseAuth mAuth;
-    /** Cliente para o login com Google. */
-    private SignInClient oneTapClient;
-    /** Requisição para o login com Google. */
-    private BeginSignInRequest signInRequest;
+    private GoogleSignInClient googleSignInClient;
 
+    /**
+     * Método chamado quando a atividade é criada.
+     *
+     * @param savedInstanceState Contém o estado salvo da atividade se ela foi previamente fechada.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAuth = FirebaseAuth.getInstance();
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        mAuth = FirebaseAuth.getInstance();
         configurarGoogleSignIn();
+
+        // Configura o listener para o botão de login com Google
         binding.btnGoogleLogin.setOnClickListener(v -> iniciarGoogleSignIn());
     }
 
-    /** Configura o Google Sign-In. */
+    /**
+     * Configura as opções de login com Google.
+     */
     private void configurarGoogleSignIn() {
-        signInRequest = BeginSignInRequest.builder()
-                .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-                        .setSupported(true)
-                        .setServerClientId(getString(R.string.default_web_client_id))
-                        .setFilterByAuthorizedAccounts(true)
-                        .build())
-                .setAutoSelectEnabled(false)
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
                 .build();
-        oneTapClient = Identity.getSignInClient(this);
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
-    /** Método para iniciar o login com Google. */
+    /**
+     * Inicia o processo de login com Google.
+     * Sempre exibe a seleção de conta antes de prosseguir com o login.
+     */
     private void iniciarGoogleSignIn() {
-        if (mAuth.getCurrentUser() != null) {
-            // Já autenticado, prossegue para a próxima tela
-            tratarLoginBemSucedido();
-            return;
-        }
-
         mostrarProgressBar();
         binding.btnGoogleLogin.setEnabled(false);
 
-        oneTapClient.beginSignIn(signInRequest)
-                .addOnSuccessListener(this, result -> {
-                    try {
-                        IntentSenderRequest intentSenderRequest = new IntentSenderRequest.Builder(
-                                result.getPendingIntent().getIntentSender()).build();
-                        signInLauncher.launch(intentSenderRequest);
-                    } catch (Exception e) {
-                        handleError("Erro ao iniciar IntentSenderRequest", e);
-                    }
-                })
-                .addOnFailureListener(this, e -> {
-                    handleError("Falha ao iniciar o Sign-In", e);
-                });
+        // Força logout para garantir que a escolha de conta seja sempre exibida
+        googleSignInClient.signOut().addOnCompleteListener(this, task -> {
+            Intent signInIntent = googleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, RC_SIGN_IN);
+        });
     }
 
-    /** Launcher para o resultado do login com Google. */
-    private final ActivityResultLauncher<IntentSenderRequest> signInLauncher =
-            registerForActivityResult(new ActivityResultContracts.StartIntentSenderForResult(), result -> {
-                binding.btnGoogleLogin.setEnabled(true);
+    /**
+     * Método chamado quando o resultado de uma atividade é recebido.
+     *
+     * @param requestCode Código de solicitação passado na chamada para startActivityForResult.
+     * @param resultCode Código de resultado retornado pela atividade filha.
+     * @param data Dados de retorno da atividade filha.
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
-                    handleGoogleSignInResult(result.getData());
-                } else {
-                    mostrarMensagemErro(getString(R.string.erro_login_google));
+        if (requestCode == RC_SIGN_IN) {
+            try {
+                GoogleSignInAccount account = GoogleSignIn.getSignedInAccountFromIntent(data).getResult(ApiException.class);
+                if (account != null) {
+                    // Verificação do domínio do email
+                    String email = account.getEmail();
+                    if (email != null && email.endsWith(Constants.DOMINIO_EMAIL)) {
+                        firebaseAuthWithGoogle(account.getIdToken());
+                    } else {
+                        // Email com domínio inválido
+                        mostrarMensagemErro("O domínio do email não é permitido.");
+                        esconderProgressBar();
+                        binding.btnGoogleLogin.setEnabled(true);
+                    }
                 }
-            });
-
-    /** Método para tratar o resultado do login com Google. */
-    private void handleGoogleSignInResult(Intent data) {
-        try {
-            SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(data);
-            String idToken = credential.getGoogleIdToken();
-            String email = credential.getId();
-
-            if (email.endsWith(Constants.DOMINIO_EMAIL)) {
-                if (idToken != null) {
-                    AuthCredential firebaseCredential = GoogleAuthProvider.getCredential(idToken, null);
-                    autenticarComFirebase(firebaseCredential);
-                } else {
-                    mostrarErroLoginGoogle();
-                }
-            } else {
-                mostrarErroEmailInvalido();
+            } catch (ApiException e) {
+                handleError("Erro ao fazer login com Google", e);
             }
-        } catch (Exception e) {
-            handleError("Erro ao processar resultado do login com Google", e);
         }
     }
 
-    /** Autentica com Firebase usando o ID Token fornecido. */
-    private void autenticarComFirebase(AuthCredential firebaseCredential) {
-        mAuth.signInWithCredential(firebaseCredential)
+    /**
+     * Autentica o usuário com Firebase usando o token de ID fornecido pelo Google.
+     *
+     * @param idToken Token de ID recebido após o login com Google.
+     */
+    private void firebaseAuthWithGoogle(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     esconderProgressBar();
                     if (task.isSuccessful()) {
-                        salvarDadosUsuario(mAuth.getUid());
-                        obterTokenFirebase();
+                        tratarLoginBemSucedido();
                     } else {
-                        mostrarErroLoginGoogle();
+                        mostrarMensagemErro(getString(R.string.erro_login_google));
                     }
                 });
     }
 
-    /** Obtém o token de autenticação do Firebase após o login. */
-    private void obterTokenFirebase() {
-        FirebaseUser usuario = mAuth.getCurrentUser();
-        if (usuario != null) {
-            usuario.getIdToken(true)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            tratarLoginBemSucedido();
-                        } else {
-                            mostrarMensagemErro(getString(R.string.erro_obter_token_firebase));
-                        }
-                    });
-        }
-    }
-
-    /** Tratamento de login bem-sucedido. */
+    /**
+     * Trata o login bem-sucedido redirecionando o usuário para a atividade principal.
+     */
     private void tratarLoginBemSucedido() {
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 
-    /** Salva os dados do usuário no Firestore. */
-    private void salvarDadosUsuario(String uid) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FirebaseUser usuario = mAuth.getCurrentUser();
-        if (usuario != null) {
-            db.collection("usuarios").document(uid).get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            if (!task.getResult().exists()) {
-                                Perfil user = new Perfil(usuario.getDisplayName(), usuario.getEmail(), null, null, null, null, null);
-                                db.collection("usuarios").document(uid).set(user)
-                                        .addOnSuccessListener(aVoid -> Log.d(TAG, "Documento criado com sucesso!"))
-                                        .addOnFailureListener(e -> Log.w(TAG, "Erro ao criar o documento", e));
-                            }
-                        } else {
-                            Log.w(TAG, "Erro ao verificar o documento", task.getException());
-                        }
-                    });
-        }
-    }
-
-    /** Exibe a barra de progresso. */
+    /**
+     * Exibe a barra de progresso.
+     */
     private void mostrarProgressBar() {
         binding.progressBar.setVisibility(View.VISIBLE);
         binding.btnGoogleLogin.setEnabled(false);
     }
 
-    /** Esconde a barra de progresso. */
+    /**
+     * Esconde a barra de progresso.
+     */
     private void esconderProgressBar() {
         binding.progressBar.setVisibility(View.GONE);
         binding.btnGoogleLogin.setEnabled(true);
     }
 
-    /** Exibe uma mensagem de erro. */
+    /**
+     * Exibe uma mensagem de erro usando um Snackbar.
+     *
+     * @param mensagem Mensagem de erro a ser exibida.
+     */
     private void mostrarMensagemErro(String mensagem) {
         Snackbar.make(binding.getRoot(), mensagem, Snackbar.LENGTH_SHORT).show();
     }
 
-    /** Mostra erro de login com Google. */
-    private void mostrarErroLoginGoogle() {
-        esconderProgressBar();
-        binding.btnGoogleLogin.setEnabled(true);
-        mostrarMensagemErro(getString(R.string.erro_login_google));
-    }
-
-    /** Mostra erro de email inválido. */
-    private void mostrarErroEmailInvalido() {
-        esconderProgressBar();
-        binding.btnGoogleLogin.setEnabled(true);
-        mostrarMensagemErro(getString(R.string.erro_email_invalido));
-    }
-
-    /** Lida com erros genéricos durante o login. */
+    /**
+     * Lida com erros ocorridos durante o processo de login e autenticação.
+     *
+     * @param mensagem Mensagem de erro a ser exibida.
+     * @param e Exceção lançada durante o processo.
+     */
     private void handleError(String mensagem, Exception e) {
         Log.e(TAG, mensagem, e);
         esconderProgressBar();

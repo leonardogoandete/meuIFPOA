@@ -27,6 +27,7 @@
 
     <item
         android:id="@+id/Sobre"
+        app:iconTint="@color/white"
         android:title="@string/sobre_bar"
         android:icon="@drawable/ic_info"
         app:showAsAction="always" />
