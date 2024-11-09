@@ -26,6 +26,7 @@ import br.com.ifrs.meuifpoa.adapter.recycler.LinhaNotasAdapter;
 import br.com.ifrs.meuifpoa.databinding.FragmentNotasBinding;
 import br.com.ifrs.meuifpoa.model.Nota;
 import br.com.ifrs.meuifpoa.model.Perfil;
+import br.com.ifrs.meuifpoa.utils.GerenciadorSinc;
 
 /**
  * Fragmento que exibe as notas do usuário.
@@ -67,6 +68,24 @@ public class NotasFragment extends Fragment {
 
         // Primeira tentativa: busca os dados do cache
         obterNotasDoCache();
+
+        // Verifica se o usuário está autenticado e obtém o token
+        usuario.getIdToken(true).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                String token = task.getResult().getToken();
+                if (token != null) {
+                    GerenciadorSinc gerenciadorSinc = new GerenciadorSinc();
+                    // Chama a função de verificar e requisitar senha antes de iniciar a sincronização
+                    gerenciadorSinc.verificarERequisitarSenha(getContext(), this::sincronizarComServidor);
+                    Log.d(TAG, "Token de autenticação obtido com sucesso.");
+                } else {
+                    Log.e(TAG, "Token de autenticação nulo.");
+                }
+            } else {
+                Log.e(TAG, "Erro ao obter token de autenticação.", task.getException());
+            }
+        });
+
 
         // Sincroniza com o servidor se estiver online
         if (isNetworkAvailable()) {
