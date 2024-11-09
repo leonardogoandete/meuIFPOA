@@ -135,7 +135,7 @@ public class PerfilFragment extends Fragment {
                             Perfil perfil = documento.toObject(Perfil.class);
                             if (perfil != null) {
                                 configurarPerfil(perfil);
-                                carregarFotoPerfil(perfil);  // Tenta carregar a foto do cache local também
+                                carregarFotoPerfil(perfil);
                             } else {
                                 mostrarErro(getString(R.string.perfil_nao_disponivel_cache));
                             }

@@ -1,6 +1,7 @@
 package br.com.ifrs.meuifpoa.ui.fragment;
 
-import android.app.AlertDialog;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Source;
 
@@ -24,10 +26,9 @@ import br.com.ifrs.meuifpoa.adapter.recycler.LinhaNotasAdapter;
 import br.com.ifrs.meuifpoa.databinding.FragmentNotasBinding;
 import br.com.ifrs.meuifpoa.model.Nota;
 import br.com.ifrs.meuifpoa.model.Perfil;
-import br.com.ifrs.meuifpoa.utils.GerenciadorSinc;
 
 /**
- * O tipo NotasFragment representa um fragmento que exibe as notas do usuário.
+ * Fragmento que exibe as notas do usuário.
  */
 public class NotasFragment extends Fragment {
 
@@ -36,26 +37,19 @@ public class NotasFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
+    private boolean dadosJaExibidos = false;
+
     /**
-     * Método chamado para criar a visualização do fragmento.
-     *
-     * @param inflater  O LayoutInflater usado para inflar qualquer visualização no fragmento.
-     * @param container O ViewGroup pai ao qual a visualização do fragmento será anexada.
-     * @param savedInstanceState Se não for nulo, este fragmento está sendo reconstruído a partir de um estado salvo anterior.
-     * @return A visualização raiz do fragmento.
+     * Método chamado para inflar o layout do fragmento.
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inicializar o View Binding
         binding = FragmentNotasBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
     /**
-     * Método chamado imediatamente após onCreateView(LayoutInflater, ViewGroup, Bundle) ter retornado.
-     *
-     * @param view A visualização retornada por onCreateView(LayoutInflater, ViewGroup, Bundle).
-     * @param savedInstanceState Se não for nulo, este fragmento está sendo reconstruído a partir de um estado salvo anterior.
+     * Método chamado após a criação da view do fragmento.
      */
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -64,28 +58,26 @@ public class NotasFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-
         FirebaseUser usuario = mAuth.getCurrentUser();
         if (usuario == null) {
-            //exibirErro("Usuário não autenticado.");
+            // Caso o usuário não esteja autenticado, exibe uma mensagem
+            exibirMensagemErro(getString(R.string.msg_deve_estar_logado));
             return;
         }
 
-        usuario.getIdToken(true).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                String token = task.getResult().getToken();
-                if (token != null) {
-                    // Sincronização opcional com o servidor após verificar a senha
-                    GerenciadorSinc GerenciadorSinc = new GerenciadorSinc();
-                    GerenciadorSinc.verificarERequisitarSenha(getContext(), this::obterNotasDoFirestore);
-                    Log.d(TAG, "Token de autenticação obtido com sucesso.");
+        // Primeira tentativa: busca os dados do cache
+        obterNotasDoCache();
+
+        // Sincroniza com o servidor se estiver online
+        if (isNetworkAvailable()) {
+            usuario.getIdToken(true).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    sincronizarComServidor();
                 } else {
-                    Log.e(TAG, "Token de autenticação nulo.");
+                    Log.e(TAG, "Erro ao obter token de autenticação.", task.getException());
                 }
-            } else {
-                Log.e(TAG, "Erro ao obter token de autenticação.", task.getException());
-            }
-        });
+            });
+        }
 
         // Configurar o RecyclerView
         binding.listViewNotas.setHasFixedSize(true);
@@ -94,58 +86,89 @@ public class NotasFragment extends Fragment {
     }
 
     /**
-     * Obtém as notas do Firestore e as exibe no RecyclerView.
+     * Busca as notas do cache local.
      */
-    private void obterNotasDoFirestore() {
+    private void obterNotasDoCache() {
         if (binding == null) return;
-        // Exibe o ProgressBar antes de iniciar o carregamento
         mostrarCarregamento(true);
-
-        if (mAuth.getUid() == null) {
-            exibirMensagemErro(getString(R.string.msg_deve_estar_logado));
-            mostrarCarregamento(false);
-            return;
-        }
 
         db.collection("usuarios")
                 .document(mAuth.getUid())
-                .get(Source.DEFAULT)
+                .get(Source.CACHE)
                 .addOnCompleteListener(task -> {
-                    // Oculta o ProgressBar ao finalizar o carregamento
                     mostrarCarregamento(false);
-
                     if (task.isSuccessful()) {
-                        Perfil perfil = task.getResult().toObject(Perfil.class);
-                        if (perfil != null) {
-                            List<Nota> notasServidor = perfil.getNotas();
-                            if (notasServidor != null && !notasServidor.isEmpty()) {
-                                LinhaNotasAdapter notasAdapter = new LinhaNotasAdapter(notasServidor);
-                                binding.listViewNotas.setAdapter(notasAdapter);
-                            }else {
+                        DocumentSnapshot documento = task.getResult();
+                        if (documento != null && documento.exists()) {
+                            Perfil perfil = documento.toObject(Perfil.class);
+                            if (perfil != null && perfil.getNotas() != null) {
+                                exibirNotas(perfil.getNotas());
+                                dadosJaExibidos = true; // Sinaliza que os dados já foram exibidos
+                            } else {
                                 exibirMensagemErro(getString(R.string.msg_nao_ha_notas));
                             }
                         } else {
                             exibirMensagemErro(getString(R.string.msg_perfil_nao_encontrado));
                         }
                     } else {
-                        exibirMensagemErro(getString(R.string.erro_sync_conexao));
+                        Log.e(TAG, "Erro ao obter notas do cache", task.getException());
                     }
                 })
                 .addOnFailureListener(e -> {
-                    // Oculta o ProgressBar ao ocorrer uma falha
                     mostrarCarregamento(false);
-                    exibirMensagemErro(getString(R.string.erro_sync_conexao));
+                    Log.e(TAG, "Erro ao obter notas do cache", e);
                 });
     }
 
+    /**
+     * Sincroniza os dados com o servidor.
+     */
+    private void sincronizarComServidor() {
+        if (dadosJaExibidos || binding == null) return; // Verifica se os dados já foram exibidos para evitar atualização redundante
+        mostrarCarregamento(true);
+
+        db.collection("usuarios")
+                .document(mAuth.getUid())
+                .get(Source.SERVER)
+                .addOnCompleteListener(task -> {
+                    mostrarCarregamento(false);
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot documento = task.getResult();
+                        if (documento != null && documento.exists()) {
+                            Perfil perfil = documento.toObject(Perfil.class);
+                            if (perfil != null && perfil.getNotas() != null) {
+                                exibirNotas(perfil.getNotas());
+                            } else {
+                                exibirMensagemErro(getString(R.string.msg_nao_ha_notas));
+                            }
+                        } else {
+                            exibirMensagemErro(getString(R.string.msg_perfil_nao_encontrado));
+                        }
+                    } else {
+                        Log.e(TAG, "Erro ao sincronizar com o servidor", task.getException());
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    mostrarCarregamento(false);
+                    Log.e(TAG, "Erro ao sincronizar com o servidor", e);
+                });
+    }
+
+    /**
+     * Exibe as notas no RecyclerView.
+     *
+     * @param notas A lista de notas a ser exibida.
+     */
+    private void exibirNotas(List<Nota> notas) {
+        LinhaNotasAdapter notasAdapter = new LinhaNotasAdapter(notas);
+        binding.listViewNotas.setAdapter(notasAdapter);
+    }
 
     /**
      * Mostra ou oculta o ProgressBar.
-     *
-     * @param visivel true para mostrar o ProgressBar, false para ocultar.
      */
     private void mostrarCarregamento(boolean visivel) {
-        if (binding != null) {  // Verifique se o binding ainda está disponível
+        if (binding != null) {
             if (visivel) {
                 binding.containerProgressBarNotas.setVisibility(View.VISIBLE);
                 binding.listViewNotas.setVisibility(View.GONE);
@@ -156,20 +179,22 @@ public class NotasFragment extends Fragment {
         }
     }
 
-
     /**
      * Exibe uma mensagem de erro usando um Snackbar.
-     *
-     * @param mensagem A mensagem de erro a ser exibida.
      */
     private void exibirMensagemErro(String mensagem) {
         Snackbar.make(binding.getRoot(), mensagem, Snackbar.LENGTH_SHORT).show();
     }
 
     /**
-     * Método chamado quando a visualização do fragmento é destruída.
-     * Limpa o binding para evitar vazamento de memória.
+     * Verifica se há conexão com a internet.
      */
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(getContext().CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
