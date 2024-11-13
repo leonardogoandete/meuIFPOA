@@ -14,9 +14,13 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.databinding.ActivityLoginBinding;
+import br.com.ifrs.meuifpoa.model.Perfil;
 import br.com.ifrs.meuifpoa.utils.Constants;
 
 /**
@@ -120,6 +124,7 @@ public class LoginActivity extends AppCompatActivity {
                     esconderProgressBar();
                     if (task.isSuccessful()) {
                         tratarLoginBemSucedido();
+                        salvarDadosUsuario(mAuth.getCurrentUser().getUid());
                     } else {
                         mostrarMensagemErro(getString(R.string.erro_login_google));
                     }
@@ -132,6 +137,27 @@ public class LoginActivity extends AppCompatActivity {
     private void tratarLoginBemSucedido() {
         startActivity(new Intent(this, MainActivity.class));
         finish();
+    }
+
+    /** Salva os dados do usuário no Firestore. */
+    private void salvarDadosUsuario(String uid) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser usuario = mAuth.getCurrentUser();
+        if (usuario != null) {
+            db.collection("usuarios").document(uid).get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            if (!task.getResult().exists()) {
+                                Perfil user = new Perfil(usuario.getDisplayName(), usuario.getEmail(), null, null, null, null, null);
+                                db.collection("usuarios").document(uid).set(user)
+                                        .addOnSuccessListener(aVoid -> Log.d(TAG, "Documento criado com sucesso!"))
+                                        .addOnFailureListener(e -> Log.w(TAG, "Erro ao criar o documento", e));
+                            }
+                        } else {
+                            Log.w(TAG, "Erro ao verificar o documento", task.getException());
+                        }
+                    });
+        }
     }
 
     /**
