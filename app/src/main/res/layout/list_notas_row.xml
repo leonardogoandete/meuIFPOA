@@ -13,6 +13,7 @@
         android:id="@+id/textCodDisciplinaListNotas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         tools:text="Código da Disciplina"
         android:textSize="14sp"
         android:textStyle="bold"
@@ -72,6 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:textColor="@color/black"
                 android:text="@string/txtViewUnidade1"
                 android:textSize="10sp"
                 android:textStyle="bold" />
@@ -80,6 +82,7 @@
                 android:id="@+id/textNota1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:gravity="center"
                 tools:text="9,9"
                 android:textSize="40sp"
@@ -101,6 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:textColor="@color/black"
                 android:text="@string/txtViewUnidade2"
                 android:textSize="10sp"
                 android:textStyle="bold" />
@@ -109,6 +113,7 @@
                 android:id="@+id/textNota2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:gravity="center"
                 tools:text="9,9"
                 android:textSize="40sp"
@@ -144,12 +149,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txtViewRecuperacao"
+                android:textColor="@color/black"
                 android:textSize="10sp"
                 android:textStyle="bold"
                 android:gravity="center"/>
 
             <TextView
                 android:id="@+id/textRecuperacao"
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="9,9"
@@ -172,6 +179,7 @@
                 android:id="@+id/textTituloResultadoNotas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 android:text="@string/txtViewResultado"
                 android:textSize="10sp"
                 android:textStyle="bold"
@@ -181,6 +189,7 @@
                 android:id="@+id/textResultado"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 tools:text="9,9"
                 android:textSize="40sp"
                 android:textStyle="bold"
@@ -213,6 +222,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
+            android:textColor="@color/black"
             android:text="@string/txtViewFaltas"
             android:textStyle="bold"
             android:textSize="14sp" />
@@ -222,6 +232,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
+            android:textColor="@color/black"
             android:layout_marginLeft="4dp"
             tools:text="120"
             android:textStyle="bold"
@@ -239,6 +250,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:text="@string/txtViewSituacao"
             android:textStyle="bold"
             android:textSize="14sp" />
@@ -247,6 +259,7 @@
             android:id="@+id/textSituacaoValor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:gravity="center_horizontal"
             android:layout_marginLeft="4dp"
             tools:text="Aprovado"
