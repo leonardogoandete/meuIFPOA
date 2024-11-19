@@ -19,7 +19,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Source;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.adapter.recycler.LinhaNotasAdapter;
@@ -37,7 +40,6 @@ public class NotasFragment extends Fragment {
     private FragmentNotasBinding binding;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
-
     private boolean dadosJaExibidos = false;
 
     /**
@@ -61,51 +63,36 @@ public class NotasFragment extends Fragment {
 
         FirebaseUser usuario = mAuth.getCurrentUser();
         if (usuario == null) {
-            // Caso o usuário não esteja autenticado, exibe uma mensagem
             exibirMensagemErro(getString(R.string.msg_deve_estar_logado));
             return;
         }
 
-        // Primeira tentativa: busca os dados do cache
         obterNotasDoCache();
 
-        // Verifica se o usuário está autenticado e obtém o token
-        usuario.getIdToken(true).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                String token = task.getResult().getToken();
-                if (token != null) {
-                    GerenciadorSinc gerenciadorSinc = new GerenciadorSinc();
-                    // Chama a função de verificar e requisitar senha antes de iniciar a sincronização
-                    gerenciadorSinc.verificarERequisitarSenha(getContext(), this::sincronizarComServidor);
-                    Log.d(TAG, "Token de autenticação obtido com sucesso.");
-                } else {
-                    Log.e(TAG, "Token de autenticação nulo.");
-                }
-            } else {
-                Log.e(TAG, "Erro ao obter token de autenticação.", task.getException());
-            }
-        });
-
-
-        // Sincroniza com o servidor se estiver online
         if (isNetworkAvailable()) {
             usuario.getIdToken(true).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    sincronizarComServidor();
+                if (task.isSuccessful() && task.getResult() != null) {
+                    String token = task.getResult().getToken();
+                    if (token != null) {
+                        GerenciadorSinc gerenciadorSinc = new GerenciadorSinc();
+                        gerenciadorSinc.verificarERequisitarSenha(getContext(), this::sincronizarComServidor);
+                        Log.d(TAG, "Token de autenticação obtido com sucesso.");
+                    } else {
+                        Log.e(TAG, "Token de autenticação nulo.");
+                    }
                 } else {
                     Log.e(TAG, "Erro ao obter token de autenticação.", task.getException());
                 }
             });
         }
 
-        // Configurar o RecyclerView
         binding.listViewNotas.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         binding.listViewNotas.setLayoutManager(layoutManager);
     }
 
     /**
-     * Busca as notas do cache local.
+     * Método chamado quando o fragmento se torna visível ao usuário.
      */
     private void obterNotasDoCache() {
         if (binding == null) return;
@@ -121,8 +108,8 @@ public class NotasFragment extends Fragment {
                         if (documento != null && documento.exists()) {
                             Perfil perfil = documento.toObject(Perfil.class);
                             if (perfil != null && perfil.getNotas() != null) {
-                                exibirNotas(perfil.getNotas());
-                                dadosJaExibidos = true; // Sinaliza que os dados já foram exibidos
+                                organizarNotasPorSemestre(perfil.getNotas());
+                                dadosJaExibidos = true;
                             } else {
                                 exibirMensagemErro(getString(R.string.msg_nao_ha_notas));
                             }
@@ -140,10 +127,10 @@ public class NotasFragment extends Fragment {
     }
 
     /**
-     * Sincroniza os dados com o servidor.
+     * Método chamado para sincronizar as notas com o servidor.
      */
     private void sincronizarComServidor() {
-        if (dadosJaExibidos || binding == null) return; // Verifica se os dados já foram exibidos para evitar atualização redundante
+        if (dadosJaExibidos || binding == null) return;
         mostrarCarregamento(true);
 
         db.collection("usuarios")
@@ -156,7 +143,7 @@ public class NotasFragment extends Fragment {
                         if (documento != null && documento.exists()) {
                             Perfil perfil = documento.toObject(Perfil.class);
                             if (perfil != null && perfil.getNotas() != null) {
-                                exibirNotas(perfil.getNotas());
+                                organizarNotasPorSemestre(perfil.getNotas());
                             } else {
                                 exibirMensagemErro(getString(R.string.msg_nao_ha_notas));
                             }
@@ -174,17 +161,43 @@ public class NotasFragment extends Fragment {
     }
 
     /**
-     * Exibe as notas no RecyclerView.
-     *
-     * @param notas A lista de notas a ser exibida.
+     * Método chamado para organizar as notas por semestre e exibi-las.
      */
-    private void exibirNotas(List<Nota> notas) {
-        LinhaNotasAdapter notasAdapter = new LinhaNotasAdapter(notas);
+    private void organizarNotasPorSemestre(List<Nota> notas) {
+        Map<String, List<Nota>> notasPorSemestre = new HashMap<>();
+
+        // Organiza as notas por semestre
+        for (Nota nota : notas) {
+            String semestre = nota.getSemestre(); // Supondo que cada Nota tem um campo "semestre"
+            if (!notasPorSemestre.containsKey(semestre)) {
+                notasPorSemestre.put(semestre, new ArrayList<>());
+            }
+            notasPorSemestre.get(semestre).add(nota);
+        }
+
+        // Ordena os semestres em ordem crescente (do mais antigo para o mais novo)
+        List<String> semestresOrdenados = new ArrayList<>(notasPorSemestre.keySet());
+        semestresOrdenados.sort((s1, s2) -> s2.compareTo(s1));
+
+        // Cria a lista de itens para exibição com apenas os semestres inicialmente
+        List<Object> itensParaExibir = new ArrayList<>();
+        for (String semestre : semestresOrdenados) {
+            itensParaExibir.add(semestre); // Adiciona apenas o título do semestre
+        }
+
+        exibirNotas(itensParaExibir, notasPorSemestre);
+    }
+
+    /**
+     * Método chamado para exibir as notas na tela.
+     */
+    private void exibirNotas(List<Object> itens, Map<String, List<Nota>> notasPorSemestre) {
+        LinhaNotasAdapter notasAdapter = new LinhaNotasAdapter(itens, notasPorSemestre);
         binding.listViewNotas.setAdapter(notasAdapter);
     }
 
     /**
-     * Mostra ou oculta o ProgressBar.
+     * Método chamado para exibir ou ocultar o carregamento.
      */
     private void mostrarCarregamento(boolean visivel) {
         if (binding != null) {
@@ -199,14 +212,14 @@ public class NotasFragment extends Fragment {
     }
 
     /**
-     * Exibe uma mensagem de erro usando um Snackbar.
+     * Método chamado para exibir uma mensagem de erro.
      */
     private void exibirMensagemErro(String mensagem) {
         Snackbar.make(binding.getRoot(), mensagem, Snackbar.LENGTH_SHORT).show();
     }
 
     /**
-     * Verifica se há conexão com a internet.
+     * Método chamado para verificar se há conexão com a internet.
      */
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(getContext().CONNECTIVITY_SERVICE);
@@ -214,6 +227,9 @@ public class NotasFragment extends Fragment {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    /**
+     * Método chamado quando o fragmento é destruído.
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();

@@ -47,6 +47,11 @@ public class Nota implements Serializable{
     private String situacao;
 
     /**
+     * O semestre.
+     */
+    private String semestre;
+
+    /**
      * Construtor padrão da classe Nota.
      */
     public Nota() {
@@ -63,8 +68,9 @@ public class Nota implements Serializable{
      * @param notaFinal a nota final
      * @param numeroFaltas o número de faltas
      * @param situacao a situação
+     * @param semestre o semestre
      */
-    public Nota(String codigoDisciplina, String nomeDisciplina, String primeiraUnidade, String segundaUnidade, String notaRecuperacao, String notaFinal, String numeroFaltas, String situacao) {
+    public Nota(String codigoDisciplina, String nomeDisciplina, String primeiraUnidade, String segundaUnidade, String notaRecuperacao, String notaFinal, String numeroFaltas, String situacao, String semestre) {
         this.codigoDisciplina = codigoDisciplina;
         this.nomeDisciplina = nomeDisciplina;
         this.primeiraUnidade = primeiraUnidade;
@@ -73,6 +79,7 @@ public class Nota implements Serializable{
         this.notaFinal = notaFinal;
         this.numeroFaltas = numeroFaltas;
         this.situacao = situacao;
+        this.semestre = semestre;
     }
 
     /**
@@ -217,5 +224,25 @@ public class Nota implements Serializable{
      */
     public void setSituacao(String situacao) {
         this.situacao = situacao;
+    }
+
+    /**
+     * Retorna o semestre.
+     *
+     * @return o semestre
+     */
+
+    public String getSemestre() {
+        return semestre;
+    }
+
+    /**
+     * Define o semestre.
+     *
+     * @param semestre o novo semestre
+     */
+
+    public void setSemestre(String semestre) {
+        this.semestre = semestre;
     }
 }
