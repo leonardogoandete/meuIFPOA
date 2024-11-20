@@ -15,10 +15,13 @@ $dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaEditaisAdapter/setOnC
 $dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaEditaisAdapter/updateEditais/#java.util.List<br.com.ifrs.meuifpoa.model.Edital>/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-editais-adapter/update-editais.html
 $dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaNotasAdapter.NotasViewHolder///PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-notas-adapter/-notas-view-holder/index.html
 $dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaNotasAdapter.NotasViewHolder/LinhaNotasAdapter.NotasViewHolder/#View/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-notas-adapter/-notas-view-holder/-linha-notas-adapter.-notas-view-holder.html
+$dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaNotasAdapter.SemestreViewHolder///PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-notas-adapter/-semestre-view-holder/index.html
+$dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaNotasAdapter.SemestreViewHolder/LinhaNotasAdapter.SemestreViewHolder/#View/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-notas-adapter/-semestre-view-holder/-linha-notas-adapter.-semestre-view-holder.html
 $dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaNotasAdapter///PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-notas-adapter/index.html
-$dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaNotasAdapter/LinhaNotasAdapter/#java.util.List<br.com.ifrs.meuifpoa.model.Nota>/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-notas-adapter/-linha-notas-adapter.html
+$dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaNotasAdapter/LinhaNotasAdapter/#java.util.List<java.lang.Object>#java.util.Map<java.lang.String,java.util.List<br.com.ifrs.meuifpoa.model.Nota>>/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-notas-adapter/-linha-notas-adapter.html
 $dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaNotasAdapter/getItemCount/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-notas-adapter/get-item-count.html
-$dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaNotasAdapter/onBindViewHolder/#br.com.ifrs.meuifpoa.adapter.recycler.LinhaNotasAdapter.NotasViewHolder#int/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-notas-adapter/on-bind-view-holder.html
+$dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaNotasAdapter/getItemViewType/#int/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-notas-adapter/get-item-view-type.html
+$dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaNotasAdapter/onBindViewHolder/#RecyclerView.ViewHolder#int/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-notas-adapter/on-bind-view-holder.html
 $dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaNotasAdapter/onCreateViewHolder/#ViewGroup#int/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-notas-adapter/on-create-view-holder.html
 $dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaNoticiasAdapter.NoticiasViewHolder///PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-noticias-adapter/-noticias-view-holder/index.html
 $dokka.location:br.com.ifrs.meuifpoa.adapter.recycler/LinhaNoticiasAdapter.NoticiasViewHolder/LinhaNoticiasAdapter.NoticiasViewHolder/#View/PointingToDeclaration/app/br.com.ifrs.meuifpoa.adapter.recycler/-linha-noticias-adapter/-noticias-view-holder/-linha-noticias-adapter.-noticias-view-holder.html
@@ -54,7 +57,7 @@ $dokka.location:br.com.ifrs.meuifpoa.model/Edital/setLink/#java.lang.String/Poin
 $dokka.location:br.com.ifrs.meuifpoa.model/Edital/setTitulo/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-edital/set-titulo.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Nota///PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/index.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Nota/Nota/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/-nota.html
-$dokka.location:br.com.ifrs.meuifpoa.model/Nota/Nota/#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/-nota.html
+$dokka.location:br.com.ifrs.meuifpoa.model/Nota/Nota/#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/-nota.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Nota/getCodigoDisciplina/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/get-codigo-disciplina.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Nota/getNomeDisciplina/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/get-nome-disciplina.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Nota/getNotaFinal/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/get-nota-final.html
@@ -62,6 +65,7 @@ $dokka.location:br.com.ifrs.meuifpoa.model/Nota/getNotaRecuperacao/#/PointingToD
 $dokka.location:br.com.ifrs.meuifpoa.model/Nota/getNumeroFaltas/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/get-numero-faltas.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Nota/getPrimeiraUnidade/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/get-primeira-unidade.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Nota/getSegundaUnidade/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/get-segunda-unidade.html
+$dokka.location:br.com.ifrs.meuifpoa.model/Nota/getSemestre/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/get-semestre.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Nota/getSituacao/#/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/get-situacao.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Nota/setCodigoDisciplina/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/set-codigo-disciplina.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Nota/setNomeDisciplina/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/set-nome-disciplina.html
@@ -70,6 +74,7 @@ $dokka.location:br.com.ifrs.meuifpoa.model/Nota/setNotaRecuperacao/#java.lang.St
 $dokka.location:br.com.ifrs.meuifpoa.model/Nota/setNumeroFaltas/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/set-numero-faltas.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Nota/setPrimeiraUnidade/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/set-primeira-unidade.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Nota/setSegundaUnidade/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/set-segunda-unidade.html
+$dokka.location:br.com.ifrs.meuifpoa.model/Nota/setSemestre/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/set-semestre.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Nota/setSituacao/#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-nota/set-situacao.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Noticia///PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-noticia/index.html
 $dokka.location:br.com.ifrs.meuifpoa.model/Noticia/Noticia/#java.lang.String#java.lang.String#java.lang.String#java.lang.String#java.lang.String/PointingToDeclaration/app/br.com.ifrs.meuifpoa.model/-noticia/-noticia.html

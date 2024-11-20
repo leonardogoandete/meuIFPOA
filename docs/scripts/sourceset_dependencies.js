@@ -1,1 +1,1 @@
-sourceset_dependencies='{":app:dokkaHtml/main":[]}'
+sourceset_dependencies='{":meuifpoa:dokkaHtml/main":[]}'
