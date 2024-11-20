@@ -10,9 +10,6 @@ import br.com.ifrs.meuifpoa.R;
 import br.com.ifrs.meuifpoa.databinding.ActivityProgressButtonBinding;
 
 /**
- * \@author Seu Nome
- * \@version 1.0
- *
  * Classe que representa uma atividade com um botão de progresso.
  */
 public class ProgressButtonActivity extends AppCompatActivity implements View.OnClickListener {
@@ -22,7 +19,7 @@ public class ProgressButtonActivity extends AppCompatActivity implements View.On
     /**
      * Método chamado quando a atividade é criada.
      * <p>
-     * \@param savedInstanceState Estado salvo da instância anterior da atividade.
+     * @param savedInstanceState Estado salvo da instância anterior da atividade.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {

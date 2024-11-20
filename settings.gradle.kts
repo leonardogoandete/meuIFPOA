@@ -23,5 +23,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "meuIFPOA"
-include(":meuifpoa")
+include(":app")
  
