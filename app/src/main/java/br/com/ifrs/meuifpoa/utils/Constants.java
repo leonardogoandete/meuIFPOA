@@ -10,10 +10,6 @@ public class Constants {
     /**
      * A constante BASE_URL, utilizada para definir a URL da api do backend.
      */
-    //public static final String BASE_URL = "http://192.168.0.15:8080/";
-    //public static final String BASE_URL = "https://app-ifrs-back-5ee5bb142a80.herokuapp.com/";
-    //public static final String BASE_URL = "https://2d15-200-180-191-23.ngrok-free.app/";
-    //public static final String BASE_URL = "http://leogoandete.tplinkdns.com:8080/meuifpoa/";
     public static final String BASE_URL = "https://app.poa.ifrs.edu.br/meuifpoa/";
      /**
       * A constante BASE_URL_NOTICIA, utilizada para definir a URL base das noticias.
