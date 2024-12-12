@@ -35,6 +35,9 @@ O aplicativo consome uma API RESTful desenvolvida em Java. As rotas disponíveis
 - `GET /documento` - Retorna um documento em PDF codificado em base64.
 - `POST /sync` - Realiza a sincronização de dados acadêmicos.
 
+## Configurar aplicativo para permitir comunicação HTTP(não recomendado).
+Configurar o arquivo `network_security_config.xml` basta adicionar o novo host podendo ser URL ou IP do servidor.
+
 ## Documentação Dokka
 A documentação do código foi gerada utilizando a ferramenta Dokka. Para acessar a documentação, abra o arquivo `index.html` localizado na pasta `docs/dokka`.
 Caso deseje gerar a documentação novamente, execute o comando:
