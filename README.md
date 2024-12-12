@@ -47,6 +47,7 @@ Caso deseje gerar a documentação novamente, execute o comando:
 - **Documentação do Android**: [https://developer.android.com/docs](https://developer.android.com/docs)
 - **Documentação do Retrofit**: [https://square.github.io/retrofit/](https://square.github.io/retrofit/)
 - **Documentação do MPAndroidChart**: [https://weeklycoding.com/mpandroidchart/](https://weeklycoding.com/mpandroidchart/)
+- **Documentação do Glide**: [https://github.com/bumptech/glide](https://github.com/bumptech/glide)
 
 
 ## Licença
