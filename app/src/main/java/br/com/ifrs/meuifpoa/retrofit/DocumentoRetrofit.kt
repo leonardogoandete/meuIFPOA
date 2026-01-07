@@ -1,51 +1,41 @@
-package br.com.ifrs.meuifpoa.retrofit;
+package br.com.ifrs.meuifpoa.retrofit
 
-import static br.com.ifrs.meuifpoa.utils.Constants.BASE_URL;
-
-import java.util.concurrent.TimeUnit;
-
-import br.com.ifrs.meuifpoa.retrofit.service.DocumentoService;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import br.com.ifrs.meuifpoa.retrofit.service.DocumentoService
+import br.com.ifrs.meuifpoa.utils.Constants.BASE_URL
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 /**
- * Classe `DocumentoRetrofit` configura e fornece uma instância do serviço `DocumentoService`
+ * Singleton que configura e fornece uma instância do serviço `DocumentoService`
  * para interagir com a API de documentos.
  */
-public class DocumentoRetrofit {
-    private final DocumentoService documentoService;
+object DocumentoRetrofit {
 
-    /**
-     * Construtor da classe `DocumentoRetrofit`.
-     * Configura o cliente HTTP e o Retrofit para o serviço de documentos.
-     */
-    public DocumentoRetrofit() {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+    private val httpClient: OkHttpClient by lazy {
+        val interceptor = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
 
-        OkHttpClient httpClient = new OkHttpClient.Builder()
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS)
-                .addInterceptor(interceptor)
-                .build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(httpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        documentoService = retrofit.create(DocumentoService.class);
+        OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .addInterceptor(interceptor)
+            .build()
     }
 
-    /**
-     * Retorna a instância do serviço `DocumentoService`.
-     *
-     * @return Instância de `DocumentoService`.
-     */
-    public DocumentoService getDocumentoService(){
-        return documentoService;
+    private val retrofit: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(httpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    val documentoService: DocumentoService by lazy {
+        retrofit.create(DocumentoService::class.java)
     }
 }

@@ -1,5 +1,6 @@
 [versions]
-agp = "8.4.0"
+agp = "8.13.2"
+kotlin = "2.0.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
@@ -19,6 +20,7 @@ firebaseStorage = "21.0.0"
 glide = "4.16.0"
 mpandroidchart = "v3.1.0"
 dokkaGradlePlugin = "2.0.0-Beta"
+coreKtx = "1.15.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -39,8 +41,10 @@ firebase-storage = { group = "com.google.firebase", name = "firebase-storage", v
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 mpandroidchart = { group = "PhilJay", name = "MPAndroidChart", version.ref = "mpandroidchart" }
 dokka-gradle-plugin = { group = "org.jetbrains.dokka", name = "dokka-gradle-plugin", version.ref = "dokkaGradlePlugin" }
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
-
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

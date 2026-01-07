@@ -1,55 +1,40 @@
-package br.com.ifrs.meuifpoa.retrofit;
+package br.com.ifrs.meuifpoa.retrofit
 
-
-import static br.com.ifrs.meuifpoa.utils.Constants.BASE_URL;
-
-import java.util.concurrent.TimeUnit;
-
-import br.com.ifrs.meuifpoa.retrofit.service.NoticiasService;
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import br.com.ifrs.meuifpoa.retrofit.service.NoticiasService
+import br.com.ifrs.meuifpoa.utils.Constants
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 /**
- * Classe `NoticiasRetrofit` configura e fornece uma instância do serviço `NoticiasService`
+ * Singleton que configura e fornece uma instância do serviço `NoticiasService`
  * para interagir com a API de notícias.
  */
-public class NoticiasRetrofit {
+object NoticiasRetrofit {
 
-    private final NoticiasService noticiasService;
+    private val httpClient: OkHttpClient by lazy {
+        val interceptor = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
 
-    /**
-     * Construtor da classe `NoticiasRetrofit`.
-     * Configura o cliente HTTP e o Retrofit para o serviço de notícias.
-     */
-    public NoticiasRetrofit() {
-
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        OkHttpClient httpClient = new OkHttpClient.Builder()
-                //.addInterceptor(interceptor)
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS)
-                .build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(httpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        noticiasService = retrofit.create(NoticiasService.class);
+        OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .build()
     }
 
-    /**
-     * Retorna a instância do serviço `NoticiasService`.
-     *
-     * @return Instância de `NoticiasService`.
-     */
-    public NoticiasService getNoticiasService() {
-        return noticiasService;
+    private val retrofit: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(Constants.BASE_URL_NOTICIA) // Corrected to use noticia base url
+            .client(httpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    val noticiasService: NoticiasService by lazy {
+        retrofit.create(NoticiasService::class.java)
     }
 }
-
