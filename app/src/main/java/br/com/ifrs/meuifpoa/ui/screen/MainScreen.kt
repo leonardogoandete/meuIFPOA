@@ -2,10 +2,10 @@ package br.com.ifrs.meuifpoa.ui.screen
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List // Corrected import
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -26,7 +26,7 @@ import br.com.ifrs.meuifpoa.ui.MainScreen as MainScreenRoute
 sealed class BottomNavItem(val route: String, val icon: ImageVector, val label: String) {
     object Home : BottomNavItem(MainScreenRoute.Home.route, Icons.Default.Home, "Início")
     object Notas : BottomNavItem(MainScreenRoute.Notas.route, Icons.Default.DateRange, "Notas")
-    object Noticias : BottomNavItem(MainScreenRoute.Noticias.route, Icons.Default.List, "Notícias")
+    object Noticias : BottomNavItem(MainScreenRoute.Noticias.route, Icons.AutoMirrored.Filled.List, "Notícias") // Corrected usage
     object Perfil : BottomNavItem(MainScreenRoute.Perfil.route, Icons.Default.AccountCircle, "Perfil")
 }
 

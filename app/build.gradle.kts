@@ -91,6 +91,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database")
     implementation("com.google.firebase:firebase-storage")
+    implementation("com.google.android.gms:play-services-auth:21.2.0") // Added Google Sign-In
 
     // Compose Dependencies
     implementation(platform("androidx.compose:compose-bom:2024.05.00"))
