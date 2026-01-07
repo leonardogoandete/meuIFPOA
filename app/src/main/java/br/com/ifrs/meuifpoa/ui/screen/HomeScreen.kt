@@ -1,20 +1,25 @@
 package br.com.ifrs.meuifpoa.ui.screen
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Base64
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
-import br.com.ifrs.meuifpoa.ui.dialog.ForgotPasswordDialog
+import br.com.ifrs.meuifpoa.ui.dialog.PasswordPromptDialog
 import br.com.ifrs.meuifpoa.ui.viewmodel.HomeViewModel
 import br.com.ifrs.meuifpoa.utils.Constants
 import java.io.File
@@ -25,7 +30,6 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
     val uiState by homeViewModel.uiState.collectAsState()
     val context = LocalContext.current
 
-    // Trigger data loading when the screen is first composed
     LaunchedEffect(Unit) {
         homeViewModel.carregarPerfil()
     }
@@ -50,13 +54,13 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
     }
 
     if (uiState.showPasswordDialog) {
-        ForgotPasswordDialog(
+        PasswordPromptDialog(
             onDismiss = { homeViewModel.onDialogDismiss() },
             onConfirm = { homeViewModel.onPasswordConfirm(it, context) }
         )
     }
 
-    if (uiState.isLoading) {
+    if (uiState.isLoading && uiState.perfil == null) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
@@ -68,20 +72,33 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Olá, ${perfil.nomeDocente}!")
-                Spacer(modifier = Modifier.height(16.dp))
+                Text("Olá, ${perfil.nomeDocente?.substringBefore(" ") ?: "Aluno"}!", style = MaterialTheme.typography.headlineMedium)
+                Spacer(modifier = Modifier.height(24.dp))
 
-                // TODO: Adicionar gráfico de pizza aqui
+                val progress = perfil.integralizado?.toIntOrNull() ?: 0
+                IntegralizacaoChart(progress = progress)
 
-                Spacer(modifier = Modifier.height(32.dp))
-                DocumentButton(text = "Emitir Histórico", documentType = Constants.DOC_HISTORICO, viewModel = homeViewModel)
-                DocumentButton(text = "Emitir Histórico com Ementas", documentType = Constants.DOC_HISTORICO_EMENTAS, viewModel = homeViewModel)
-                DocumentButton(text = "Emitir Declaração de Vínculo", documentType = Constants.DOC_DECLARACAO_VINCULO, viewModel = homeViewModel)
-                DocumentButton(text = "Emitir Atestado de Matrícula", documentType = Constants.DOC_ATESTADO_MATRICULA, viewModel = homeViewModel)
+                Spacer(modifier = Modifier.height(24.dp))
+                
+                val documentTypes = listOf(
+                    "Histórico" to Constants.DOC_HISTORICO,
+                    "Histórico com Ementas" to Constants.DOC_HISTORICO_EMENTAS,
+                    "Declaração de Vínculo" to Constants.DOC_DECLARACAO_VINCULO,
+                    "Atestado de Matrícula" to Constants.DOC_ATESTADO_MATRICULA
+                )
 
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(documentTypes) { (title, type) ->
+                        DocumentButton(text = title, documentType = type, viewModel = homeViewModel)
+                    }
+                }
             }
         } ?: Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text("Perfil não encontrado")
+            Text("Perfil não encontrado. Tente novamente mais tarde.")
         }
     }
 }
@@ -89,18 +106,23 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
 @Composable
 fun DocumentButton(text: String, documentType: String, viewModel: HomeViewModel) {
     val uiState by viewModel.uiState.collectAsState()
+    val isLoading = uiState.documentLoadingState[documentType] == true
 
-    Button(
-        onClick = { viewModel.onEmitirDocumentoClick(documentType) },
+    Card(
         modifier = Modifier
+            .height(110.dp)
             .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        enabled = uiState.documentLoadingState[documentType] != true
+            .clickable(enabled = !isLoading) { // Click is handled here and disabled when loading
+                viewModel.onEmitirDocumentoClick(documentType)
+            },
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-        if (uiState.documentLoadingState[documentType] == true) {
-            CircularProgressIndicator(modifier = Modifier.size(24.dp))
-        } else {
-            Text(text)
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            if (isLoading) {
+                CircularProgressIndicator(modifier = Modifier.size(32.dp))
+            } else {
+                Text(text, textAlign = TextAlign.Center, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold)
+            }
         }
     }
 }

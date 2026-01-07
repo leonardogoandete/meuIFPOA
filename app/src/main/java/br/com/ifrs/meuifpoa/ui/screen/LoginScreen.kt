@@ -14,8 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.ifrs.meuifpoa.R
 import br.com.ifrs.meuifpoa.ui.viewmodel.LoginViewModel
@@ -48,7 +51,7 @@ fun LoginScreen(
 
     // Activity result launcher for Google Sign-In
     val googleSignInLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult() 
+        contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
         val data: Intent? = result.data
         if (data != null) {
@@ -69,22 +72,32 @@ fun LoginScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(16.dp),
+            .padding(horizontal = 32.dp), // Add more horizontal padding
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             painter = painterResource(id = R.drawable.ifrs_logo),
             contentDescription = "IFRS Logo",
-            modifier = Modifier.size(200.dp)
+            modifier = Modifier.fillMaxWidth(0.7f) // Adjust size
         )
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(64.dp))
 
         if (uiState.isLoading) {
             CircularProgressIndicator()
         } else {
-            Button(onClick = { loginViewModel.startGoogleSignIn() }) {
-                Text("Entrar com Google")
+            Button(
+                onClick = { loginViewModel.startGoogleSignIn() },
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(vertical = 12.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.googleg_standard_color_18), // Assuming a google icon drawable
+                    contentDescription = "Google Icon",
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(Modifier.width(12.dp))
+                Text("Entrar com Google", fontWeight = FontWeight.Bold)
             }
         }
     }

@@ -1,6 +1,6 @@
 package br.com.ifrs.meuifpoa.retrofit
 
-import br.com.ifrs.meuifpoa.retrofit.service.NoticiasService
+import br.com.ifrs.meuifpoa.retrofit.service.EditaisService
 import br.com.ifrs.meuifpoa.utils.Constants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -8,11 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-/**
- * Singleton que configura e fornece uma instância do serviço `NoticiasService`
- * para interagir com a API de notícias.
- */
-object NoticiasRetrofit {
+object EditaisRetrofit {
 
     private val httpClient: OkHttpClient by lazy {
         val interceptor = HttpLoggingInterceptor().apply {
@@ -28,13 +24,13 @@ object NoticiasRetrofit {
 
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL) // Corrected: Use the main API base URL
+            .baseUrl(Constants.BASE_URL)
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
-    val noticiasService: NoticiasService by lazy {
-        retrofit.create(NoticiasService::class.java)
+    val editaisService: EditaisService by lazy {
+        retrofit.create(EditaisService::class.java)
     }
 }

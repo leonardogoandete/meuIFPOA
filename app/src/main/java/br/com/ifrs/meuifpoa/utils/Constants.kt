@@ -13,7 +13,8 @@ object Constants {
     const val BASE_URL = "https://app.poa.ifrs.edu.br/meuifpoa/"
      /**
       * A constante BASE_URL_NOTICIA, utilizada para definir a URL base das noticias.
-     */
+      * It should NOT end with a slash for manual concatenation.
+      */
     const val BASE_URL_NOTICIA = "https://poa.ifrs.edu.br"
      /**
       * A constante DOC_HISTORICO, define o tipo de documento para o formulario.

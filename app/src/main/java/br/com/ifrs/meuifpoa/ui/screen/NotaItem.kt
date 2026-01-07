@@ -11,106 +11,141 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider // Corrected import
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.ifrs.meuifpoa.model.Nota
 
 @Composable
 fun NotaItem(nota: Nota) {
+    val statusColor = when {
+        nota.situacao.equals("aprovado", ignoreCase = true) -> Color(0xFF2E7D32) // Dark Green
+        nota.situacao == "--" || nota.situacao.isNullOrEmpty() -> Color(0xFF616161) // Gray
+        else -> Color(0xFFC62828) // Dark Red
+    }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
-        shape = RoundedCornerShape(8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            .padding(vertical = 4.dp, horizontal = 8.dp),
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(containerColor = statusColor)
     ) {
         Column(
-            modifier = Modifier
-                .background(getBackgroundColor(nota.situacao))
-                .padding(16.dp)
+            modifier = Modifier.padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = nota.codigoDisciplina ?: "",
-                fontWeight = FontWeight.Bold,
+                color = Color.White.copy(alpha = 0.8f),
                 fontSize = 14.sp,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
+                fontWeight = FontWeight.Bold,
             )
             Text(
-                text = nota.nomeDisciplina ?: "",
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
+                text = nota.nomeDisciplina ?: "Disciplina não informada",
                 color = Color.White,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = 4.dp)
             )
+
             HorizontalDivider(
-                color = Color.Black,
-                thickness = 2.dp,
-                modifier = Modifier.padding(vertical = 8.dp)
+                modifier = Modifier.padding(vertical = 8.dp),
+                thickness = 1.dp,
+                color = Color.White.copy(alpha = 0.5f)
             )
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceAround
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                NotaValor(titulo = "Unidade 1", valor = nota.primeiraUnidade)
-                NotaValor(titulo = "Unidade 2", valor = nota.segundaUnidade)
+                GradeBox(title = "Unidade 1", grade = nota.primeiraUnidade, modifier = Modifier.weight(1f))
+                GradeBox(title = "Unidade 2", grade = nota.segundaUnidade, modifier = Modifier.weight(1f))
             }
-            Spacer(modifier = Modifier.height(16.dp))
+
+            Spacer(Modifier.height(8.dp))
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceAround
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                NotaValor(titulo = "Recuperação", valor = nota.notaRecuperacao)
-                NotaValor(titulo = "Resultado", valor = nota.notaFinal, backgroundColor = getResultadoBackgroundColor(nota.situacao))
+                GradeBox(title = "Recuperação", grade = nota.notaRecuperacao, modifier = Modifier.weight(1f))
+                GradeBox(
+                    title = "Resultado",
+                    grade = nota.notaFinal,
+                    modifier = Modifier.weight(1f),
+                    // Only color the result box if the status is final
+                    backgroundColor = if (nota.situacao != "--" && !nota.situacao.isNullOrEmpty()) statusColor.copy(alpha = 0.8f) else Color.White,
+                    textColor = if (nota.situacao != "--" && !nota.situacao.isNullOrEmpty()) Color.White else Color.Black
+                )
             }
-            Spacer(modifier = Modifier.height(12.dp))
+
+            Spacer(Modifier.height(16.dp))
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Text(text = "Faltas: ${nota.numeroFaltas ?: "--"}", fontWeight = FontWeight.Bold)
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(text = "Situação: ${nota.situacao ?: "--"}", fontWeight = FontWeight.Bold)
+                InfoText(label = "Faltas", value = nota.numeroFaltas ?: "--")
+                InfoText(label = "Situação", value = nota.situacao ?: "--")
             }
         }
     }
 }
 
 @Composable
-fun NotaValor(titulo: String, valor: String?, backgroundColor: Color = Color.White) {
+private fun GradeBox(
+    title: String,
+    grade: String?,
+    modifier: Modifier = Modifier,
+    backgroundColor: Color = Color.White,
+    textColor: Color = Color.Black
+) {
     Column(
+        modifier = modifier
+            .background(backgroundColor, RoundedCornerShape(8.dp))
+            .padding(vertical = 4.dp, horizontal = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .background(backgroundColor, RoundedCornerShape(4.dp))
-            .padding(8.dp)
+        verticalArrangement = Arrangement.Center
     ) {
-        Text(text = titulo, fontSize = 10.sp, fontWeight = FontWeight.Bold)
-        Text(text = valor.takeIf { !it.isNullOrEmpty() } ?: "--", fontSize = 40.sp, fontWeight = FontWeight.Bold)
+        Text(
+            text = title,
+            fontSize = 10.sp,
+            fontWeight = FontWeight.Bold,
+            color = textColor.copy(alpha = 0.8f)
+        )
+        Text(
+            text = grade?.takeIf { it.isNotEmpty() } ?: "--",
+            fontSize = 40.sp,
+            fontWeight = FontWeight.Bold,
+            color = textColor
+        )
     }
 }
 
-fun getBackgroundColor(situacao: String?): Color {
-    return when {
-        situacao.equals("aprovado", ignoreCase = true) -> Color(0xFF2F9E41)
-        situacao == "--" -> Color.Gray
-        else -> Color(0xFFCF212D)
-    }
-}
-
-fun getResultadoBackgroundColor(situacao: String?): Color {
-    return when {
-        situacao.equals("aprovado", ignoreCase = true) -> Color(0xFF2F9E41)
-        situacao == "--" -> Color.Transparent
-        else -> Color(0xFFCF212D)
+@Composable
+private fun InfoText(label: String, value: String) {
+    Row {
+        Text(
+            text = "$label: ",
+            color = Color.White.copy(alpha = 0.8f),
+            fontWeight = FontWeight.Normal,
+            fontSize = 14.sp
+        )
+        Text(
+            text = value,
+            color = Color.White,
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp
+        )
     }
 }

@@ -19,19 +19,19 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import br.com.ifrs.meuifpoa.model.Noticia
+import br.com.ifrs.meuifpoa.model.Edital
 import br.com.ifrs.meuifpoa.ui.theme.md_theme_light_surfaceVariant
 import br.com.ifrs.meuifpoa.utils.Constants
 
 @Composable
-fun NoticiaItem(noticia: Noticia) {
+fun EditalItem(edital: Edital) {
     val context = LocalContext.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp, horizontal = 8.dp)
             .clickable {
-                val linkValue = noticia.link
+                val linkValue = edital.link
                 if (!linkValue.isNullOrBlank()) {
                     val fullUrl = Constants.BASE_URL_NOTICIA + linkValue.trim()
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(fullUrl))
@@ -47,18 +47,18 @@ fun NoticiaItem(noticia: Noticia) {
                 .padding(16.dp)
         ) {
             Text(
-                text = noticia.titulo ?: "Sem título",
+                text = edital.titulo ?: "Sem título",
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                 fontSize = 16.sp
             )
             Text(
-                text = noticia.resumo ?: "",
+                text = edital.resumo ?: "",
                 style = MaterialTheme.typography.bodyMedium,
                 fontSize = 14.sp,
                 modifier = Modifier.padding(top = 8.dp)
             )
             Text(
-                text = noticia.dataHoraPublicacao,
+                text = edital.dataHoraPublicacao,
                 style = MaterialTheme.typography.bodySmall.copy(fontStyle = FontStyle.Italic),
                 fontSize = 12.sp,
                 modifier = Modifier

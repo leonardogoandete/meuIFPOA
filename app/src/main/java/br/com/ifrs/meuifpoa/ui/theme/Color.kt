@@ -2,32 +2,39 @@ package br.com.ifrs.meuifpoa.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val md_theme_light_primary = Color(0xFF00695C)
-val md_theme_light_onPrimary = Color(0xFFFFFFFF)
-val md_theme_light_primaryContainer = Color(0xFF80CBC4)
-val md_theme_light_onPrimaryContainer = Color(0xFF00201B)
-val md_theme_light_secondary = Color(0xFF4A6360)
-val md_theme_light_onSecondary = Color(0xFFFFFFFF)
-val md_theme_light_secondaryContainer = Color(0xFFCCE8E4)
-val md_theme_light_onSecondaryContainer = Color(0xFF05201E)
-val md_theme_light_tertiary = Color(0xFF486179)
-val md_theme_light_onTertiary = Color(0xFFFFFFFF)
-val md_theme_light_tertiaryContainer = Color(0xFFCFE5FF)
-val md_theme_light_onTertiaryContainer = Color(0xFF011E32)
-val md_theme_light_error = Color(0xFFBA1A1A)
+// Original App Colors
+val colorPrimary = Color(0xFF2F9E41)
+val reprovado = Color(0xFFEB6F6E)
+val aprovado = Color(0xFF2F9E41)
+val gray = Color(0xFF8F8D8D)
+
+// Material 3 Theme Colors - Mapped from original
+val md_theme_light_primary = colorPrimary
+val md_theme_light_onPrimary = Color.White
+val md_theme_light_primaryContainer = Color(0xFFB9F6CA) // A lighter shade for containers
+val md_theme_light_onPrimaryContainer = Color(0xFF00210E)
+val md_theme_light_secondary = gray
+val md_theme_light_onSecondary = Color.White
+val md_theme_light_secondaryContainer = Color(0xFFE3E2E1) // Lighter gray for containers
+val md_theme_light_onSecondaryContainer = Color(0xFF1C1C1C)
+val md_theme_light_tertiary = colorPrimary
+val md_theme_light_onTertiary = Color.White
+val md_theme_light_tertiaryContainer = Color(0xFFB9F6CA)
+val md_theme_light_onTertiaryContainer = Color(0xFF00210E)
+val md_theme_light_error = reprovado
 val md_theme_light_errorContainer = Color(0xFFFFDAD6)
-val md_theme_light_onError = Color(0xFFFFFFFF)
+val md_theme_light_onError = Color.White
 val md_theme_light_onErrorContainer = Color(0xFF410002)
-val md_theme_light_background = Color(0xFFFAFDFB)
-val md_theme_light_onBackground = Color(0xFF191C1C)
-val md_theme_light_surface = Color(0xFFFAFDFB)
-val md_theme_light_onSurface = Color(0xFF191C1C)
-val md_theme_light_surfaceVariant = Color(0xFFDAE5E2)
-val md_theme_light_onSurfaceVariant = Color(0xFF3F4947)
-val md_theme_light_outline = Color(0xFF6F7977)
-val md_theme_light_inverseOnSurface = Color(0xFFEFF1F0)
-val md_theme_light_inverseSurface = Color(0xFF2E3130)
-val md_theme_light_inversePrimary = Color(0xFF4DDAD1)
-val md_theme_light_surfaceTint = Color(0xFF006A60)
-val md_theme_light_outlineVariant = Color(0xFFBEC9C6)
-val md_theme_light_scrim = Color(0xFF000000)
+val md_theme_light_background = Color(0xFFF7F7F7) // A slightly off-white background
+val md_theme_light_onBackground = Color(0xFF1C1C1C)
+val md_theme_light_surface = Color.White
+val md_theme_light_onSurface = Color(0xFF1C1C1C)
+val md_theme_light_surfaceVariant = Color(0xFFDEE5D9) // A neutral variant for cards
+val md_theme_light_onSurfaceVariant = Color(0xFF424940)
+val md_theme_light_outline = Color(0xFF727970)
+val md_theme_light_inverseOnSurface = Color(0xFFF0F1EC)
+val md_theme_light_inverseSurface = Color(0xFF2F312D)
+val md_theme_light_inversePrimary = Color(0xFF8BD99C)
+val md_theme_light_surfaceTint = colorPrimary
+val md_theme_light_outlineVariant = Color(0xFFC2C9BE)
+val md_theme_light_scrim = Color.Black

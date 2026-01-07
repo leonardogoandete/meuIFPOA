@@ -20,6 +20,7 @@ class MainActivity : ComponentActivity() {
         val auth = FirebaseAuth.getInstance()
 
         setContent {
+            // Apply the custom theme to the entire app
             MeuIFPOATheme {
                 val navController = rememberNavController()
                 NavHost(
