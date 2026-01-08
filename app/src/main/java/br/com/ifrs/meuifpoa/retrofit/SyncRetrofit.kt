@@ -1,11 +1,9 @@
 package br.com.ifrs.meuifpoa.retrofit
 
 import android.content.Context
-import br.com.ifrs.meuifpoa.model.SyncResponse
 import br.com.ifrs.meuifpoa.retrofit.service.SyncService
 import br.com.ifrs.meuifpoa.utils.Constants.BASE_URL
 import com.google.firebase.auth.FirebaseAuth
-import com.google.gson.Gson
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 import okhttp3.Interceptor
