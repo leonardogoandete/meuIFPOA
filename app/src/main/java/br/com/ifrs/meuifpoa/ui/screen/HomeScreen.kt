@@ -5,9 +5,6 @@ import android.net.Uri
 import android.util.Base64
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -23,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
+import br.com.ifrs.meuifpoa.MeuIFPOAApplication
 import br.com.ifrs.meuifpoa.R
 import br.com.ifrs.meuifpoa.ui.dialog.PasswordPromptDialog
 import br.com.ifrs.meuifpoa.ui.viewmodel.HomeViewModel
@@ -31,7 +29,10 @@ import java.io.File
 import java.io.FileOutputStream
 
 @Composable
-fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
+fun HomeScreen() {
+    val appContainer = (LocalContext.current.applicationContext as MeuIFPOAApplication).container
+    val homeViewModel: HomeViewModel = viewModel(factory = appContainer.viewModelFactory)
+
     val uiState by homeViewModel.uiState.collectAsState()
     val context = LocalContext.current
 

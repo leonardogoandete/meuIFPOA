@@ -43,12 +43,15 @@ android {
     }
 
     buildToolsVersion = "35.0.0"
+
     kotlinOptions {
         jvmTarget = "21"
     }
+
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.13"
     }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -91,7 +94,11 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database")
     implementation("com.google.firebase:firebase-storage")
-    implementation("com.google.android.gms:play-services-auth:21.2.0")
+
+    // Credential Manager for Sign-In
+    implementation("androidx.credentials:credentials:1.3.0-alpha02")
+    implementation("androidx.credentials:credentials-play-services-auth:1.3.0-alpha02")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")
 
     // Compose Dependencies
     implementation(platform("androidx.compose:compose-bom:2024.05.00"))

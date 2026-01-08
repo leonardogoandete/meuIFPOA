@@ -12,15 +12,20 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import br.com.ifrs.meuifpoa.MeuIFPOAApplication
 import br.com.ifrs.meuifpoa.model.Nota
 import br.com.ifrs.meuifpoa.ui.theme.MeuIFPOATheme
 import br.com.ifrs.meuifpoa.ui.viewmodel.NotasViewModel
 
 // 1. Stateful Composable (Connects to ViewModel)
 @Composable
-fun NotasScreen(notasViewModel: NotasViewModel = viewModel()) {
+fun NotasScreen() {
+    val appContainer = (LocalContext.current.applicationContext as MeuIFPOAApplication).container
+    val notasViewModel: NotasViewModel = viewModel(factory = appContainer.viewModelFactory)
+
     val notas by notasViewModel.notas.collectAsState()
 
     // Trigger data loading when the screen is first composed

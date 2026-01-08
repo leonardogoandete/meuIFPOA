@@ -5,7 +5,7 @@ import android.app.Application
 /**
  * A classe Application para o app, usada para inicializar e manter a AppContainer.
  */
-class MeuIFPOAApplication : Application() {
+class MeuIfpoaApp : Application() {
 
     // A instância da AppContainer será criada no onCreate
     lateinit var container: AppContainer

@@ -17,12 +17,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -38,7 +32,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -46,14 +39,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import br.com.ifrs.meuifpoa.MeuIFPOAApplication
 import br.com.ifrs.meuifpoa.R
 import br.com.ifrs.meuifpoa.ui.viewmodel.PerfilViewModel
 
 @Composable
 fun PerfilScreen(
-    onLogout: () -> Unit,
-    perfilViewModel: PerfilViewModel = viewModel()
+    onLogout: () -> Unit
 ) {
+    val appContainer = (LocalContext.current.applicationContext as MeuIFPOAApplication).container
+    val perfilViewModel: PerfilViewModel = viewModel(factory = appContainer.viewModelFactory)
+
     val perfil by perfilViewModel.perfil.collectAsState()
     val context = LocalContext.current
 

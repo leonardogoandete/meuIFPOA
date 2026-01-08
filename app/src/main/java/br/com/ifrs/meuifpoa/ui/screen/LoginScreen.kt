@@ -1,9 +1,6 @@
 package br.com.ifrs.meuifpoa.ui.screen
 
-import android.content.Intent
 import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -18,23 +15,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import br.com.ifrs.meuifpoa.MeuIFPOAApplication
 import br.com.ifrs.meuifpoa.R
 import br.com.ifrs.meuifpoa.ui.viewmodel.LoginViewModel
 
 @Composable
 fun LoginScreen(
-    onLoginSuccess: () -> Unit,
-    loginViewModel: LoginViewModel = viewModel()
+    onLoginSuccess: () -> Unit
 ) {
+    val appContainer = (LocalContext.current.applicationContext as MeuIFPOAApplication).container
+    val loginViewModel: LoginViewModel = viewModel(factory = appContainer.viewModelFactory)
+
     val uiState by loginViewModel.uiState.collectAsState()
     val context = LocalContext.current
-
-    // Initialize Google Sign-In
-    LaunchedEffect(Unit) {
-        loginViewModel.configureGoogleSignIn(context)
-    }
 
     // Handle successful login navigation
     if (uiState.loginSuccess) {
@@ -49,37 +43,19 @@ fun LoginScreen(
         loginViewModel.clearError()
     }
 
-    // Activity result launcher for Google Sign-In
-    val googleSignInLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        val data: Intent? = result.data
-        if (data != null) {
-            loginViewModel.onGoogleSignInResult(data)
-        }
-    }
-
-    // Launch Google Sign-In intent when it's ready
-    uiState.googleSignInIntent?.let {
-        LaunchedEffect(it) {
-            googleSignInLauncher.launch(it)
-            loginViewModel.resetGoogleSignInIntent() // Reset after launching
-        }
-    }
-
     // UI Layout
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(horizontal = 32.dp), // Add more horizontal padding
+            .padding(horizontal = 32.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             painter = painterResource(id = R.drawable.ifrs_logo),
             contentDescription = stringResource(R.string.ifrs_logo_content_description),
-            modifier = Modifier.fillMaxWidth(0.7f) // Adjust size
+            modifier = Modifier.fillMaxWidth(0.7f)
         )
         Spacer(modifier = Modifier.height(64.dp))
 
@@ -87,12 +63,12 @@ fun LoginScreen(
             CircularProgressIndicator()
         } else {
             Button(
-                onClick = { loginViewModel.startGoogleSignIn() },
+                onClick = { loginViewModel.iniciarLogin(context) },
                 modifier = Modifier.fillMaxWidth(),
                 contentPadding = PaddingValues(vertical = 12.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.googleg_standard_color_18), // Assuming a google icon drawable
+                    painter = painterResource(id = R.drawable.googleg_standard_color_18),
                     contentDescription = stringResource(R.string.google_icon_content_description),
                     modifier = Modifier.size(24.dp)
                 )

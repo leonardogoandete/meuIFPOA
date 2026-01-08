@@ -19,6 +19,7 @@ Objetivo: O Aplicativo tem como objetivo melhorar a comunicação e o acesso de 
     <string name="msg_url_noticia_vazia">Link da notícia indisponível</string>
     <string name="txtViewTituloNome">Nome</string>
     <string name="btnSairPerfilText">SAIR</string>
+    <string name="default_web_client_id" translatable="false">534867621443-m5svd90jg9m3cm40ofndqp32dljnf3jf.apps.googleusercontent.com</string>
     <string name="txtViewUnidade1">UNIDADE 1</string>
     <string name="txtViewUnidade2">UNIDADE 2</string>
     <string name="txtViewRecuperacao">RECUPERAÇÃO</string>

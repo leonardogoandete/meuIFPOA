@@ -3,11 +3,12 @@ package br.com.ifrs.meuifpoa.ui.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import br.com.ifrs.meuifpoa.AppContainer
 import br.com.ifrs.meuifpoa.model.Documento.DocumentoRequest
 import br.com.ifrs.meuifpoa.model.Documento.DocumentoResponse
 import br.com.ifrs.meuifpoa.model.Perfil
-import br.com.ifrs.meuifpoa.retrofit.DocumentoRetrofit
+import br.com.ifrs.meuifpoa.retrofit.service.DocumentoService
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Source
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,11 +30,11 @@ data class HomeUiState(
     val documentResult: DocumentoResponse? = null
 )
 
-class HomeViewModel : ViewModel() {
-
-    private val db = AppContainer.firestore
-    private val mAuth = AppContainer.firebaseAuth
-    private val documentoService = DocumentoRetrofit.documentoService
+class HomeViewModel(
+    private val db: FirebaseFirestore,
+    private val mAuth: FirebaseAuth,
+    private val documentoService: DocumentoService
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
@@ -88,7 +89,7 @@ class HomeViewModel : ViewModel() {
             } catch (e: Exception) {
                 _uiState.update { it.copy(error = "Ocorreu um erro") }
             } finally {
-                _uiState.update { it.copy(isDocumentLoading = false, loadingDocumentType = null) } 
+                _uiState.update { it.copy(isDocumentLoading = false, loadingDocumentType = null) }
                 tipoDocumentoPendente = null
             }
         }

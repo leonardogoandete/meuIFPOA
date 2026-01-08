@@ -1,18 +1,39 @@
 package br.com.ifrs.meuifpoa
 
 import android.content.Context
+import br.com.ifrs.meuifpoa.retrofit.DocumentoRetrofit
+import br.com.ifrs.meuifpoa.retrofit.SyncRetrofit
+import br.com.ifrs.meuifpoa.retrofit.service.DocumentoService
+import br.com.ifrs.meuifpoa.retrofit.service.SyncService
+import br.com.ifrs.meuifpoa.ui.viewmodel.MeuIfpoaViewModelFactory
+import br.com.ifrs.meuifpoa.utils.SyncManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 /**
- * A simple singleton that provides dependencies to the rest of the app.
+ * A container for dependencies that are shared across the app.
  */
-object AppContainer {
+class AppContainer(context: Context) {
 
     // Firebase instances
     val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     val firestore: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
-    // You can add other global dependencies here, like Retrofit services
-    // val noticiasService = NoticiasRetrofit.noticiasService
+    // SyncManager for handling sync logic
+    val syncManager: SyncManager by lazy {
+        SyncManager(context)
+    }
+
+    // Retrofit services
+    val syncService: SyncService by lazy {
+        SyncRetrofit(context).syncService
+    }
+    val documentoService: DocumentoService by lazy {
+        DocumentoRetrofit.documentoService
+    }
+
+    // ViewModel Factory
+    val viewModelFactory: MeuIfpoaViewModelFactory by lazy {
+        MeuIfpoaViewModelFactory(this)
+    }
 }
