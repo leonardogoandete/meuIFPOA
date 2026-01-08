@@ -24,4 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "meuIFPOA"
 include(":app")
- 
+include(":baselineprofile")

@@ -10,12 +10,14 @@ import br.com.ifrs.meuifpoa.retrofit.service.DocumentoService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Source
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import retrofit2.awaitResponse
 import java.io.IOException
 
@@ -76,13 +78,19 @@ class HomeViewModel(
         viewModelScope.launch {
             _uiState.update { it.copy(isDocumentLoading = true, loadingDocumentType = tipoDocumento) }
             try {
-                val token = mAuth.currentUser?.getIdToken(true)?.await()?.token ?: ""
-                val request = DocumentoRequest(tipoDocumento, senha)
-                val response = documentoService.obterDocumento("Bearer $token", request).awaitResponse()
-                if (response.isSuccessful) {
-                    _uiState.update { it.copy(documentResult = response.body()) }
-                } else {
-                    _uiState.update { it.copy(error = "Erro ao emitir documento") }
+                val documentResult = withContext(Dispatchers.IO) {
+                    val token = mAuth.currentUser?.getIdToken(true)?.await()?.token ?: ""
+                    val request = DocumentoRequest(tipoDocumento, senha)
+                    val response = documentoService.obterDocumento("Bearer $token", request).awaitResponse()
+                    if (response.isSuccessful) {
+                        response.body()
+                    } else {
+                        _uiState.update { it.copy(error = "Erro ao emitir documento") }
+                        null
+                    }
+                }
+                if (documentResult != null) {
+                    _uiState.update { it.copy(documentResult = documentResult) }
                 }
             } catch (e: IOException) {
                 _uiState.update { it.copy(error = "Falha na conexão") }
