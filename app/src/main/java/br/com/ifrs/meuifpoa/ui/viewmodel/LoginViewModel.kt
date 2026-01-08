@@ -60,23 +60,28 @@ class LoginViewModel(
 
                 Log.d("LoginViewModel", "Credential type returned: ${credential::class.java.name}")
 
-                var idToken: String? = null
+                var googleIdTokenCredential: GoogleIdTokenCredential? = null
 
                 if (credential is GoogleIdTokenCredential) {
-                    idToken = credential.idToken
+                    googleIdTokenCredential = credential
                 } else if (credential is CustomCredential && credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
-                    // Fallback for devices that return a CustomCredential
                     try {
-                        val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
-                        idToken = googleIdTokenCredential.idToken
+                        googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
                     } catch (e: Exception) {
                         handleError("Erro ao extrair token da credencial customizada: ${e.message}")
                     }
                 }
 
-                if (idToken != null) {
-                    withContext(Dispatchers.IO) {
-                        firebaseAuthWithGoogle(idToken)
+                val idToken = googleIdTokenCredential?.idToken
+                val email = googleIdTokenCredential?.id
+
+                if (idToken != null && email != null) {
+                    if (email.endsWith("@aluno.poa.ifrs.edu.br") || email.endsWith("@ifrs.edu.br")) {
+                        withContext(Dispatchers.IO) {
+                            firebaseAuthWithGoogle(idToken, email)
+                        }
+                    } else {
+                        handleError(context.getString(R.string.invalid_domain_error))
                     }
                 } else {
                     handleError("Credencial inesperada ou inválida: ${credential::class.java.name}")
@@ -90,13 +95,13 @@ class LoginViewModel(
         }
     }
 
-    private suspend fun firebaseAuthWithGoogle(idToken: String) {
+    private suspend fun firebaseAuthWithGoogle(idToken: String, email: String) {
         try {
             val credential = GoogleAuthProvider.getCredential(idToken, null)
             mAuth.signInWithCredential(credential).await()
             val user = mAuth.currentUser
             if (user != null) {
-                salvarDadosUsuario(user)
+                salvarDadosUsuario(user, email)
                 withContext(Dispatchers.Main) {
                     _uiState.value = _uiState.value.copy(loginSuccess = true, isLoading = false)
                 }
@@ -108,11 +113,11 @@ class LoginViewModel(
         }
     }
 
-    private suspend fun salvarDadosUsuario(user: FirebaseUser) {
+    private suspend fun salvarDadosUsuario(user: FirebaseUser, email: String) {
         val docRef = db.collection("usuarios").document(user.uid)
         val snapshot = docRef.get().await()
         if (!snapshot.exists()) {
-            val perfil = Perfil(nomeDocente = user.displayName, curso = user.email)
+            val perfil = Perfil(nomeDocente = user.displayName, curso = email)
             docRef.set(perfil).await()
         }
     }

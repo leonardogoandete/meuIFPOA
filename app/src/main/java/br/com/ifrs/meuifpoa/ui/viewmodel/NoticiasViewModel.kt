@@ -4,8 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.ifrs.meuifpoa.model.Edital
 import br.com.ifrs.meuifpoa.model.Noticia
-import br.com.ifrs.meuifpoa.retrofit.EditaisRetrofit
-import br.com.ifrs.meuifpoa.retrofit.NoticiasRetrofit
+import br.com.ifrs.meuifpoa.retrofit.service.EditaisService
+import br.com.ifrs.meuifpoa.retrofit.service.NoticiasService
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.IOException
 import kotlin.coroutines.cancellation.CancellationException
 
@@ -26,10 +28,10 @@ data class NoticiasUiState(
     val selectedCategory: String = "noticia" // "noticia" or "edital"
 )
 
-class NoticiasViewModel : ViewModel() {
-
-    private val noticiasService = NoticiasRetrofit.noticiasService
-    private val editaisService = EditaisRetrofit.editaisService
+class NoticiasViewModel(
+    private val noticiasService: NoticiasService,
+    private val editaisService: EditaisService
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(NoticiasUiState())
     val uiState: StateFlow<NoticiasUiState> = _uiState.asStateFlow()
@@ -44,7 +46,7 @@ class NoticiasViewModel : ViewModel() {
         _uiState.update { it.copy(searchQuery = query) }
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
-            delay(400L)
+            delay(400L) // Debounce
             loadDataForCategory(filtro = query)
         }
     }
@@ -55,7 +57,7 @@ class NoticiasViewModel : ViewModel() {
     }
 
     fun onCategoryChange(newCategory: String) {
-        _uiState.update { it.copy(selectedCategory = newCategory, searchQuery = "") } // Reset search on category change
+        _uiState.update { it.copy(selectedCategory = newCategory, searchQuery = "") } // Reset search
         loadDataForCategory(categoria = newCategory, filtro = null)
     }
 
@@ -70,16 +72,18 @@ class NoticiasViewModel : ViewModel() {
             _uiState.update { it.copy(isLoading = true) }
             try {
                 if (categoria == "noticia") {
-                    val noticias = noticiasService.listarNoticias(query, limite, categoria)
+                    val noticias = withContext(Dispatchers.IO) {
+                        noticiasService.listarNoticias(query, limite, categoria)
+                    }
                     _uiState.update { it.copy(noticias = noticias, editais = emptyList(), isLoading = false) }
                 } else {
-                    val editais = editaisService.listarEditais(query, limite)
+                    val editais = withContext(Dispatchers.IO) {
+                        editaisService.listarEditais(query, limite)
+                    }
                     _uiState.update { it.copy(editais = editais, noticias = emptyList(), isLoading = false) }
                 }
             } catch (e: CancellationException) {
-                // This is an expected exception when a job is cancelled.
-                // We re-throw it to let the coroutine system handle it. Do not treat as an error.
-                throw e
+                throw e // Re-throw to let the coroutine system handle it
             } catch (e: IOException) {
                 _uiState.update { it.copy(error = "Falha na conexão", isLoading = false) }
             } catch (e: Exception) {

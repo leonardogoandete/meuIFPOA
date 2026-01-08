@@ -120,6 +120,7 @@ Currículo</string>
     <string name="no_items_found_message">Nenhum item encontrado.</string>
     <string name="news_category_button">Notícias</string>
     <string name="announcements_category_button">Editais</string>
+    <string name="invalid_domain_error">Apenas e-mails do IFRS são permitidos.</string>
 
     <string-array name="limites_noticias">
         <item>Nº noticias</item>

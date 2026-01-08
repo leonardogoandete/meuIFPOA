@@ -108,6 +108,7 @@ Objective: The application aims to improve communication and access to informati
     <string name="no_items_found_message">No items found.</string>
     <string name="news_category_button">News</string>
     <string name="announcements_category_button">Announcements</string>
+    <string name="invalid_domain_error">Only IFRS emails are allowed.</string>
 
     <string-array name="limites_noticias">
         <item>News count</item>

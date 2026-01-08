@@ -24,6 +24,13 @@ class MeuIfpoaViewModelFactory(private val appContainer: AppContainer) : ViewMod
                 db = appContainer.firestore
             ) as T
         }
+        if (modelClass.isAssignableFrom(NoticiasViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return NoticiasViewModel(
+                noticiasService = appContainer.noticiasService,
+                editaisService = appContainer.editaisService
+            ) as T
+        }
         if (modelClass.isAssignableFrom(PerfilViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return PerfilViewModel(

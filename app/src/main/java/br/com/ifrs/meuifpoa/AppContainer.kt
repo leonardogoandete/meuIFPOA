@@ -2,8 +2,12 @@ package br.com.ifrs.meuifpoa
 
 import android.content.Context
 import br.com.ifrs.meuifpoa.retrofit.DocumentoRetrofit
+import br.com.ifrs.meuifpoa.retrofit.EditaisRetrofit
+import br.com.ifrs.meuifpoa.retrofit.NoticiasRetrofit
 import br.com.ifrs.meuifpoa.retrofit.SyncRetrofit
 import br.com.ifrs.meuifpoa.retrofit.service.DocumentoService
+import br.com.ifrs.meuifpoa.retrofit.service.EditaisService
+import br.com.ifrs.meuifpoa.retrofit.service.NoticiasService
 import br.com.ifrs.meuifpoa.retrofit.service.SyncService
 import br.com.ifrs.meuifpoa.ui.viewmodel.MeuIfpoaViewModelFactory
 import br.com.ifrs.meuifpoa.utils.SyncManager
@@ -29,7 +33,13 @@ class AppContainer(context: Context) {
         SyncRetrofit(context).syncService
     }
     val documentoService: DocumentoService by lazy {
-        DocumentoRetrofit.documentoService
+        DocumentoRetrofit(context).documentoService
+    }
+    val noticiasService: NoticiasService by lazy {
+        NoticiasRetrofit(context).noticiasService
+    }
+    val editaisService: EditaisService by lazy {
+        EditaisRetrofit(context).editaisService
     }
 
     // ViewModel Factory

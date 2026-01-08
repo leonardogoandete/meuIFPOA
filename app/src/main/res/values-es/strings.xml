@@ -108,6 +108,7 @@ Objetivo: La aplicación tiene como objetivo mejorar la comunicación y el acces
     <string name="no_items_found_message">No se encontraron artículos.</string>
     <string name="news_category_button">Noticias</string>
     <string name="announcements_category_button">Edictos</string>
+    <string name="invalid_domain_error">Solo se permiten correos electrónicos del IFRS.</string>
 
     <string-array name="limites_noticias">
         <item>Cantidad de noticias</item>

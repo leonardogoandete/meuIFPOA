@@ -1,25 +1,24 @@
 package br.com.ifrs.meuifpoa.retrofit
 
+import android.content.Context
 import br.com.ifrs.meuifpoa.retrofit.service.NoticiasService
-import br.com.ifrs.meuifpoa.utils.Constants
+import br.com.ifrs.meuifpoa.utils.Constants.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-/**
- * Singleton que configura e fornece uma instância do serviço `NoticiasService`
- * para interagir com a API de notícias.
- */
-object NoticiasRetrofit {
+class NoticiasRetrofit(context: Context) {
 
     private val httpClient: OkHttpClient by lazy {
-        val interceptor = HttpLoggingInterceptor().apply {
+        val loggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
 
         OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(AuthInterceptor(context))
             .connectTimeout(60, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
@@ -28,7 +27,7 @@ object NoticiasRetrofit {
 
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL) // Corrected: Use the main API base URL
+            .baseUrl(BASE_URL)
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
