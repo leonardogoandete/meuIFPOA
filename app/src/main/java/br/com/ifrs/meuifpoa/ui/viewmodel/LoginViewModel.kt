@@ -76,7 +76,7 @@ class LoginViewModel(
                 val email = googleIdTokenCredential?.id
 
                 if (idToken != null && email != null) {
-                    if (email.endsWith("@aluno.poa.ifrs.edu.br") || email.endsWith("@ifrs.edu.br")) {
+                    if (email.endsWith("@aluno.poa.ifrs.edu.br") || email.endsWith("@ifrs.poa.edu.br")) {
                         withContext(Dispatchers.IO) {
                             firebaseAuthWithGoogle(idToken, email)
                         }
