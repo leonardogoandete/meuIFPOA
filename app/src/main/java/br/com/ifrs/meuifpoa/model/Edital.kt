@@ -6,10 +6,7 @@ data class Edital(
     val id: Int = 0,
     val link: String? = null,
     val titulo: String? = null,
-    val resumo: String? = null,
-    val dataPublicacao: String? = null,
-    val horaPublicacao: String? = null
+    val dataPublicacaoEdital: String? = null
+
 ) : Serializable {
-    val dataHoraPublicacao: String
-        get() = "$dataPublicacao - $horaPublicacao"
 }

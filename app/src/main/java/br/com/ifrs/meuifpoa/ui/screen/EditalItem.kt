@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.ifrs.meuifpoa.model.Edital
@@ -31,10 +32,14 @@ fun EditalItem(edital: Edital) {
             .fillMaxWidth()
             .padding(vertical = 4.dp, horizontal = 8.dp)
             .clickable {
-                val linkValue = edital.link
+                val linkValue = edital.link?.trim()
                 if (!linkValue.isNullOrBlank()) {
-                    val fullUrl = Constants.BASE_URL_NOTICIA + linkValue.trim()
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(fullUrl))
+                    val finalUrl = if (linkValue.startsWith("http://") || linkValue.startsWith("https://")) {
+                        linkValue // It's already a full URL
+                    } else {
+                        Constants.BASE_URL_NOTICIA + linkValue // It's a relative path
+                    }
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(finalUrl))
                     context.startActivity(intent)
                 }
             },
@@ -49,21 +54,15 @@ fun EditalItem(edital: Edital) {
             Text(
                 text = edital.titulo ?: "Sem título",
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                fontSize = 16.sp
+                fontSize = 16.sp,
+                 modifier = Modifier.padding(bottom = 8.dp) // Add padding to separate from date
             )
+            // Use the correct field and handle potential null value
             Text(
-                text = edital.resumo ?: "",
-                style = MaterialTheme.typography.bodyMedium,
-                fontSize = 14.sp,
-                modifier = Modifier.padding(top = 8.dp)
-            )
-            Text(
-                text = edital.dataHoraPublicacao,
+                text = edital.dataPublicacaoEdital ?: "",
                 style = MaterialTheme.typography.bodySmall.copy(fontStyle = FontStyle.Italic),
                 fontSize = 12.sp,
-                modifier = Modifier
-                    .align(Alignment.End)
-                    .padding(top = 8.dp)
+                modifier = Modifier.align(Alignment.End)
             )
         }
     }

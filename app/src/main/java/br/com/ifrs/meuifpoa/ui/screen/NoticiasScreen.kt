@@ -12,8 +12,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import br.com.ifrs.meuifpoa.model.Edital
+import br.com.ifrs.meuifpoa.model.Noticia
+import br.com.ifrs.meuifpoa.ui.theme.MeuIFPOATheme
+import br.com.ifrs.meuifpoa.ui.viewmodel.NoticiasUiState
 import br.com.ifrs.meuifpoa.ui.viewmodel.NoticiasViewModel
 
 @Composable
@@ -21,7 +26,7 @@ fun NoticiasScreen(noticiasViewModel: NoticiasViewModel = viewModel()) {
     val uiState by noticiasViewModel.uiState.collectAsState()
     val context = LocalContext.current
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(uiState.selectedCategory) { // Re-trigger when category changes
         noticiasViewModel.loadDataForCategory()
     }
 
@@ -30,24 +35,36 @@ fun NoticiasScreen(noticiasViewModel: NoticiasViewModel = viewModel()) {
         noticiasViewModel.clearError()
     }
 
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        CategoryTabs( // Replaced SegmentedButton with custom tabs
+    NoticiasScreenContent(uiState = uiState, onCategoryChange = {
+        noticiasViewModel.onCategoryChange(it)
+    }, onSearchQueryChange = {
+        noticiasViewModel.onSearchQueryChange(it)
+    })
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NoticiasScreenContent(
+    uiState: NoticiasUiState,
+    onCategoryChange: (String) -> Unit,
+    onSearchQueryChange: (String) -> Unit
+) {
+    Column(modifier = Modifier.fillMaxSize().padding(8.dp)) {
+        CategoryTabs(
             selectedCategory = uiState.selectedCategory,
-            onCategorySelected = { newCategory ->
-                noticiasViewModel.onCategoryChange(newCategory)
-            }
+            onCategorySelected = onCategoryChange
         )
 
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(2.dp))
 
         OutlinedTextField(
             value = uiState.searchQuery,
-            onValueChange = { noticiasViewModel.onSearchQueryChange(it) },
+            onValueChange = onSearchQueryChange,
             label = { Text("Buscar em ${if (uiState.selectedCategory == "noticia") "Notícias" else "Editais"}") },
             modifier = Modifier.fillMaxWidth()
         )
 
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(2.dp))
 
         if (uiState.isLoading) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -60,7 +77,7 @@ fun NoticiasScreen(noticiasViewModel: NoticiasViewModel = viewModel()) {
                     Text("Nenhum item encontrado.")
                 }
             } else {
-                LazyColumn(modifier = Modifier.padding(top = 8.dp)) {
+                LazyColumn(modifier = Modifier.padding(top = 4.dp)) {
                     if (uiState.selectedCategory == "noticia") {
                         items(uiState.noticias) { noticia ->
                             NoticiaItem(noticia = noticia)
@@ -99,9 +116,67 @@ private fun CategoryButton(text: String, isSelected: Boolean, onClick: () -> Uni
             Spacer(Modifier.height(4.dp))
             Box(modifier = Modifier
                 .height(underlineSize)
-                .width(40.dp)
+                .width(70.dp)
                 .background(MaterialTheme.colorScheme.primary)
             )
         }
+    }
+}
+
+// --- PREVIEWS ---
+
+@Preview(showBackground = true, name = "Notícias com Conteúdo")
+@Composable
+fun NoticiasScreenWithContentPreview() {
+    val sampleNoticias = listOf(
+        Noticia(1, "/link1", "IFRS abre 500 vagas para cursos", "Resumo da notícia sobre vagas abertas...", "01/01/26", "10:00"),
+        Noticia(2, "/link2", "Campus Porto Alegre realiza evento", "Resumo do evento de tecnologia...", "02/01/26", "11:00")
+    )
+    MeuIFPOATheme {
+        NoticiasScreenContent(
+            uiState = NoticiasUiState(noticias = sampleNoticias, selectedCategory = "noticia"),
+            onCategoryChange = {},
+            onSearchQueryChange = {}
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "Editais com Conteúdo")
+@Composable
+fun EditaisScreenWithContentPreview() {
+    val sampleEditais = listOf(
+        Edital(1, "/link1", "Edital 01/2026 - Monitoria", "03/01/2026"),
+        Edital(2, "/link2", "Edital 02/2026 - Bolsas", "04/01/2026")
+    )
+    MeuIFPOATheme {
+        NoticiasScreenContent(
+            uiState = NoticiasUiState(editais = sampleEditais, selectedCategory = "edital"),
+            onCategoryChange = {},
+            onSearchQueryChange = {}
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "Tela Carregando")
+@Composable
+fun NoticiasScreenLoadingPreview() {
+    MeuIFPOATheme {
+        NoticiasScreenContent(
+            uiState = NoticiasUiState(isLoading = true),
+            onCategoryChange = {},
+            onSearchQueryChange = {}
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "Nenhum Item Encontrado")
+@Composable
+fun NoticiasScreenEmptyPreview() {
+    MeuIFPOATheme {
+        NoticiasScreenContent(
+            uiState = NoticiasUiState(noticias = emptyList(), editais = emptyList()),
+            onCategoryChange = {},
+            onSearchQueryChange = {}
+        )
     }
 }

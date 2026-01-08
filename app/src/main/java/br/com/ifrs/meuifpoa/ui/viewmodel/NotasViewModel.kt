@@ -28,6 +28,7 @@ class NotasViewModel : ViewModel() {
                     _notas.value = perfil?.notas ?: emptyList()
                 } catch (e: Exception) {
                     // Tratar erro
+                    e.printStackTrace()
                 }
             }
         }

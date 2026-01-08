@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.ifrs.meuifpoa.AppContainer
 import br.com.ifrs.meuifpoa.R
 import br.com.ifrs.meuifpoa.model.Perfil
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -11,11 +12,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,8 +29,9 @@ data class LoginUiState(
 
 class LoginViewModel : ViewModel() {
 
-    private val mAuth = FirebaseAuth.getInstance()
-    private val db = FirebaseFirestore.getInstance()
+    // Use dependencies from the AppContainer
+    private val mAuth = AppContainer.firebaseAuth
+    private val db = AppContainer.firestore
 
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()

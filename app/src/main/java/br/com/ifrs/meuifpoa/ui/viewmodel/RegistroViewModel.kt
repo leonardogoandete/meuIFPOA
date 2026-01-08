@@ -3,9 +3,8 @@ package br.com.ifrs.meuifpoa.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.caelum.stella.validation.CPFValidator
+import br.com.ifrs.meuifpoa.AppContainer
 import br.com.ifrs.meuifpoa.model.Registro
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -13,8 +12,8 @@ import kotlinx.coroutines.tasks.await
 
 class RegistroViewModel : ViewModel() {
 
-    private val mAuth = FirebaseAuth.getInstance()
-    private val db = FirebaseFirestore.getInstance()
+    private val mAuth = AppContainer.firebaseAuth
+    private val db = AppContainer.firestore
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading

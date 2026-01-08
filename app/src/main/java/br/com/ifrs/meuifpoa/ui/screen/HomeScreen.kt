@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -60,7 +62,7 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
         )
     }
 
-    if (uiState.isLoading && uiState.perfil == null) {
+    if (uiState.isProfileLoading && uiState.perfil == null) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             CircularProgressIndicator()
         }
@@ -73,13 +75,26 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text("Olá, ${perfil.nomeDocente?.substringBefore(" ") ?: "Aluno"}!", style = MaterialTheme.typography.headlineMedium)
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
                 val progress = perfil.integralizado?.toIntOrNull() ?: 0
                 IntegralizacaoChart(progress = progress)
 
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Course Hours Section - RE-ADDED
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
+                    HourInfo(label = "CH Obrigatória Pendente", value = perfil.chObrigatoriaPendente)
+                    HourInfo(label = "CH Optativa Pendente", value = perfil.chOptativaPendente)
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
+                    HourInfo(label = "CH Complementar Pendente", value = perfil.chComplementarPendente)
+                    HourInfo(label = "CH Total Curriculo", value = perfil.chTotalCurriculo)
+                }
+
                 Spacer(modifier = Modifier.height(24.dp))
-                
+
                 val documentTypes = listOf(
                     "Histórico" to Constants.DOC_HISTORICO,
                     "Histórico com Ementas" to Constants.DOC_HISTORICO_EMENTAS,
@@ -93,7 +108,12 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     items(documentTypes) { (title, type) ->
-                        DocumentButton(text = title, documentType = type, viewModel = homeViewModel)
+                        DocumentButton(
+                            text = title,
+                            isLoading = uiState.loadingDocumentType == type,
+                            isAnyLoading = uiState.isDocumentLoading,
+                            onClick = { homeViewModel.onEmitirDocumentoClick(type) }
+                        )
                     }
                 }
             }
@@ -103,25 +123,50 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
     }
 }
 
+// Re-added HourInfo Composable
 @Composable
-fun DocumentButton(text: String, documentType: String, viewModel: HomeViewModel) {
-    val uiState by viewModel.uiState.collectAsState()
-    val isLoading = uiState.documentLoadingState[documentType] == true
+private fun HourInfo(label: String, value: String?) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(
+            text = value ?: "--", 
+            style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
+        )
+        Text(text = label, style = MaterialTheme.typography.bodyMedium)
+    }
+}
 
-    Card(
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DocumentButton(
+    text: String,
+    isLoading: Boolean,
+    isAnyLoading: Boolean,
+    onClick: () -> Unit
+) {
+    ElevatedCard(
+        onClick = onClick,
         modifier = Modifier
             .height(110.dp)
-            .fillMaxWidth()
-            .clickable(enabled = !isLoading) { // Click is handled here and disabled when loading
-                viewModel.onEmitirDocumentoClick(documentType)
-            },
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            .fillMaxWidth(),
+        enabled = !isAnyLoading,
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.primary)
     ) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
             if (isLoading) {
-                CircularProgressIndicator(modifier = Modifier.size(32.dp))
+                CircularProgressIndicator(modifier = Modifier.size(32.dp), color = Color.White)
             } else {
-                Text(text, textAlign = TextAlign.Center, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold)
+                Text(
+                    text = text, 
+                    textAlign = TextAlign.Center, 
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.White
+                )
             }
         }
     }
