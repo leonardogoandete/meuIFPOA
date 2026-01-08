@@ -17,10 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.com.ifrs.meuifpoa.R
 import br.com.ifrs.meuifpoa.model.Nota
 
 @Composable
@@ -50,7 +52,7 @@ fun NotaItem(nota: Nota) {
                 fontWeight = FontWeight.Bold,
             )
             Text(
-                text = nota.nomeDisciplina ?: "Disciplina não informada",
+                text = nota.nomeDisciplina ?: stringResource(R.string.discipline_not_informed),
                 color = Color.White,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
@@ -68,8 +70,8 @@ fun NotaItem(nota: Nota) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                GradeBox(title = "Unidade 1", grade = nota.primeiraUnidade, modifier = Modifier.weight(1f))
-                GradeBox(title = "Unidade 2", grade = nota.segundaUnidade, modifier = Modifier.weight(1f))
+                GradeBox(title = stringResource(R.string.unit_1_label), grade = nota.primeiraUnidade, modifier = Modifier.weight(1f))
+                GradeBox(title = stringResource(R.string.unit_2_label), grade = nota.segundaUnidade, modifier = Modifier.weight(1f))
             }
 
             Spacer(Modifier.height(8.dp))
@@ -78,9 +80,9 @@ fun NotaItem(nota: Nota) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                GradeBox(title = "Recuperação", grade = nota.notaRecuperacao, modifier = Modifier.weight(1f))
+                GradeBox(title = stringResource(R.string.recovery_label), grade = nota.notaRecuperacao, modifier = Modifier.weight(1f))
                 GradeBox(
-                    title = "Resultado",
+                    title = stringResource(R.string.result_label),
                     grade = nota.notaFinal,
                     modifier = Modifier.weight(1f),
                     // Only color the result box if the status is final
@@ -95,8 +97,8 @@ fun NotaItem(nota: Nota) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                InfoText(label = "Faltas", value = nota.numeroFaltas ?: "--")
-                InfoText(label = "Situação", value = nota.situacao ?: "--")
+                InfoText(label = stringResource(R.string.absences_label), value = nota.numeroFaltas ?: "--")
+                InfoText(label = stringResource(R.string.situation_label), value = nota.situacao ?: "--")
             }
         }
     }

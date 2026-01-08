@@ -29,7 +29,7 @@ fun ForgotPasswordDialog(
         title = { Text(stringResource(R.string.txtTituloRecuperacaoSenha)) },
         text = {
             Column {
-                Text("Digite seu e-mail para receber o link de recuperação de senha.")
+                Text(stringResource(R.string.forgot_password_instructions))
                 Spacer(modifier = Modifier.height(16.dp))
                 OutlinedTextField(
                     value = email,

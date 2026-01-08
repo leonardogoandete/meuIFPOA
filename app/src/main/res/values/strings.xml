@@ -13,7 +13,9 @@
     <string name="msg_deve_estar_logado">Você deve estar logado para acessar esta funcionalidade</string>
     <string name="msg_titulo_deve_estar_logado">Autenticacao necessaria</string>
     <string name="msg_titulo_sobre">Sobre</string>
-    <string name="msg_sobre">Nome: Leonardo Goandete\nDisciplina: Programação Web III\nObjetivo: O Aplicativo tem como objetivo melhorar a comunicação e o acesso de informações dos alunos do IFRS - Campus Porto Alegre.</string>
+    <string name="msg_sobre">Nome: Leonardo Goandete
+Disciplina: Programação Web III
+Objetivo: O Aplicativo tem como objetivo melhorar a comunicação e o acesso de informações dos alunos do IFRS - Campus Porto Alegre.</string>
     <string name="msg_url_noticia_vazia">Link da notícia indisponível</string>
     <string name="txtViewTituloNome">Nome</string>
     <string name="btnSairPerfilText">SAIR</string>
@@ -51,19 +53,72 @@
     <string name="msgBuscarNoticias">Buscar notícias</string>
     <string name="msgNaoTemNoticias">Não há notícias disponíveis</string>
     <string name="msgBtnEmitirHistorico">Emitir Histórico</string>
-    <string name="msgBtnEmitirHistoricoEmentas">Emitir\nHistorico com\nEmentas</string>
-    <string name="msgBtnEmitirDeclaracaoVinculo">Emitir\nDeclaração de\nvínculo</string>
-    <string name="msgBtnEmitirAtestadoMatricula">Emitir\nAtestado de\nmatrícula</string>
+    <string name="msgBtnEmitirHistoricoEmentas">Emitir
+Historico com
+Ementas</string>
+    <string name="msgBtnEmitirDeclaracaoVinculo">Emitir
+Declaração de
+vínculo</string>
+    <string name="msgBtnEmitirAtestadoMatricula">Emitir
+Atestado de
+matrícula</string>
     <string name="msgBemVindoUsuario">Bem vindo(a) usuário!</string>
     <string name="txtViewTituloIntegralizacoes">Progresso</string>
     <string name="dado_nao_disponivel">Não disponivel</string>
     <string name="msgSincronizando">Sincronizando...</string>
     <string name="msgBemVindo">"Bem vindo(a) "</string>
-    <string name="txtViewChObrigatoriaPendente">CH Obrigatória\nPendente</string>
-    <string name="txtViewChComplementarPendente">CH Complementar\nPendente</string>
-    <string name="txtViewChOptativaPendente">CH Optativa\nPendente</string>
-    <string name="txtViewChTotalCurriculo">CH Total\nCurrículo</string>
-    <string name="msgIntegralizado">Integralizado\n</string>
+    <string name="txtViewChObrigatoriaPendente">CH Obrigatória
+Pendente</string>
+    <string name="txtViewChComplementarPendente">CH Complementar
+Pendente</string>
+    <string name="txtViewChOptativaPendente">CH Optativa
+Pendente</string>
+    <string name="txtViewChTotalCurriculo">CH Total
+Currículo</string>
+    <string name="msgIntegralizado">Integralizado
+</string>
+    <string name="label_course">Curso</string>
+    <string name="profile_picture_description">Foto do Perfil</string>
+    <string name="ifrs_logo_description">Logo IFRS</string>
+    <string name="logout_button">Sair</string>
+    <string name="forgot_password_instructions">Digite seu e-mail para receber o link de recuperação de senha.</string>
+    <string name="siga_password_title">Senha SIGA</string>
+    <string name="siga_password_prompt_message">Para emitir o documento, por favor, insira sua senha do SIGA.</string>
+    <string name="password_label">Senha</string>
+    <string name="confirm_button_text">Confirmar</string>
+    <string name="discipline_not_informed">Disciplina não informada</string>
+    <string name="unit_1_label">Unidade 1</string>
+    <string name="unit_2_label">Unidade 2</string>
+    <string name="recovery_label">Recuperação</string>
+    <string name="result_label">Resultado</string>
+    <string name="absences_label">Faltas</string>
+    <string name="situation_label">Situação</string>
+    <string name="untitled_notice">Sem título</string>
+    <string name="welcome_message_user">Olá, %1$s!</string>
+    <string name="student_placeholder">Aluno</string>
+    <string name="workload_title">Cargas Horárias</string>
+    <string name="workload_mandatory_label">Obrigatória</string>
+    <string name="workload_elective_label">Optativa</string>
+    <string name="workload_complementary_label">Complementar</string>
+    <string name="workload_total_label">Total</string>
+    <string name="transcript_button">Histórico</string>
+    <string name="transcript_with_syllabi_button">Histórico com Ementas</string>
+    <string name="enrollment_statement_button">Declaração de Vínculo</string>
+    <string name="proof_of_enrollment_button">Atestado de Matrícula</string>
+    <string name="profile_not_found_error">Perfil não encontrado. Tente novamente mais tarde.</string>
+    <string name="home_label">Início</string>
+    <string name="back_button_description">Voltar</string>
+    <string name="about_button_description">Sobre</string>
+    <string name="more_options_button_description">Mais opções</string>
+    <string name="ok_button">OK</string>
+    <string name="ifrs_logo_content_description">Logo IFRS</string>
+    <string name="google_icon_content_description">Ícone do Google</string>
+    <string name="login_with_google_button_text">Entrar com Google</string>
+    <string name="search_in_news_label">Buscar em Notícias</string>
+    <string name="search_in_announcements_label">Buscar em Editais</string>
+    <string name="no_items_found_message">Nenhum item encontrado.</string>
+    <string name="news_category_button">Notícias</string>
+    <string name="announcements_category_button">Editais</string>
 
     <string-array name="limites_noticias">
         <item>Nº noticias</item>

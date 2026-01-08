@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import androidx.core.content.edit
 
 class PerfilViewModel : ViewModel() {
 
@@ -34,7 +35,7 @@ class PerfilViewModel : ViewModel() {
                         _perfil.value = document.toObject(Perfil::class.java)
                     }
                 } catch (e: Exception) {
-                    // Tratar erro
+
                 }
             }
         }
@@ -43,7 +44,7 @@ class PerfilViewModel : ViewModel() {
     fun sair(context: Context) {
         mAuth.signOut()
         // Limpa as SharedPreferences
-        context.getSharedPreferences("syncPrefs", Context.MODE_PRIVATE).edit().clear().apply()
-        context.getSharedPreferences("loginSigaa", Context.MODE_PRIVATE).edit().clear().apply()
+        context.getSharedPreferences("syncPrefs", Context.MODE_PRIVATE).edit { clear() }
+        context.getSharedPreferences("loginSigaa", Context.MODE_PRIVATE).edit { clear() }
     }
 }

@@ -4,14 +4,30 @@ import android.graphics.BitmapFactory
 import android.util.Base64
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.filled.MenuBook // Explicit import
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -21,14 +37,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.ifrs.meuifpoa.R
 import br.com.ifrs.meuifpoa.ui.viewmodel.PerfilViewModel
@@ -74,7 +90,7 @@ fun PerfilScreen(
             if (imageBitmap != null) {
                 Image(
                     bitmap = imageBitmap,
-                    contentDescription = "Foto do Perfil",
+                    contentDescription = stringResource(R.string.profile_picture_description),
                     modifier = Modifier
                         .size(160.dp)
                         .clip(CircleShape)
@@ -84,7 +100,7 @@ fun PerfilScreen(
             } else {
                 Image(
                     painter = painterResource(id = R.drawable.ifrs_poa_logo),
-                    contentDescription = "Logo IFRS",
+                    contentDescription = stringResource(R.string.ifrs_logo_description),
                     modifier = Modifier.size(160.dp)
                 )
             }
@@ -92,12 +108,12 @@ fun PerfilScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             Column(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
-                ProfileInfoRow(icon = Icons.Default.Person, label = "Nome", value = perfilState.nomeDocente)
-                ProfileInfoRow(icon = Icons.Default.AccountBox, label = "Matrícula", value = perfilState.matricula)
-                ProfileInfoRow(icon = Icons.Default.MenuBook, label = "Curso", value = perfilState.curso)
-                ProfileInfoRow(icon = Icons.Default.Star, label = "Nível", value = perfilState.nivel)
-                ProfileInfoRow(icon = Icons.Default.CheckCircle, label = "Situação", value = perfilState.status)
-                ProfileInfoRow(icon = Icons.Default.DateRange, label = "Ingresso", value = perfilState.anoIngresso)
+                ProfileInfoRow(icon = painterResource(id = R.drawable.ic_pessoa), label = stringResource(R.string.txtViewTituloNome), value = perfilState.nomeDocente)
+                ProfileInfoRow(icon = painterResource(id = R.drawable.ic_matricula), label = stringResource(R.string.txtViewTituloMatricula), value = perfilState.matricula)
+                ProfileInfoRow(icon = painterResource(id = R.drawable.ic_curso), label = stringResource(R.string.label_course), value = perfilState.curso)
+                ProfileInfoRow(icon = painterResource(id = R.drawable.ic_nivel), label = stringResource(R.string.txtViewTituloNivel), value = perfilState.nivel)
+                ProfileInfoRow(icon = painterResource(id = R.drawable.ic_status), label = stringResource(R.string.txtViewTituloSituacao), value = perfilState.status)
+                ProfileInfoRow(icon = painterResource(id = R.drawable.ic_ingresso), label = stringResource(R.string.txtViewTituloIngresso), value = perfilState.anoIngresso)
             }
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -106,7 +122,7 @@ fun PerfilScreen(
                 perfilViewModel.sair(context)
                 onLogout()
             }) {
-                Text("Sair")
+                Text(stringResource(id = R.string.logout_button))
             }
             Spacer(modifier = Modifier.height(20.dp))
         }
@@ -114,7 +130,7 @@ fun PerfilScreen(
 }
 
 @Composable
-fun ProfileInfoRow(icon: ImageVector, label: String, value: String?) {
+fun ProfileInfoRow(icon: Painter, label: String, value: String?) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -122,7 +138,7 @@ fun ProfileInfoRow(icon: ImageVector, label: String, value: String?) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            imageVector = icon,
+            painter = icon,
             contentDescription = label,
             modifier = Modifier.size(40.dp),
             tint = MaterialTheme.colorScheme.primary
@@ -130,7 +146,7 @@ fun ProfileInfoRow(icon: ImageVector, label: String, value: String?) {
         Spacer(modifier = Modifier.width(16.dp))
         Column {
             Text(text = label, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold))
-            Text(text = value ?: "Não disponível", style = MaterialTheme.typography.bodyLarge)
+            Text(text = value ?: stringResource(R.string.dado_nao_disponivel), style = MaterialTheme.typography.bodyLarge)
         }
     }
 }

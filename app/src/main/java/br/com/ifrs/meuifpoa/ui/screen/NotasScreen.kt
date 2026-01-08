@@ -33,23 +33,29 @@ fun NotasScreen(notasViewModel: NotasViewModel = viewModel()) {
 
 // 2. Stateless Composable (Receives data, easy to preview)
 @Composable
-fun NotasScreenContent(notas: List<Nota>) {
-    if (notas.isEmpty()) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            // In a real app, you might distinguish between a true loading state and an empty list.
-            // For now, this shows a spinner until notes are loaded.
-            CircularProgressIndicator()
+fun NotasScreenContent(notas: List<Nota>?) {
+    when {
+        notas == null -> {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
         }
-    } else {
-        LazyColumn {
-            items(notas) { nota ->
-                NotaItem(nota = nota)
+        notas.isEmpty() -> {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text("Não há notas para exibir!")
+            }
+        }
+        else -> {
+            LazyColumn {
+                items(notas) { nota ->
+                    NotaItem(nota = nota)
+                }
             }
         }
     }
 }
 
-// 3. Preview Function
+// 3. Preview Functions
 @Preview(showBackground = true, name = "Lista de Notas")
 @Composable
 fun NotasScreenPreview() {
@@ -78,5 +84,21 @@ fun NotasScreenPreview() {
 
     MeuIFPOATheme {
         NotasScreenContent(notas = sampleNotas)
+    }
+}
+
+@Preview(showBackground = true, name = "Sem Notas")
+@Composable
+fun NotasScreenEmptyPreview() {
+    MeuIFPOATheme {
+        NotasScreenContent(notas = emptyList())
+    }
+}
+
+@Preview(showBackground = true, name = "Carregando")
+@Composable
+fun NotasScreenLoadingPreview() {
+    MeuIFPOATheme {
+        NotasScreenContent(notas = null)
     }
 }

@@ -16,8 +16,8 @@ class NotasViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
     private val mAuth = FirebaseAuth.getInstance()
 
-    private val _notas = MutableStateFlow<List<Nota>>(emptyList())
-    val notas: StateFlow<List<Nota>> = _notas
+    private val _notas = MutableStateFlow<List<Nota>?>(null)
+    val notas: StateFlow<List<Nota>?> = _notas
 
     fun carregarNotas() {
         viewModelScope.launch {
@@ -29,7 +29,10 @@ class NotasViewModel : ViewModel() {
                 } catch (e: Exception) {
                     // Tratar erro
                     e.printStackTrace()
+                    _notas.value = emptyList()
                 }
+            } ?: run {
+                _notas.value = emptyList()
             }
         }
     }

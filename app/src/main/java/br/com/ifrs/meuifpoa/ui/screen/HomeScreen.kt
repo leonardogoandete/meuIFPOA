@@ -4,23 +4,26 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Base64
 import android.widget.Toast
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
+import br.com.ifrs.meuifpoa.R
 import br.com.ifrs.meuifpoa.ui.dialog.PasswordPromptDialog
 import br.com.ifrs.meuifpoa.ui.viewmodel.HomeViewModel
 import br.com.ifrs.meuifpoa.utils.Constants
@@ -71,10 +74,17 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Olá, ${perfil.nomeDocente?.substringBefore(" ") ?: "Aluno"}!", style = MaterialTheme.typography.headlineMedium)
+                Text(
+                    stringResource(
+                        R.string.welcome_message_user,
+                        perfil.nomeDocente?.substringBefore(" ") ?: stringResource(R.string.student_placeholder)
+                    ),
+                    style = MaterialTheme.typography.headlineMedium
+                )
                 Spacer(modifier = Modifier.height(16.dp))
 
                 val progress = perfil.integralizado?.toIntOrNull() ?: 0
@@ -82,53 +92,72 @@ fun HomeScreen(homeViewModel: HomeViewModel = viewModel()) {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Course Hours Section - RE-ADDED
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
-                    HourInfo(label = "CH Obrigatória Pendente", value = perfil.chObrigatoriaPendente)
-                    HourInfo(label = "CH Optativa Pendente", value = perfil.chOptativaPendente)
+                Text(stringResource(R.string.workload_title), style = MaterialTheme.typography.titleMedium, modifier = Modifier.padding(bottom = 8.dp))
+
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    HourInfo(label = stringResource(R.string.workload_mandatory_label), value = perfil.chObrigatoriaPendente, modifier = Modifier.weight(1f))
+                    HourInfo(label = stringResource(R.string.workload_elective_label), value = perfil.chOptativaPendente, modifier = Modifier.weight(1f))
                 }
                 Spacer(modifier = Modifier.height(8.dp))
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround) {
-                    HourInfo(label = "CH Complementar Pendente", value = perfil.chComplementarPendente)
-                    HourInfo(label = "CH Total Curriculo", value = perfil.chTotalCurriculo)
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    HourInfo(label = stringResource(R.string.workload_complementary_label), value = perfil.chComplementarPendente, modifier = Modifier.weight(1f))
+                    HourInfo(label = stringResource(R.string.workload_total_label), value = perfil.chTotalCurriculo, modifier = Modifier.weight(1f))
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                val documentTypes = listOf(
-                    "Histórico" to Constants.DOC_HISTORICO,
-                    "Histórico com Ementas" to Constants.DOC_HISTORICO_EMENTAS,
-                    "Declaração de Vínculo" to Constants.DOC_DECLARACAO_VINCULO,
-                    "Atestado de Matrícula" to Constants.DOC_ATESTADO_MATRICULA
-                )
-
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(2),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(documentTypes) { (title, type) ->
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Column(modifier = Modifier.weight(1f)) {
                         DocumentButton(
-                            text = title,
-                            isLoading = uiState.loadingDocumentType == type,
+                            text = stringResource(R.string.transcript_button),
+                            isLoading = uiState.loadingDocumentType == Constants.DOC_HISTORICO,
                             isAnyLoading = uiState.isDocumentLoading,
-                            onClick = { homeViewModel.onEmitirDocumentoClick(type) }
+                            onClick = { homeViewModel.onEmitirDocumentoClick(Constants.DOC_HISTORICO) }
+                        )
+                    }
+                    Column(modifier = Modifier.weight(1f)) {
+                        DocumentButton(
+                            text = stringResource(R.string.transcript_with_syllabi_button),
+                            isLoading = uiState.loadingDocumentType == Constants.DOC_HISTORICO_EMENTAS,
+                            isAnyLoading = uiState.isDocumentLoading,
+                            onClick = { homeViewModel.onEmitirDocumentoClick(Constants.DOC_HISTORICO_EMENTAS) }
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(12.dp))
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        DocumentButton(
+                            text = stringResource(R.string.enrollment_statement_button),
+                            isLoading = uiState.loadingDocumentType == Constants.DOC_DECLARACAO_VINCULO,
+                            isAnyLoading = uiState.isDocumentLoading,
+                            onClick = { homeViewModel.onEmitirDocumentoClick(Constants.DOC_DECLARACAO_VINCULO) }
+                        )
+                    }
+                    Column(modifier = Modifier.weight(1f)) {
+                        DocumentButton(
+                            text = stringResource(R.string.proof_of_enrollment_button),
+                            isLoading = uiState.loadingDocumentType == Constants.DOC_ATESTADO_MATRICULA,
+                            isAnyLoading = uiState.isDocumentLoading,
+                            onClick = { homeViewModel.onEmitirDocumentoClick(Constants.DOC_ATESTADO_MATRICULA) }
                         )
                     }
                 }
             }
         } ?: Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text("Perfil não encontrado. Tente novamente mais tarde.")
+            Text(stringResource(R.string.profile_not_found_error))
         }
     }
 }
 
-// Re-added HourInfo Composable
 @Composable
-private fun HourInfo(label: String, value: String?) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+private fun HourInfo(label: String, value: String?, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text(
-            text = value ?: "--", 
+            text = value ?: "--",
             style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
         )
         Text(text = label, style = MaterialTheme.typography.bodyMedium)
@@ -141,11 +170,12 @@ fun DocumentButton(
     text: String,
     isLoading: Boolean,
     isAnyLoading: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     ElevatedCard(
         onClick = onClick,
-        modifier = Modifier
+        modifier = modifier
             .height(110.dp)
             .fillMaxWidth(),
         enabled = !isAnyLoading,
@@ -154,15 +184,15 @@ fun DocumentButton(
         colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.primary)
     ) {
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().padding(horizontal = 4.dp), // Add horizontal padding
             contentAlignment = Alignment.Center
         ) {
             if (isLoading) {
                 CircularProgressIndicator(modifier = Modifier.size(32.dp), color = Color.White)
             } else {
                 Text(
-                    text = text, 
-                    textAlign = TextAlign.Center, 
+                    text = text,
+                    textAlign = TextAlign.Center, // Ensure text is centered
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.SemiBold,
                     color = Color.White

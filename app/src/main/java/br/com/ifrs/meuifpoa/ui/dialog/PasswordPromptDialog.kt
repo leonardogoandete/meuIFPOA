@@ -11,9 +11,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import br.com.ifrs.meuifpoa.R
 
 @Composable
 fun PasswordPromptDialog(
@@ -24,15 +26,15 @@ fun PasswordPromptDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Senha SIGA") },
+        title = { Text(stringResource(R.string.siga_password_title)) },
         text = {
             Column {
-                Text("Para emitir o documento, por favor, insira sua senha do SIGA.")
+                Text(stringResource(R.string.siga_password_prompt_message))
                 Spacer(modifier = Modifier.height(16.dp))
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
-                    label = { Text("Senha") },
+                    label = { Text(stringResource(R.string.password_label)) },
                     singleLine = true,
                     visualTransformation = PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
@@ -45,12 +47,12 @@ fun PasswordPromptDialog(
                     onConfirm(password)
                 }
             }) {
-                Text("Confirmar")
+                Text(stringResource(R.string.confirm_button_text))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancelar")
+                Text(stringResource(R.string.btnCancelarEmailRecuperarSenha))
             }
         }
     )

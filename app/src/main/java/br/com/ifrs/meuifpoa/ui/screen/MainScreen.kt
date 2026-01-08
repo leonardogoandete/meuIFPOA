@@ -21,18 +21,25 @@ import androidx.navigation.compose.rememberNavController
 import br.com.ifrs.meuifpoa.R
 import br.com.ifrs.meuifpoa.ui.MainScreen as MainScreenRoute
 
-sealed class BottomNavItem(val route: String, val icon: ImageVector, val label: String) {
-    object Home : BottomNavItem(MainScreenRoute.Home.route, Icons.Default.Home, "Início")
-    object Notas : BottomNavItem(MainScreenRoute.Notas.route, Icons.Default.DateRange, "Notas")
-    object Noticias : BottomNavItem(MainScreenRoute.Noticias.route, Icons.AutoMirrored.Filled.List, "Notícias")
-    object Perfil : BottomNavItem(MainScreenRoute.Perfil.route, Icons.Default.AccountCircle, "Perfil")
+data class BottomNavItem(val route: String, val icon: ImageVector, val label: String) {
+    companion object {
+        val Home = BottomNavItem(MainScreenRoute.Home.route, Icons.Default.Home, "Início")
+        val Notas = BottomNavItem(MainScreenRoute.Notas.route, Icons.Default.DateRange, "Notas")
+        val Noticias = BottomNavItem(MainScreenRoute.Noticias.route, Icons.AutoMirrored.Filled.List, "Notícias")
+        val Perfil = BottomNavItem(MainScreenRoute.Perfil.route, Icons.Default.AccountCircle, "Perfil")
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(onLogout: () -> Unit) {
     val navController = rememberNavController()
-    val bottomNavItems = listOf(BottomNavItem.Home, BottomNavItem.Notas, BottomNavItem.Noticias, BottomNavItem.Perfil)
+    val bottomNavItems = listOf(
+        BottomNavItem.Home.copy(label = stringResource(id = R.string.home_label)),
+        BottomNavItem.Notas.copy(label = stringResource(id = R.string.notas_bar)),
+        BottomNavItem.Noticias.copy(label = stringResource(id = R.string.noticias_bar)),
+        BottomNavItem.Perfil.copy(label = stringResource(id = R.string.perfil_bar))
+    )
 
     var showMenu by remember { mutableStateOf(false) }
     var showAboutDialog by remember { mutableStateOf(false) }
@@ -40,7 +47,7 @@ fun MainScreen(onLogout: () -> Unit) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val currentScreen = bottomNavItems.find { item -> currentDestination?.hierarchy?.any { it.route == item.route } ?: false }
-        ?: BottomNavItem.Home
+        ?: bottomNavItems[0]
 
     Scaffold(
         topBar = {
@@ -55,21 +62,21 @@ fun MainScreen(onLogout: () -> Unit) {
                 navigationIcon = {
                     if (navController.previousBackStackEntry != null) {
                         IconButton(onClick = { navController.navigateUp() }) {
-                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back_button_description))
                         }
                     }
                 },
                 actions = {
                     IconButton(onClick = { showAboutDialog = true }) {
-                        Icon(Icons.Default.Info, contentDescription = "Sobre")
+                        Icon(Icons.Default.Info, contentDescription = stringResource(R.string.about_button_description))
                     }
                     Box {
                         IconButton(onClick = { showMenu = true }) {
-                            Icon(Icons.Default.MoreVert, contentDescription = "Mais opções")
+                            Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.more_options_button_description))
                         }
                         DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
                             bottomNavItems.forEach { screen ->
-                                if (screen != BottomNavItem.Perfil) { 
+                                if (screen.route != BottomNavItem.Perfil.route) { // Compare routes for safety
                                     DropdownMenuItem(
                                         text = { Text(screen.label) },
                                         onClick = {
@@ -141,7 +148,7 @@ private fun AboutDialog(onDismiss: () -> Unit) {
         text = { Text(stringResource(id = R.string.msg_sobre)) },
         confirmButton = {
             TextButton(onClick = onDismiss) {
-                Text("OK")
+                Text(stringResource(R.string.ok_button))
             }
         }
     )

@@ -78,7 +78,7 @@ fun LoginScreen(
     ) {
         Image(
             painter = painterResource(id = R.drawable.ifrs_logo),
-            contentDescription = "IFRS Logo",
+            contentDescription = stringResource(R.string.ifrs_logo_content_description),
             modifier = Modifier.fillMaxWidth(0.7f) // Adjust size
         )
         Spacer(modifier = Modifier.height(64.dp))
@@ -93,11 +93,11 @@ fun LoginScreen(
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.googleg_standard_color_18), // Assuming a google icon drawable
-                    contentDescription = "Google Icon",
+                    contentDescription = stringResource(R.string.google_icon_content_description),
                     modifier = Modifier.size(24.dp)
                 )
                 Spacer(Modifier.width(12.dp))
-                Text("Entrar com Google", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.login_with_google_button_text), fontWeight = FontWeight.Bold)
             }
         }
     }

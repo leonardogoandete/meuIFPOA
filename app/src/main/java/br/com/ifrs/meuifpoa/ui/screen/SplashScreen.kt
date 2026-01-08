@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.ifrs.meuifpoa.R
@@ -36,7 +37,7 @@ fun SplashScreen(onTimeout: () -> Unit) {
     ) {
         Image(
             painter = painterResource(id = R.drawable.ifrs_logo),
-            contentDescription = "IFRS Logo",
+            contentDescription = stringResource(R.string.ifrs_logo_content_description),
             modifier = Modifier.size(200.dp)
         )
         CircularProgressIndicator(

@@ -13,7 +13,9 @@
     <string name="msg_deve_estar_logado">Debe iniciar sesión para acceder a esta funcionalidad</string>
     <string name="msg_titulo_deve_estar_logado">Autenticación requerida</string>
     <string name="msg_titulo_sobre">Acerca de</string>
-    <string name="msg_sobre">Nombre: Leonardo Goandete\nAsignatura: Programación Web III\nObjetivo: La aplicación tiene como objetivo mejorar la comunicación y el acceso a la información de los estudiantes del IFRS - Campus Porto Alegre.</string>
+    <string name="msg_sobre">Nombre: Leonardo Goandete
+Asignatura: Programación Web III
+Objetivo: La aplicación tiene como objetivo mejorar la comunicación y el acceso a la información de los estudiantes del IFRS - Campus Porto Alegre.</string>
     <string name="msg_url_noticia_vazia">Enlace de noticias no disponible</string>
     <string name="txtViewTituloNome">Nombre</string>
     <string name="btnSairPerfilText">SALIR</string>
@@ -62,7 +64,50 @@
     <string name="txtViewChComplementarPendente">CH complementario Pendiente</string>
     <string name="txtViewChOptativaPendente">CH Opcional Pendiente</string>
     <string name="txtViewChTotalCurriculo">CH CV total</string>
-    <string name="msgIntegralizado">Pagado\n</string>
+    <string name="msgIntegralizado">Pagado
+</string>
+    <string name="label_course">Curso</string>
+    <string name="profile_picture_description">Foto de perfil</string>
+    <string name="ifrs_logo_description">Logo IFRS</string>
+    <string name="logout_button">Cerrar sesión</string>
+    <string name="forgot_password_instructions">Introduce tu correo electrónico para recibir un enlace de recuperación de contraseña.</string>
+    <string name="siga_password_title">Contraseña SIGA</string>
+    <string name="siga_password_prompt_message">Para emitir el documento, por favor, ingrese su contraseña de SIGA.</string>
+    <string name="password_label">Contraseña</string>
+    <string name="confirm_button_text">Confirmar</string>
+    <string name="discipline_not_informed">Disciplina no informada</string>
+    <string name="unit_1_label">Unidad 1</string>
+    <string name="unit_2_label">Unidad 2</string>
+    <string name="recovery_label">Recuperación</string>
+    <string name="result_label">Resultado</string>
+    <string name="absences_label">Ausencias</string>
+    <string name="situation_label">Situación</string>
+    <string name="untitled_notice">Sin título</string>
+    <string name="welcome_message_user">¡Hola, %1$s!</string>
+    <string name="student_placeholder">Alumno</string>
+    <string name="workload_title">Cargas Horarias</string>
+    <string name="workload_mandatory_label">Obligatoria</string>
+    <string name="workload_elective_label">Optativa</string>
+    <string name="workload_complementary_label">Complementaria</string>
+    <string name="workload_total_label">Total</string>
+    <string name="transcript_button">Historial</string>
+    <string name="transcript_with_syllabi_button">Historial con Programas</string>
+    <string name="enrollment_statement_button">Declaración de Vínculo</string>
+    <string name="proof_of_enrollment_button">Certificado de Matrícula</string>
+    <string name="profile_not_found_error">Perfil no encontrado. Por favor, inténtelo de nuevo más tarde.</string>
+    <string name="home_label">Inicio</string>
+    <string name="back_button_description">Volver</string>
+    <string name="about_button_description">Acerca de</string>
+    <string name="more_options_button_description">Más opciones</string>
+    <string name="ok_button">Aceptar</string>
+    <string name="ifrs_logo_content_description">Logo del IFRS</string>
+    <string name="google_icon_content_description">Ícono de Google</string>
+    <string name="login_with_google_button_text">Iniciar sesión con Google</string>
+    <string name="search_in_news_label">Buscar en Noticias</string>
+    <string name="search_in_announcements_label">Buscar en Edictos</string>
+    <string name="no_items_found_message">No se encontraron artículos.</string>
+    <string name="news_category_button">Noticias</string>
+    <string name="announcements_category_button">Edictos</string>
 
     <string-array name="limites_noticias">
         <item>Cantidad de noticias</item>

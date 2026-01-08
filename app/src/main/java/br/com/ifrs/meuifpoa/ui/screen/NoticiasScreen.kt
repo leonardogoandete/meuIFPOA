@@ -11,10 +11,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import br.com.ifrs.meuifpoa.R
 import br.com.ifrs.meuifpoa.model.Edital
 import br.com.ifrs.meuifpoa.model.Noticia
 import br.com.ifrs.meuifpoa.ui.theme.MeuIFPOATheme
@@ -60,7 +62,7 @@ fun NoticiasScreenContent(
         OutlinedTextField(
             value = uiState.searchQuery,
             onValueChange = onSearchQueryChange,
-            label = { Text("Buscar em ${if (uiState.selectedCategory == "noticia") "Notícias" else "Editais"}") },
+            label = { Text(if (uiState.selectedCategory == "noticia") stringResource(R.string.search_in_news_label) else stringResource(R.string.search_in_announcements_label)) },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -74,7 +76,7 @@ fun NoticiasScreenContent(
             val hasContent = uiState.noticias.isNotEmpty() || uiState.editais.isNotEmpty()
             if (!hasContent) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("Nenhum item encontrado.")
+                    Text(stringResource(R.string.no_items_found_message))
                 }
             } else {
                 LazyColumn(modifier = Modifier.padding(top = 4.dp)) {
@@ -96,10 +98,10 @@ fun NoticiasScreenContent(
 @Composable
 private fun CategoryTabs(selectedCategory: String, onCategorySelected: (String) -> Unit) {
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-        CategoryButton(text = "Notícias", isSelected = selectedCategory == "noticia") {
+        CategoryButton(text = stringResource(R.string.news_category_button), isSelected = selectedCategory == "noticia") {
             onCategorySelected("noticia")
         }
-        CategoryButton(text = "Editais", isSelected = selectedCategory == "edital") {
+        CategoryButton(text = stringResource(R.string.announcements_category_button), isSelected = selectedCategory == "edital") {
             onCategorySelected("edital")
         }
     }
