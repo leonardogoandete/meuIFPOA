@@ -43,7 +43,7 @@ Objective: The application aims to improve communication and access to informati
     <string name="titulo_cadastro">Sign Up</string>
     <string name="txtInputEmail">Enter your email</string>
     <string name="txtTituloRecuperacaoSenha">Password Recovery</string>
-    <string name="txtInputSenhaSigaa">Enter your Sigaa password</string>
+    <string name="txtInputSenhaSigaa">Enter your SIGAA password</string>
     <string name="txtTituloSyncSigaa">Sync with SIGAA</string>
     <string name="msg_sync_sucesso">Sync completed successfully</string>
     <string name="msg_sync_erro">Error syncing data</string>
@@ -71,8 +71,8 @@ Objective: The application aims to improve communication and access to informati
     <string name="ifrs_logo_description">IFRS Logo</string>
     <string name="logout_button">Logout</string>
     <string name="forgot_password_instructions">Enter your email to receive a password recovery link.</string>
-    <string name="siga_password_title">SIGA Password</string>
-    <string name="siga_password_prompt_message">To issue the document, please enter your SIGA password.</string>
+    <string name="siga_password_title">SIGAA Password</string>
+    <string name="siga_password_prompt_message">To issue the document, please enter your SIGAA password.</string>
     <string name="password_label">Password</string>
     <string name="confirm_button_text">Confirm</string>
     <string name="discipline_not_informed">Discipline not informed</string>
@@ -109,6 +109,8 @@ Objective: The application aims to improve communication and access to informati
     <string name="news_category_button">News</string>
     <string name="announcements_category_button">Announcements</string>
     <string name="invalid_domain_error">Only IFRS emails are allowed.</string>
+    <string name="show_password_description">Show password</string>
+    <string name="hide_password_description">Hide password</string>
 
     <string-array name="limites_noticias">
         <item>News count</item>

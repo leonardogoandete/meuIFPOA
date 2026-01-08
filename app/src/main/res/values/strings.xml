@@ -45,7 +45,7 @@ Objetivo: O Aplicativo tem como objetivo melhorar a comunicação e o acesso de 
     <string name="titulo_cadastro">Cadastro</string>
     <string name="txtInputEmail">Digite seu e-mail</string>
     <string name="txtTituloRecuperacaoSenha">Recuperação de Senha</string>
-    <string name="txtInputSenhaSigaa">Digite a senha do Sigaa</string>
+    <string name="txtInputSenhaSigaa">Digite a senha do SIGAA</string>
     <string name="txtTituloSyncSigaa">Sincronizar com SIGAA</string>
     <string name="msg_sync_sucesso">Sincronização realizada com sucesso</string>
     <string name="msg_sync_erro">Erro ao sincronizar dados</string>
@@ -83,7 +83,7 @@ Currículo</string>
     <string name="ifrs_logo_description">Logo IFRS</string>
     <string name="logout_button">Sair</string>
     <string name="forgot_password_instructions">Digite seu e-mail para receber o link de recuperação de senha.</string>
-    <string name="siga_password_title">Senha SIGA</string>
+    <string name="siga_password_title">Senha SIGAA</string>
     <string name="siga_password_prompt_message">Para emitir o documento, por favor, insira sua senha do SIGA.</string>
     <string name="password_label">Senha</string>
     <string name="confirm_button_text">Confirmar</string>
@@ -121,6 +121,8 @@ Currículo</string>
     <string name="news_category_button">Notícias</string>
     <string name="announcements_category_button">Editais</string>
     <string name="invalid_domain_error">Apenas e-mails do IFRS são permitidos.</string>
+    <string name="show_password_description">Mostrar senha</string>
+    <string name="hide_password_description">Esconder senha</string>
 
     <string-array name="limites_noticias">
         <item>Nº noticias</item>

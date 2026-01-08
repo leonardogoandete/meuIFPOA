@@ -71,7 +71,7 @@ Objetivo: La aplicación tiene como objetivo mejorar la comunicación y el acces
     <string name="ifrs_logo_description">Logo IFRS</string>
     <string name="logout_button">Cerrar sesión</string>
     <string name="forgot_password_instructions">Introduce tu correo electrónico para recibir un enlace de recuperación de contraseña.</string>
-    <string name="siga_password_title">Contraseña SIGA</string>
+    <string name="siga_password_title">Contraseña SIGAA</string>
     <string name="siga_password_prompt_message">Para emitir el documento, por favor, ingrese su contraseña de SIGA.</string>
     <string name="password_label">Contraseña</string>
     <string name="confirm_button_text">Confirmar</string>
@@ -109,6 +109,8 @@ Objetivo: La aplicación tiene como objetivo mejorar la comunicación y el acces
     <string name="news_category_button">Noticias</string>
     <string name="announcements_category_button">Edictos</string>
     <string name="invalid_domain_error">Solo se permiten correos electrónicos del IFRS.</string>
+    <string name="show_password_description">Mostrar contraseña</string>
+    <string name="hide_password_description">Ocultar contraseña</string>
 
     <string-array name="limites_noticias">
         <item>Cantidad de noticias</item>
