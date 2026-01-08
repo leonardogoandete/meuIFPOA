@@ -1,31 +1,15 @@
 package br.com.ifrs.meuifpoa.ui.screen
 
 import android.content.Intent
+import android.net.Uri
 import android.util.Base64
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -195,24 +179,30 @@ fun DocumentButton(
         modifier = modifier
             .height(110.dp)
             .fillMaxWidth(),
-        enabled = !isAnyLoading,
+        enabled = !isAnyLoading, // Disable the card if any document is loading
         shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.primary)
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = Color.White,
+            disabledContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f), // Explicitly set disabled color
+            disabledContentColor = Color.White.copy(alpha = 0.8f) // Explicitly set disabled content color
+        )
     ) {
         Box(
-            modifier = Modifier.fillMaxSize().padding(horizontal = 4.dp), // Add horizontal padding
+            modifier = Modifier.fillMaxSize().padding(horizontal = 4.dp),
             contentAlignment = Alignment.Center
         ) {
             if (isLoading) {
+                // This specific button is loading, show a spinner
                 CircularProgressIndicator(modifier = Modifier.size(32.dp), color = Color.White)
             } else {
+                // This button is not the one loading, show the text.
                 Text(
                     text = text,
-                    textAlign = TextAlign.Center, // Ensure text is centered
+                    textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.SemiBold,
-                    color = Color.White
                 )
             }
         }
