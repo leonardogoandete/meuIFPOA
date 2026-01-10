@@ -1,0 +1,58 @@
+<resources>
+    <!-- App Name -->
+    <string name="app_name">Meu IFPOA</string>
+
+    <!-- Login Screen -->
+    <string name="login_title">Bem-vindo ao Meu IFPOA</string>
+    <string name="login_google_button">Entrar com Google</string>
+    <string name="login_email_button">Entrar com E-mail</string>
+
+    <!-- Home Screen -->
+    <string name="home_title">Início</string>
+    <string name="home_documents">Documentos</string>
+    <string name="home_diploma">Diploma</string>
+    <string name="home_historico">Histórico</string>
+    <string name="home_declaracao_matricula">Declaração de Matrícula</string>
+    <string name="home_declaracao_vinculo">Declaração de Vínculo</string>
+    <string name="home_declaracao_conclusao">Declaração de Conclusão</string>
+    <string name="home_termo_compromisso">Termo de Compromisso</string>
+
+    <!-- Perfil Screen -->
+    <string name="profile_title">Perfil</string>
+    <string name="profile_name">Nome</string>
+    <string name="profile_email">E-mail</string>
+    <string name="profile_course">Curso</string>
+    <string name="profile_registration">Matrícula</string>
+    <string name="profile_campus">Campus</string>
+    <string name="profile_semester">Semestre</string>
+    <string name="profile_logout">Sair</string>
+
+    <!-- Notas Screen -->
+    <string name="grades_title">Notas</string>
+    <string name="grades_semester">Semestre</string>
+    <string name="grades_subject">Disciplina</string>
+    <string name="grades_grade">Nota</string>
+
+    <!-- Notícias Screen -->
+    <string name="news_title">Notícias</string>
+    <string name="news_all">Todas</string>
+    <string name="news_editais">Editais</string>
+    <string name="news_search">Buscar notícias</string>
+    <string name="news_empty">Nenhuma notícia encontrada</string>
+
+    <!-- Password Dialog -->
+    <string name="password_title">Digite sua senha</string>
+    <string name="password_hint">Senha</string>
+    <string name="password_confirm">Confirmar</string>
+    <string name="password_cancel">Cancelar</string>
+    <string name="password_show">Mostrar senha</string>
+    <string name="password_hide">Ocultar senha</string>
+
+    <!-- Common -->
+    <string name="loading">Carregando...</string>
+    <string name="error">Erro</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancelar</string>
+    <string name="save">Salvar</string>
+</resources>
+

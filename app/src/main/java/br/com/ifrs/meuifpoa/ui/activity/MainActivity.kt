@@ -3,47 +3,45 @@ package br.com.ifrs.meuifpoa.ui.activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import br.com.ifrs.meuifpoa.ui.Screen
-import br.com.ifrs.meuifpoa.ui.screen.LoginScreen
-import br.com.ifrs.meuifpoa.ui.screen.MainScreen
-import br.com.ifrs.meuifpoa.ui.theme.MeuIFPOATheme
-import com.google.firebase.auth.FirebaseAuth
+import br.com.ifrs.meuifpoa.App
+import br.com.ifrs.meuifpoa.AppContainer
+import br.com.ifrs.meuifpoa.ui.viewmodel.GoogleAuthHandler
+import br.com.ifrs.meuifpoa.ui.viewmodel.HomeViewModel
+import br.com.ifrs.meuifpoa.ui.viewmodel.LoginViewModel
+import br.com.ifrs.meuifpoa.ui.viewmodel.NotasViewModel
+import br.com.ifrs.meuifpoa.ui.viewmodel.NoticiasViewModel
+import br.com.ifrs.meuifpoa.ui.viewmodel.PerfilViewModel
 
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val auth = FirebaseAuth.getInstance()
+        // Create AppContainer
+        val appContainer = AppContainer(this)
+
+        // Create GoogleAuthHandler
+        val googleAuthHandler = GoogleAuthHandler(this)
+
+        // Create ViewModels manually
+        val loginViewModel = LoginViewModel(googleAuthHandler)
+        val homeViewModel = HomeViewModel(appContainer.documentoService)
+        val notasViewModel = NotasViewModel(appContainer.syncService)
+        val noticiasViewModel = NoticiasViewModel(
+            appContainer.noticiasService,
+            appContainer.editaisService
+        )
+        val perfilViewModel = PerfilViewModel(appContainer.syncService)
 
         setContent {
-            // Apply the custom theme to the entire app
-            MeuIFPOATheme {
-                val navController = rememberNavController()
-                NavHost(
-                    navController = navController,
-                    startDestination = if (auth.currentUser != null) Screen.Main.route else Screen.Login.route
-                ) {
-                    composable(Screen.Login.route) {
-                        LoginScreen(onLoginSuccess = {
-                            navController.navigate(Screen.Main.route) {
-                                popUpTo(Screen.Login.route) { inclusive = true }
-                            }
-                        })
-                    }
-                    composable(Screen.Main.route) {
-                        MainScreen(onLogout = {
-                            auth.signOut()
-                            navController.navigate(Screen.Login.route) {
-                                popUpTo(Screen.Main.route) { inclusive = true }
-                            }
-                        })
-                    }
-                }
-            }
+            App(
+                loginViewModel = loginViewModel,
+                homeViewModel = homeViewModel,
+                notasViewModel = notasViewModel,
+                noticiasViewModel = noticiasViewModel,
+                perfilViewModel = perfilViewModel,
+                startDestination = "login"
+            )
         }
     }
 }
+
